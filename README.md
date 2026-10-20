@@ -76,6 +76,7 @@ Full responsibility matrix: `docs/10-project-management.md`.
 ## Links
 
 - **YouTrack project:** <https://diplom-digital-legacy.youtrack.cloud/projects/DIP>
+- **Documentation (Word, formatted version):** https://astanait-my.sharepoint.com/:w:/g/personal/242551_astanait_edu_kz/IQA0Auwqv1QSS4dFHn9q1cK0AbuxJlQ6kyQyDXWBEQA3vsM?e=3PXiQ7
 - **Documentation index:** [docs/](docs/)
 
 ## Repository structure
