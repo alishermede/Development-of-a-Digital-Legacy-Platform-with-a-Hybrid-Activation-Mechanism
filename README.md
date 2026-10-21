@@ -20,7 +20,7 @@ People accumulate critical digital assets but have no safe, practical way to han
 ## Expected outcomes
 
 - Web application for owners and a Telegram bot with Mini App for trusted persons and recipients, with client-side encryption (AES-256-GCM, Argon2id).
-- Cryptographic core: key splitting with Shamir's Secret Sharing (k-of-n), encrypted share distribution to trustees (keys stored in Telegram SecureStorage on their devices), recovery protocol, printable paper shares with QR codes.
+- Cryptographic core: key splitting with Shamir's Secret Sharing (k-of-n), encrypted share distribution to trustees (keys stored in Telegram SecureStorage on their devices), owner recovery key.
 - Hybrid activation state machine: missed check-ins → k-of-n trustee confirmation → waiting period with owner cancellation.
 - Threat model and protocol specification.
 - Evaluation against a single-trigger dead man's switch baseline (false activations, unauthorized access, usability).
@@ -38,9 +38,9 @@ Full responsibility matrix: `docs/10-project-management.md`.
 
 ## Project scope
 
-**In scope:** credentials, text instructions, files and photos, personal messages, business access; client-side encryption; k-of-n trustee confirmation; check-ins via SMS and Telegram; invitations for trusted persons and recipients by SMS and Telegram without registration; waiting period and cancellation; paper key shares; Kazakh and Russian UI.
+**In scope:** credentials, text instructions, files and photos, personal messages, business access; client-side encryption; k-of-n trustee confirmation; check-ins via SMS and Telegram; invitations for trusted persons and recipients by SMS and Telegram without registration; waiting period and cancellation; Kazakh and Russian UI.
 
-**Out of scope:** banking access and crypto wallets; legal transfer of property; native mobile apps (responsive web and Telegram Mini App only); custom cryptographic algorithms (only vetted libraries are used).
+**Out of scope:** banking access and crypto wallets; legal transfer of property; native mobile apps (responsive web and Telegram Mini App only); custom cryptographic algorithms (only vetted libraries are used); offline data recovery without the service.
 
 ## Current status
 
@@ -70,7 +70,7 @@ Full responsibility matrix: `docs/10-project-management.md`.
 | Trusted person and recipient client | Telegram Bot API + Telegram Mini App, keys in SecureStorage |
 | Frontend | React / Next.js, TypeScript |
 | Backend | Java 21, Spring Boot 4.1, Quartz Scheduler |
-| Database | PostgreSQL; encrypted blobs in S3-compatible object storage |
+| Database | PostgreSQL (metadata, encrypted shares and encrypted capsule files) |
 | Notifications | Email, SMS gateway, Telegram Bot API |
 | Infrastructure | Docker, GitHub Actions |
 
