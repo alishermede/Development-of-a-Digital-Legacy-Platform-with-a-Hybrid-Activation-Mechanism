@@ -1,0 +1,85 @@
+@startuml 02-use-cases
+title Digital Legacy Platform: Use Case diagram
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #444444
+}
+skinparam shadowing false
+
+actor "Owner\n(web application)" as Owner
+actor "Trusted person\n(Telegram bot and Mini App)" as Trustee
+actor "Recipient\n(Telegram bot and Mini App)" as Recipient
+actor "Invited person" as Invited
+actor "System timer\n(scheduler)" as Timer
+
+Trustee --|> Invited
+Recipient --|> Invited
+
+rectangle "Digital Legacy Platform" {
+
+  package "Owner: account and capsules" {
+    usecase "UC-01\nRegister and confirm email" as UC01
+    usecase "UC-02\nCreate capsule" as UC02
+    usecase "UC-03\nEdit or delete capsule" as UC03
+    usecase "UC-04\nRecover access with\nrecovery key" as UC04
+    usecase "UC-05\nDelete account" as UC05
+  }
+
+  package "Owner: trusted persons and rules" {
+    usecase "UC-06\nManage trusted persons,\nrecipients, n and k" as UC06
+    usecase "UC-07\nConfigure check-ins and\nwaiting period" as UC07
+    usecase "UC-08\nView dashboard,\nhistory and invitation status" as UC08
+  }
+
+  package "Activation: owner side" {
+    usecase "UC-09\nAnswer check-in\n(Are you OK?)" as UC09
+    usecase "UC-10\nCancel activation" as UC10
+  }
+
+  package "Trusted person and recipient" {
+    usecase "UC-11\nAccept or decline invitation" as UC11
+    usecase "UC-12\nCheck own key" as UC12
+    usecase "UC-13\nConfirm event" as UC13
+    usecase "UC-14\nWithdraw confirmation" as UC14
+    usecase "UC-15\nOpen released capsule" as UC15
+    usecase "UC-16\nDownload file from capsule" as UC16
+  }
+
+  package "System-driven" {
+    usecase "UC-17\nSend check-ins and\nescalate" as UC17
+    usecase "UC-18\nStart activation and\nnotify trusted persons" as UC18
+    usecase "UC-19\nStart waiting period\n(k confirmations)" as UC19
+    usecase "UC-20\nRelease capsules and\nnotify recipients" as UC20
+    usecase "UC-21\nRequest key checks" as UC21
+  }
+}
+
+Owner --> UC01
+Owner --> UC02
+Owner --> UC03
+Owner --> UC04
+Owner --> UC05
+Owner --> UC06
+Owner --> UC07
+Owner --> UC08
+Owner --> UC09
+Owner --> UC10
+
+Invited --> UC11
+Trustee --> UC12
+Trustee --> UC13
+Trustee --> UC14
+Recipient --> UC15
+
+Timer --> UC17
+Timer --> UC18
+Timer --> UC19
+Timer --> UC20
+Timer --> UC21
+
+UC16 .> UC15 : <<extend>>
+
+@enduml

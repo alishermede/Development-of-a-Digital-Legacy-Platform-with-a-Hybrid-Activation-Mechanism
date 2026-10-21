@@ -3,6 +3,7 @@
 | File | Diagram | Task |
 |---|---|---|
 | `src/01-system-context.puml` → `export/01-system-context.png`, `.svg` | System context (C4 level 1) | DIP-16 |
+| `src/02-use-cases.puml` → `export/02-use-cases.png`, `.svg` | Use Case diagram | DIP-17 |
 
 Editable sources are written in [PlantUML](https://plantuml.com) with the bundled C4-PlantUML library. Exports have the same file name as the source.
 
