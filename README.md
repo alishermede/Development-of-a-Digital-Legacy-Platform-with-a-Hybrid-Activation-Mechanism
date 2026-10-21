@@ -5,22 +5,22 @@
 
 Bachelor diploma project, Software Engineering, Astana IT University, 2026–2027.
 
-A web platform where a person decides in advance who receives their important digital data — account credentials, instructions ("where the documents are", "which subscriptions to cancel"), files and photos, personal messages and business access (domain, hosting, business social media) — if something happens to them. Data is encrypted on the owner's device; the server stores only ciphertext and cannot read it. Access is released only by a **hybrid activation mechanism** that combines missed check-ins, confirmation by *k* of *n* trusted persons (Shamir's Secret Sharing) and a waiting period with the right to cancel.
+A web platform where a person decides in advance who receives their important digital data — account credentials, instructions ("where the documents are", "which subscriptions to cancel"), files and photos, personal messages and business access (domain, hosting, business social media) — if something happens to them. Data is encrypted on the owner's device; the server stores only ciphertext and cannot read it. Access is released only by a **hybrid activation mechanism** that combines missed check-ins, confirmation by *k* of *n* trusted persons (Shamir's Secret Sharing; the owner chooses *k*, 2 by default) and a waiting period with the right to cancel. Trusted persons and recipients need no registration: they take part through a Telegram bot and Mini App, and their keys never leave their phones.
 
 ## Problem statement
 
-People accumulate critical digital assets but have no safe, practical way to hand them over. Existing options are either limited to one ecosystem (Google Inactive Account Manager, Apple Legacy Contact), cover only passwords with a single emergency contact (password managers), rely on a single trigger that causes false activations or requires trusting one person or the provider (dead man's switch services), or are not designed for digital credentials at all (notarial will). No such service targets Kazakhstan: Kazakh/Russian interface and local legal context (inheritance law, personal data localization).
+People accumulate critical digital assets but have no safe, practical way to hand them over. Existing options are either limited to one ecosystem (Google Inactive Account Manager, Apple Legacy Contact), let any single emergency contact obtain access after a waiting time (Bitwarden) or offer no built-in mechanism at all (1Password), rely on a single trigger that causes false activations or requires trusting one person or the provider (dead man's switch services), or are not designed for digital credentials at all (notarial will). No such service targets Kazakhstan: Kazakh/Russian interface and local legal context (inheritance law, personal data localization).
 
 ## Target users
 
 - **Owners** — adults who want to leave digital assets and instructions to relatives or partners; small business owners with business accounts.
-- **Trusted persons (trustees)** — relatives or friends who hold a key share and confirm the event; always free of charge.
-- **Recipients** — people who receive a capsule after activation.
+- **Trusted persons (trustees)** — relatives or friends who hold a key share and confirm the event via Telegram, without registration; always free of charge.
+- **Recipients** — people who receive a capsule after activation via Telegram, without registration.
 
 ## Expected outcomes
 
-- Working web application (owner, trustee and recipient flows) with client-side encryption (AES-256-GCM, Argon2id).
-- Cryptographic core: key splitting with Shamir's Secret Sharing (k-of-n), encrypted share distribution to trustees, recovery protocol, printable paper shares with QR codes.
+- Web application for owners and a Telegram bot with Mini App for trusted persons and recipients, with client-side encryption (AES-256-GCM, Argon2id).
+- Cryptographic core: key splitting with Shamir's Secret Sharing (k-of-n), encrypted share distribution to trustees (keys stored in Telegram SecureStorage on their devices), recovery protocol, printable paper shares with QR codes.
 - Hybrid activation state machine: missed check-ins → k-of-n trustee confirmation → waiting period with owner cancellation.
 - Threat model and protocol specification.
 - Evaluation against a single-trigger dead man's switch baseline (false activations, unauthorized access, usability).
@@ -38,9 +38,9 @@ Full responsibility matrix: `docs/10-project-management.md`.
 
 ## Project scope
 
-**In scope:** credentials, text instructions, files and photos, personal messages, business access; client-side encryption; k-of-n trustee confirmation; check-ins via email/SMS/Telegram; waiting period and cancellation; paper key shares; Kazakh and Russian UI.
+**In scope:** credentials, text instructions, files and photos, personal messages, business access; client-side encryption; k-of-n trustee confirmation; check-ins via SMS and Telegram; invitations for trusted persons and recipients by SMS and Telegram without registration; waiting period and cancellation; paper key shares; Kazakh and Russian UI.
 
-**Out of scope:** banking access and crypto wallets; legal transfer of property; native mobile apps (responsive web only); custom cryptographic algorithms (only vetted libraries are used).
+**Out of scope:** banking access and crypto wallets; legal transfer of property; native mobile apps (responsive web and Telegram Mini App only); custom cryptographic algorithms (only vetted libraries are used).
 
 ## Current status
 
@@ -52,7 +52,7 @@ Full responsibility matrix: `docs/10-project-management.md`.
 | Evidence of relevance (interviews) | [docs/02-relevance-evidence/](docs/02-relevance-evidence/) | In progress |
 | Literature review | [docs/03-literature-review.md](docs/03-literature-review.md) | In progress |
 | Existing system comparison | [docs/04-existing-systems.md](docs/04-existing-systems.md) | In progress |
-| Technology comparison | [docs/05-technology-comparison.md](docs/05-technology-comparison.md), [docs/adr/](docs/adr/) | In progress |
+| Technology comparison | [docs/05-technology-comparison.md](docs/05-technology-comparison.md) | In progress |
 | Requirements and acceptance criteria | [docs/06-requirements.md](docs/06-requirements.md) | In progress |
 | Architecture and diagrams | [docs/07-architecture.md](docs/07-architecture.md), [diagrams/](diagrams/) | In progress |
 | UX prototype and API examples | [docs/08-prototype.md](docs/08-prototype.md), [prototype/](prototype/) | In progress |
@@ -64,11 +64,12 @@ Full responsibility matrix: `docs/10-project-management.md`.
 
 | Area | Choice |
 |---|---|
-| Client-side encryption | WebCrypto API (AES-256-GCM), libsodium (sealed boxes for share delivery) |
-| Key derivation | Argon2id |
-| Secret sharing | Shamir's Secret Sharing (audited library, e.g. `shamir-secret-sharing`) |
+| Client-side encryption | WebCrypto API (AES-256-GCM), libsodium.js (`libsodium-wrappers-sumo`, sealed boxes for share delivery) |
+| Key derivation | Argon2id (libsodium.js) |
+| Secret sharing | `shamir-secret-sharing` (audited by Cure53 and Zellic) for *k* ≥ 2 |
+| Trusted person and recipient client | Telegram Bot API + Telegram Mini App, keys in SecureStorage |
 | Frontend | React / Next.js, TypeScript |
-| Backend | to be decided (see technology comparison) |
+| Backend | Java 21, Spring Boot 4.1, Quartz Scheduler |
 | Database | PostgreSQL; encrypted blobs in S3-compatible object storage |
 | Notifications | Email, SMS gateway, Telegram Bot API |
 | Infrastructure | Docker, GitHub Actions |
@@ -94,7 +95,7 @@ prototype/
 src/
   crypto-core/   client-side cryptography and Shamir protocol
   backend/       API, activation state machine, notifications
-  frontend/      web application
+  frontend/      web application and Telegram Mini App
 tests/           automated tests and test materials
 config/          configuration examples (no secrets)
 ```
