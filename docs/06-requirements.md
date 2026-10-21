@@ -30,9 +30,8 @@
 | FR-CRY-06 | When confirming the event, the trusted person's Mini App shall decrypt their share with the private key from SecureStorage and re-encrypt it with each recipient's public key. | Must | PRP | The submitted share is readable only by the recipient; the server, Telegram and other trusted persons cannot decrypt it. |
 | FR-CRY-07 | After release, the recipient's Mini App shall reconstruct the capsule key from *k* shares and decrypt the capsule locally. | Must | PRP | The recipient sees the original content; decryption happens without sending the key to the server. |
 | FR-CRY-08 | The system shall re-split the capsule key and invalidate old shares when the owner changes the trusted persons, *k* or *n*. | Must | ASM | Old shares cannot reconstruct the new key; removed trusted persons lose the ability to participate. |
-| FR-CRY-09 | The system shall allow exporting each share as a printable document with a QR code, and provide an offline recovery tool that reconstructs the key from *k* paper shares without the server. | Should | PRP | With the service unavailable, *k* scanned QR codes and the encrypted capsule file restore the content. |
-| FR-CRY-10 | The system shall generate a recovery key at registration that lets the owner regain access if the master password is forgotten. It is shown once and can be printed. | Should | ASM | An owner who lost the password restores access with the recovery key; without the password and the recovery key, access is impossible. |
-| FR-CRY-11 | The system shall periodically ask each trusted person and recipient to open the Mini App and verify that their private key is still present in SecureStorage. If the key is missing and cannot be restored, the owner is notified and asked to re-create the shares (FR-CRY-08). | Must | PRP | Removing the key from SecureStorage is detected at the next check; the owner receives a notification. |
+| FR-CRY-09 | The system shall generate a recovery key at registration that lets the owner regain access if the master password is forgotten. It is shown once and can be printed. | Should | ASM | An owner who lost the password restores access with the recovery key; without the password and the recovery key, access is impossible. |
+| FR-CRY-10 | The system shall periodically ask each trusted person and recipient to open the Mini App and verify that their private key is still present in SecureStorage. If the key is missing and cannot be restored, the owner is notified and asked to re-create the shares (FR-CRY-08). | Must | PRP | Removing the key from SecureStorage is detected at the next check; the owner receives a notification. |
 
 ## 6.2 Functional requirements — Hybrid activation (FR-ACT)
 
@@ -80,6 +79,7 @@
 | NFR-REL-02 | Reliability | A failure of one notification channel does not block others; failed deliveries are retried at least 3 times. | Must | ASM | With one channel disabled, notifications still arrive through the others; retries are logged. |
 | NFR-PERF-01 | Performance | Encrypting and splitting a 10 MB capsule takes ≤ 3 s in the browser. | Should | ASM | Measured in Chrome on a mid-range laptop (median of 10 runs). |
 | NFR-PERF-02 | Performance | Key derivation with Argon2id takes ≤ 2 s on a mid-range smartphone. | Should | ASM | Measured in a mobile browser (median of 10 runs). |
+| NFR-CAP-01 | Capacity | The total size of encrypted files in one capsule is limited to 50 MB. | Should | ASM | Uploading a capsule larger than 50 MB is rejected with a clear message. |
 
 ## 6.5 Functional requirements — Owner cabinet (FR-OWN)
 
@@ -102,6 +102,6 @@
 | ID | Constraint | Impact |
 |---|---|---|
 | CON-01 | A Telegram bot cannot send the first message to a user who has never started it. | Invitations are delivered by SMS and, optionally, by the owner from their own Telegram account (FR-INV-02, FR-INV-03); the bot writes only after the person presses Start. |
-| CON-02 | Telegram SecureStorage holds up to 10 items per user per bot and can restore a value only on the same device. | One key pair per person; a lost or replaced phone requires re-creating the shares (FR-CRY-08, FR-CRY-11). |
+| CON-02 | Telegram SecureStorage holds up to 10 items per user per bot and can restore a value only on the same device. | One key pair per person; a lost or replaced phone requires re-creating the shares (FR-CRY-08, FR-CRY-10). |
 | CON-03 | SecureStorage is documented for the iOS and Android Telegram clients; support in Telegram Desktop and Web must be verified on the prototype. | Trusted persons and recipients are expected to use mobile Telegram. |
 | CON-04 | The participation of trusted persons and recipients depends on the availability of Telegram. | The owner is advised to choose *n* greater than *k*; SMS remains a fallback for invitations and notifications. |
