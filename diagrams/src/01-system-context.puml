@@ -1,0 +1,44 @@
+@startuml 01-system-context
+' DIP-16 — System context diagram (C4 level 1)
+' Digital Legacy Platform with a Hybrid Activation Mechanism Based on Shamir's Secret Sharing
+!include <C4/C4_Context>
+
+HIDE_STEREOTYPE()
+
+title System Context — Digital Legacy Platform
+
+Person(owner, "Owner", "Registered user. Uses the web application: creates encrypted capsules, adds trusted persons and recipients, cancels the activation.")
+Person(trustee, "Trusted person", "No registration. Uses the Telegram bot and Mini App: accepts the invitation, keeps an encrypted key share on the phone, confirms the event.")
+Person(recipient, "Recipient", "No registration. Uses the Telegram bot and Mini App: accepts the invitation, opens the capsule after release.")
+
+System_Ext(email, "Email service", "Delivers owner registration and waiting-period emails.")
+System_Ext(sms, "SMS gateway", "Delivers SMS invitations and check-ins.")
+System_Ext(telegram, "Telegram", "Bot API and Mini App platform. SecureStorage keeps private keys on the user's phone.")
+
+System(platform, "Digital Legacy Platform", "Web application, Telegram Mini App, REST API and hybrid activation state machine. Stores only ciphertext, encrypted key shares and public keys.")
+
+Lay_R(owner, trustee)
+Lay_R(trustee, recipient)
+Lay_R(email, sms)
+Lay_R(sms, telegram)
+Lay_U(sms, platform)
+
+' people -> system
+Rel_U(owner, platform, "Encrypted capsules, settings, cancellation", "HTTPS, web application")
+Rel_U(trustee, telegram, "Uses bot and Mini App")
+Rel_U(recipient, telegram, "Uses bot and Mini App")
+Rel_U(owner, telegram, "Answers check-ins")
+
+' system -> channels
+BiRel_D(platform, telegram, "Bot messages; Mini App: public keys, encrypted shares, confirmations, encrypted capsules", "Bot API, HTTPS")
+Rel_D(platform, sms, "Invitations, check-ins", "HTTPS API")
+Rel_D(platform, email, "Registration, waiting-period emails", "SMTP / HTTPS API")
+
+' channels -> people
+Rel_D(email, owner, "Emails")
+Rel_D(sms, owner, "Check-ins")
+Rel_D(sms, trustee, "Invitation link")
+Rel_D(sms, recipient, "Invitation link")
+
+SHOW_LEGEND()
+@enduml
