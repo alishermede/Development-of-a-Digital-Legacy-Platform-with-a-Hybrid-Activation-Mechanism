@@ -62,7 +62,7 @@
 | FR-INV-04 | After the invited person presses Start, the bot shall send a welcome message explaining who added them, their role, what will be required, that they cannot see the owner's data, that participation is free, and how to decline. | Must | PRP | The welcome message contains all listed points and the buttons Accept / Decline / More. |
 | FR-INV-05 | To accept the invitation, the bot shall request the person's phone number through Telegram contact sharing and accept the invitation only if it matches the number entered by the owner. | Must | PRP | An invitation opened from another Telegram account with a different phone number is rejected. |
 | FR-INV-06 | Invitation links shall be single-use and expire after 14 days; the owner can resend an invitation. | Should | ASM | A used or expired link is rejected; a resent invitation generates a new link. |
-| FR-INV-07 | The owner shall see the status of each invitation (sent, accepted, declined, expired). Activation settings can be saved only when at least *k* trusted persons and every recipient have accepted. | Must | PRP | With fewer than *k* accepted trusted persons the configuration is marked "not ready" and activation is not armed. |
+| FR-INV-07 | The owner shall see the status of each invitation (sent, accepted, declined, expired). The activation is armed only when at least *k* trusted persons and every recipient have accepted. | Must | PRP | With fewer than *k* accepted trusted persons the configuration is marked "not ready" and activation is not armed. |
 
 ## 6.4 Non-functional requirements — Security, reliability, performance
 
