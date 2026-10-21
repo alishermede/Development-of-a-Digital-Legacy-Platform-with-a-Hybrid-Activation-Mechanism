@@ -27,18 +27,22 @@ Each key decision compares 2–3 alternatives against criteria derived from the 
 
 ## 5.2 Data storage
 
-| Criterion | Related requirements | PostgreSQL + S3-compatible object storage | PostgreSQL only (encrypted blobs in `bytea`) | MongoDB |
+Capsules mostly contain credentials, instructions, messages and a limited number of photos and documents (up to 50 MB per capsule, NFR-CAP-01). All files are encrypted in the browser before upload.
+
+| Criterion | Related requirements | PostgreSQL only (encrypted files in `bytea`) | PostgreSQL + encrypted files on the server file system | PostgreSQL + S3-compatible object storage |
 |---|---|---|---|---|
-| ACID transactions for state machine transitions | FR-ACT-06, FR-ACT-08 | 5 | 5 | 3 |
-| Storage of large encrypted files (photos, documents) | FR-CRY-01 | 5 | 2 | 3 |
-| Relational integrity (owners, trusted persons, capsules, shares) | FR-CRY-05, FR-ACT-04 | 5 | 5 | 2 |
-| Persistent job store in the same database | NFR-REL-01 | 5 | 5 | 2 |
-| Operational simplicity | — | 3 | 5 | 4 |
-| **Total** | | **23** | 22 | 14 |
+| ACID transactions for state machine transitions | FR-ACT-06, FR-ACT-08 | 5 | 5 | 5 |
+| File and its metadata saved or deleted atomically | FR-ACT-10 | 5 | 2 | 2 |
+| Storage of encrypted files up to 50 MB per capsule | NFR-CAP-01 | 4 | 5 | 5 |
+| One backup covers all data | — | 5 | 3 | 2 |
+| No extra infrastructure, no cost | — | 5 | 4 | 2 (extra service or paid cloud) |
+| All data on one server in Kazakhstan | NFR-LAW-01 | 5 | 5 | 3 |
+| Scalability to large volumes | — | 2 | 3 | 5 |
+| **Total** | | **31** | 27 | 24 |
 
-**Decision:** PostgreSQL for metadata, encrypted shares, activation state and scheduler jobs; S3-compatible object storage (e.g. MinIO) for encrypted capsule files.
+**Decision:** PostgreSQL only: metadata, encrypted shares, activation state, scheduler jobs and encrypted capsule files.
 
-**Rationale:** the activation logic requires strict transactional transitions (a confirmation and a state change must happen atomically). Large encrypted files in the database would make backups heavy, so they are stored as objects referenced from PostgreSQL. Only ciphertext is stored in both places (NFR-SEC-01).
+**Rationale:** for capsules limited to 50 MB, storing encrypted files in the database keeps every change transactional (for example, deleting a capsule removes its files in the same transaction), needs one backup and no extra service or cost. Object storage scales better but is not needed at this volume. File access is hidden behind a `FileStorage` interface, so an S3-compatible storage can be added later without changing the rest of the system. Only ciphertext is stored (NFR-SEC-01).
 
 ## 5.3 Cryptographic libraries
 
@@ -105,7 +109,7 @@ Trusted persons and recipients have no account, so their private key cannot be p
 
 **Decision:** Telegram SecureStorage.
 
-**Rationale:** it is the only option where the key stays on the device in hardware-backed storage and no registration is needed. CloudStorage would let Telegram hold the keys, which breaks the zero-knowledge property. The weak point — loss of the key when the phone is replaced — is covered by periodic key checks and re-creation of shares (FR-CRY-11, FR-CRY-08).
+**Rationale:** it is the only option where the key stays on the device in hardware-backed storage and no registration is needed. CloudStorage would let Telegram hold the keys, which breaks the zero-knowledge property. The weak point — loss of the key when the phone is replaced — is covered by periodic key checks and re-creation of shares (FR-CRY-10, FR-CRY-08).
 
 ## 5.4 Component interaction
 
@@ -116,13 +120,13 @@ Trusted persons and recipients have no account, so their private key cannot be p
 | Simple to document and demonstrate (API examples) | DIP-20 | 5 | 3 | 2 |
 | Per-endpoint rate limiting | NFR-SEC-05 | 5 | 2 | 4 |
 | Binary upload of encrypted files | FR-CRY-01 | 5 | 2 | 3 |
-| Independent of client technology (web, Telegram bot, offline tool) | FR-CRY-09, FR-ACT-02 | 5 | 4 | 1 |
+| Independent of client technology (web application, Telegram bot and Mini App) | FR-INV-01, FR-ACT-02 | 5 | 4 | 1 |
 | Support in Java / Spring | — | 5 (Spring Web, springdoc-openapi) | 4 | 1 |
 | **Total** | | **25** | 15 | 11 |
 
 **Decision:** REST API described with OpenAPI (springdoc-openapi); the TypeScript client for the frontend is generated from the specification.
 
-**Rationale:** REST is the easiest to document, secure per endpoint and use from different clients (web application, Telegram bot and Mini App, offline recovery tool). tRPC is excluded because it requires TypeScript on both sides.
+**Rationale:** REST is the easiest to document, secure per endpoint and use from different clients (web application, Telegram bot and Mini App). tRPC is excluded because it requires TypeScript on both sides.
 
 ### b) Timers and background jobs (check-ins, escalation, waiting period, notifications)
 
@@ -159,7 +163,7 @@ Trusted persons and recipients have no account, so their private key cannot be p
 | Decision | Choice |
 |---|---|
 | Server platform | Java 21 + Spring Boot 4.1 |
-| Data storage | PostgreSQL (Spring Data JPA) + S3-compatible object storage |
+| Data storage | PostgreSQL (Spring Data JPA), encrypted files in `bytea` behind a `FileStorage` interface |
 | Capsule encryption | WebCrypto API (AES-256-GCM), in the browser |
 | Key derivation | libsodium.js `libsodium-wrappers-sumo` (Argon2id), in the browser |
 | Share encryption | libsodium.js sealed boxes (X25519), in the browser and Mini App |
