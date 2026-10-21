@@ -21,14 +21,14 @@ A modern person owns a large number of digital assets: accounts in email, social
 
 Existing solutions address this problem only partially:
 
-- **Platform tools** (Google Inactive Account Manager, Apple Legacy Contact) work only within their own ecosystem.
-- **Password managers** (Bitwarden, 1Password) offer emergency access to one contact and cover only stored credentials.
-- **Dedicated digital legacy services** usually rely on a single trigger (missed check-ins or one person's claim). This leads either to **false activation**, when the owner simply forgot to respond, or to **abuse by one trusted person**. Many of them also require full trust in the provider, which can technically read the data.
+- **Platform tools** work only within their own ecosystem. Google Inactive Account Manager shares selected Google data with up to 10 contacts after 3–18 months of inactivity. Apple Legacy Contact requires an access key and a death certificate and does not transfer passwords.
+- **Password managers** cover only stored credentials. Bitwarden Emergency Access lets **any single** trusted contact obtain the vault after a waiting time that the owner can interrupt; 1Password has no built-in emergency access and relies on a printed Emergency Kit.
+- **Dedicated digital legacy services** usually rely on a single trigger (missed check-ins or one person's claim). This leads either to **false activation**, when the owner simply forgot to respond, or to **abuse by one trusted person**. Many of them also require trust in the provider, which can technically read the data.
 - **A notarial will** is not designed for passwords and frequently changing digital data, and it puts the data at risk of disclosure.
 
 In addition, no such service is localized for Kazakhstan (Kazakh and Russian interface, local inheritance and personal data legislation).
 
-Therefore, there is a need for a platform that transfers digital data **only when the event is actually confirmed**, does not depend on trust in one person or in the provider, and stays resistant to false activations.
+None of these solutions combines **activity check-ins, confirmation by several independent people (*k* of *n*) and a cancellable waiting period**, while keeping the data unreadable for the provider. Therefore, there is a need for a platform that transfers digital data **only when the event is actually confirmed**, does not depend on trust in the provider, lets the owner decide how many people must confirm the event, and stays resistant to false activations.
 
 *The relevance of the problem will be confirmed by user interviews (`docs/02-relevance-evidence/`) and the comparison of existing systems (`docs/04-existing-systems.md`).*
 
@@ -37,12 +37,12 @@ Therefore, there is a need for a platform that transfers digital data **only whe
 | Role | Description | Needs |
 |---|---|---|
 | **Owner** | Adult with many online accounts; small business owner with business accounts | Leave data and instructions to specific people, keep data private while alive, avoid false transfer |
-| **Trusted person** | Relative or close friend chosen by the owner | Simple, free way to confirm the event without technical knowledge |
-| **Recipient** | Person who receives a capsule after activation | Clear access to the data and messages intended for them |
+| **Trusted person** | Relative or close friend chosen by the owner | Simple, free way to confirm the event without technical knowledge and without registration (Telegram only) |
+| **Recipient** | Person who receives a capsule after activation | Clear access to the data and messages intended for them, without registration (Telegram only) |
 
 ## 1.5 Aim
 
-To develop a web platform for transferring digital legacy that releases the owner's encrypted data to chosen recipients only after a hybrid activation — missed check-ins, confirmation by *k* of *n* trusted persons using Shamir's Secret Sharing, and a waiting period with the right to cancel — so that neither the service provider nor any single person can access the data alone.
+To develop a platform for transferring digital legacy that releases the owner's encrypted data to chosen recipients only after a hybrid activation — missed check-ins, confirmation by *k* of *n* trusted persons using Shamir's Secret Sharing, and a waiting period with the right to cancel — so that only the intended recipients can ever read the data, and the number of people required to start the release is chosen by the owner.
 
 ## 1.6 Objectives
 
@@ -50,13 +50,13 @@ To develop a web platform for transferring digital legacy that releases the owne
 2. Collect and confirm requirements through 3–5 interviews with potential users and domain experts.
 3. Design a cryptographic protocol and threat model that define who holds which key or share and when data can be decrypted.
 4. Implement client-side encryption (AES-256-GCM, Argon2id) and *k*-of-*n* key splitting with Shamir's Secret Sharing, including recovery with printable paper shares.
-5. Implement the hybrid activation mechanism as a state machine (check-ins → trustee confirmation → waiting period → release or cancellation) with notifications via email, SMS and Telegram.
-6. Develop owner, trusted person and recipient interfaces in Kazakh and Russian.
+5. Implement the hybrid activation mechanism as a state machine (check-ins → trustee confirmation → waiting period → release or cancellation) with check-ins via SMS and Telegram and notifications via SMS, Telegram and email.
+6. Develop a web application for owners and a Telegram bot with Mini App for trusted persons and recipients (no registration), in Kazakh and Russian.
 7. Evaluate the system against a simple dead man's switch baseline on false activation, resistance to unauthorized access and usability (SUS ≥ 70).
 
 ## 1.7 Expected outcomes
 
-- A working web application with owner, trusted person and recipient flows.
+- A working web application for owners and a Telegram bot with Mini App for trusted persons and recipients.
 - A cryptographic core: client-side encryption, Shamir key splitting, encrypted share delivery and recovery.
 - A hybrid activation mechanism with configurable *k*, *n*, check-in interval and waiting period.
 - Protocol specification and threat model.
@@ -70,8 +70,9 @@ To develop a web platform for transferring digital legacy that releases the owne
 - Data types: account credentials, text instructions, files and photos, personal messages, business access (domain, hosting, business social media).
 - Separate capsules for different recipients.
 - Client-side encryption: the server stores only ciphertext.
-- *k*-of-*n* confirmation by trusted persons using Shamir's Secret Sharing.
-- Check-ins and notifications via email, SMS and Telegram.
+- *k*-of-*n* confirmation by trusted persons using Shamir's Secret Sharing (owner chooses *k*, default 2).
+- Trusted persons and recipients without registration: invitation by SMS and Telegram, interaction through a Telegram bot and Mini App.
+- Check-ins via SMS and Telegram; notifications via SMS, Telegram and email.
 - Waiting period with notifications and owner cancellation.
 - Printable key shares with QR codes for recovery without the service.
 - Kazakh and Russian interface.
@@ -81,7 +82,8 @@ To develop a web platform for transferring digital legacy that releases the owne
 
 - Banking access and cryptocurrency wallets.
 - Legal transfer of property and replacement of a notarial will.
-- Native mobile applications (responsive web only).
+- Native mobile applications (responsive web application and Telegram Mini App only).
+- Interaction for trusted persons and recipients through messengers other than Telegram.
 - Development of new cryptographic algorithms (only proven libraries are used).
 - Integration with government services (e.g. automatic death registry check).
 
@@ -89,7 +91,8 @@ To develop a web platform for transferring digital legacy that releases the owne
 
 1. **Zero-knowledge architecture.** All encryption and decryption happen in the browser; the server must work correctly without ever seeing plaintext or a complete key.
 2. **Threshold cryptographic protocol.** Splitting the key with Shamir's Secret Sharing, securely delivering each share to a trusted person (encrypted under their own key) and reconstructing the key only when *k* shares are submitted.
-3. **Hybrid activation state machine.** Combining time-based triggers, confirmations from several independent people and a cancellable waiting period, while correctly handling edge cases (owner returns, trusted person unavailable, repeated confirmations).
-4. **Reliable multi-channel notifications.** Timely delivery through email, SMS and Telegram, since a missed notification can lead to false activation.
-5. **Key recovery without the provider.** The owner may forget the password, and recipients must be able to recover data even if the service stops working (paper shares).
-6. **Threat modelling.** Protection against a compromised server, a single malicious trusted person, collusion of fewer than *k* persons and false triggers.
+3. **Keys without registration.** Trusted persons and recipients have no account: their key pairs are generated inside a Telegram Mini App and kept in the phone's secure storage, so the protocol must handle lost devices, identity verification by phone number and the fact that a Telegram bot cannot write to a user first.
+4. **Hybrid activation state machine.** Combining time-based triggers, confirmations from several independent people and a cancellable waiting period, while correctly handling edge cases (owner returns, trusted person unavailable, repeated confirmations).
+5. **Reliable multi-channel notifications.** Timely delivery through SMS, Telegram and email, since a missed notification can lead to false activation.
+6. **Key recovery without the provider.** The owner may forget the password, and recipients must be able to recover data even if the service stops working (paper shares).
+7. **Threat modelling.** Protection against a compromised server, a single malicious trusted person, collusion of fewer than *k* persons, a lost phone or hijacked Telegram account of a trusted person, and false triggers.
