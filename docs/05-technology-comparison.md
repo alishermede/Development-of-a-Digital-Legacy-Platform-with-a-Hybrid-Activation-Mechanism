@@ -4,7 +4,7 @@ Each key decision compares 2–3 alternatives against criteria derived from the 
 
 | Section | Responsible |
 |---|---|
-| 5.1–5.5 Server platform, data storage, cryptographic libraries, component interaction, summary | Alisher Medebaev (DIP-12) |
+| 5.1–5.5 Server platform, data storage, cryptographic libraries and key storage, component interaction, summary | Alisher Medebaev (DIP-12) |
 | 5.6–5.7 Frontend framework, notification services | Aibyn Samat (DIP-13) |
 
 ## 5.1 Server platform
@@ -19,9 +19,11 @@ Each key decision compares 2–3 alternatives against criteria derived from the 
 | Team experience | — | 4 | 4 | 3 |
 | **Total** | | **27** | 24 | 19 |
 
-**Decision:** Java 21 with Spring Boot 3.
+**Decision:** Java 21 with Spring Boot 4.1.
 
 **Rationale:** under the zero-knowledge architecture (NFR-SEC-01) all encryption happens in the browser, so the server language does not need cryptographic libraries. The server's main job is to run the activation state machine reliably. Its correctness depends on transactions, persistent timers and security, which are the strengths of Spring (Spring Data JPA, Spring Security, Quartz). The difference in languages between frontend and backend is covered by generating a TypeScript client from the OpenAPI specification.
+
+**Version:** Spring Boot 3.5 reached the end of open-source support on 30 June 2026, so the project starts on Spring Boot 4.1, the current stable line recommended for new projects. Spring Boot 4 requires Java 17 or later; Java 21 (LTS) is used.
 
 ## 5.2 Data storage
 
@@ -54,35 +56,56 @@ All operations run in the browser (NFR-SEC-01); only established implementations
 
 ### b) Key derivation from the master password (FR-CRY-02)
 
-| Criterion | libsodium.js `crypto_pwhash` (Argon2id) | argon2-browser (WASM) | PBKDF2 (WebCrypto) |
+| Criterion | libsodium.js `crypto_pwhash` (Argon2id, `libsodium-wrappers-sumo`) | argon2-browser (WASM) | PBKDF2 (WebCrypto) |
 |---|---|---|---|
 | Memory-hard algorithm (resistance to GPU brute force) | 5 | 5 | 1 |
 | Already used for other operations (one dependency) | 5 | 2 | 4 |
 | Maintenance status | 5 | 3 | 5 |
 | **Total** | **15** | 10 | 10 |
 
+Note: `crypto_pwhash` is included only in the sumo build of libsodium.js (`libsodium-wrappers-sumo`), so this build is used.
+
 ### c) Public-key encryption of shares (FR-CRY-03, FR-CRY-05, FR-CRY-06)
 
 | Criterion | libsodium.js sealed boxes (X25519) | WebCrypto ECDH + AES-GCM | OpenPGP.js |
 |---|---|---|---|
 | Ready primitive for "encrypt to a public key" | 5 | 2 | 4 |
-| Consistent support in all browsers | 5 | 3 | 5 |
+| Consistent support in browsers and Telegram WebView | 5 | 4 (X25519 in all major browsers since 2025, missing in older versions) | 5 |
 | Simplicity, small risk of misuse | 5 | 2 | 3 |
-| **Total** | **15** | 7 | 12 |
+| **Total** | **15** | 8 | 12 |
 
 ### d) Shamir's Secret Sharing (FR-CRY-04)
 
 | Criterion | `shamir-secret-sharing` (Privy) | `secrets.js-grempe` | Own implementation over GF(256) |
 |---|---|---|---|
-| Independent security audit | 5 (audited by Cure53) | 1 | 1 |
+| Independent security audit | 5 (audited by Cure53 and Zellic) | 1 | 1 |
 | Dependencies | 5 (none) | 4 | 5 |
 | Maintenance status | 4 | 2 | — |
 | Compliance with NFR-SEC-02 | yes | yes | **no** |
 | **Total** | **14** | 7 | excluded |
 
-**Decision:** WebCrypto API for AES-256-GCM; libsodium.js for Argon2id and X25519 sealed boxes; `shamir-secret-sharing` for key splitting.
+Note: the selected library requires at least 2 shares and a threshold of at least 2, which is standard for Shamir's scheme (with *k* = 1 the polynomial is a constant, so every share equals the secret). Therefore *k* = 1 is handled without splitting: the capsule key is encrypted separately for each trusted person (FR-CRY-04).
+
+**Decision:** WebCrypto API for AES-256-GCM; libsodium.js (`libsodium-wrappers-sumo`) for Argon2id and X25519 sealed boxes; `shamir-secret-sharing` for key splitting when *k* ≥ 2.
 
 **Rationale:** the browser's native AES-GCM is the fastest option and keeps keys non-extractable. libsodium covers the operations that WebCrypto lacks or supports unevenly. The Shamir library is the only option with a public independent audit. An own implementation is excluded by NFR-SEC-02; known implementation pitfalls (for example, a zero leading coefficient reducing the effective threshold) are another argument against writing it ourselves.
+
+### e) Storage of the private key of trusted persons and recipients (FR-CRY-03a, FR-INV-01)
+
+Trusted persons and recipients have no account, so their private key cannot be protected by a password-derived key as for the owner.
+
+| Criterion | Telegram SecureStorage (Keychain / Keystore) | Telegram CloudStorage | Telegram DeviceStorage | Browser IndexedDB in a separate web cabinet |
+|---|---|---|---|---|
+| Key stays on the user's device | 5 | 1 (stored on Telegram servers) | 5 | 5 |
+| Hardware-backed protection at rest | 5 | 1 | 2 | 2 |
+| Works without registration in our system | 5 | 5 | 5 | 1 |
+| Survives reinstall / device change | 2 (restore only on the same device) | 5 | 1 | 1 |
+| Client support | 3 (mobile clients; desktop to be verified) | 5 | 4 | 5 |
+| **Total** | **20** | 17 | 17 | 14 |
+
+**Decision:** Telegram SecureStorage.
+
+**Rationale:** it is the only option where the key stays on the device in hardware-backed storage and no registration is needed. CloudStorage would let Telegram hold the keys, which breaks the zero-knowledge property. The weak point — loss of the key when the phone is replaced — is covered by periodic key checks and re-creation of shares (FR-CRY-11, FR-CRY-08).
 
 ## 5.4 Component interaction
 
@@ -99,7 +122,7 @@ All operations run in the browser (NFR-SEC-01); only established implementations
 
 **Decision:** REST API described with OpenAPI (springdoc-openapi); the TypeScript client for the frontend is generated from the specification.
 
-**Rationale:** REST is the easiest to document, secure per endpoint and use from different clients (web application, Telegram bot, offline recovery tool). tRPC is excluded because it requires TypeScript on both sides.
+**Rationale:** REST is the easiest to document, secure per endpoint and use from different clients (web application, Telegram bot and Mini App, offline recovery tool). tRPC is excluded because it requires TypeScript on both sides.
 
 ### b) Timers and background jobs (check-ins, escalation, waiting period, notifications)
 
@@ -116,16 +139,33 @@ All operations run in the browser (NFR-SEC-01); only established implementations
 
 **Rationale:** when Quartz uses the application's data source, it takes part in Spring-managed transactions. A timer is therefore created or cancelled in the same transaction as the activation state change, and a restart cannot lose or duplicate a step. JobRunr is more convenient for retries, but it does not provide the same transactional coupling.
 
+### c) Client for trusted persons and recipients (FR-INV-01…05)
+
+| Criterion | Related requirements | Telegram bot + Mini App | Separate web cabinet with registration | Telegram bot messages only (no Mini App) |
+|---|---|---|---|---|
+| No registration required | FR-INV-01 | 5 | 1 | 5 |
+| Client-side cryptography possible (WebCrypto, libsodium) | FR-CRY-03a, FR-CRY-06 | 5 | 5 | 1 |
+| Secure on-device key storage | FR-CRY-03a | 5 (SecureStorage) | 3 | 1 |
+| Phone number verification | FR-INV-05 | 5 (contact sharing) | 3 (SMS code) | 5 |
+| Familiarity for users in Kazakhstan | — | 5 | 3 | 5 |
+| **Total** | | **25** | 15 | 17 |
+
+**Decision:** Telegram bot (Telegram Bot API) for invitations, check-ins and notifications, and a Telegram Mini App for all cryptographic operations of trusted persons and recipients.
+
+**Rationale:** bot messages alone cannot run cryptography on the device, and a separate web cabinet requires registration. The Mini App runs the same web cryptography code as the owner's web application. Limitation: a bot cannot write first (CON-01), so invitations are sent by SMS and optionally by the owner from their own Telegram account.
+
 ## 5.5 Summary of decisions
 
 | Decision | Choice |
 |---|---|
-| Server platform | Java 21 + Spring Boot 3 |
+| Server platform | Java 21 + Spring Boot 4.1 |
 | Data storage | PostgreSQL (Spring Data JPA) + S3-compatible object storage |
 | Capsule encryption | WebCrypto API (AES-256-GCM), in the browser |
-| Key derivation | libsodium.js (Argon2id), in the browser |
-| Share encryption | libsodium.js sealed boxes (X25519), in the browser |
-| Secret sharing | `shamir-secret-sharing` (audited), in the browser |
+| Key derivation | libsodium.js `libsodium-wrappers-sumo` (Argon2id), in the browser |
+| Share encryption | libsodium.js sealed boxes (X25519), in the browser and Mini App |
+| Secret sharing | `shamir-secret-sharing` (audited by Cure53 and Zellic) for *k* ≥ 2; no splitting for *k* = 1 |
+| Key storage of trusted persons and recipients | Telegram SecureStorage |
+| Client for trusted persons and recipients | Telegram bot + Telegram Mini App |
 | Client–server API | REST + OpenAPI (springdoc-openapi), generated TypeScript client |
 | Background jobs | Quartz Scheduler (JDBC JobStore) |
 | Rate limiting | Bucket4j |
@@ -146,3 +186,8 @@ All operations run in the browser (NFR-SEC-01); only established implementations
 2. `shamir-secret-sharing` package. https://www.npmjs.com/package/shamir-secret-sharing
 3. Privy, "Shamir secret sharing deep dive." https://privy.io/blog/shamir-secret-sharing-deep-dive
 4. Privy, "Zero leading coefficients." https://privy.io/blog/zero-leading-coefficients-cryptography
+5. `shamir-secret-sharing` README (constraints and audits). https://unpkg.com/shamir-secret-sharing@0.0.4/README.md
+6. libsodium.js README (standard and sumo builds). https://cdn.jsdelivr.net/npm/libsodium-wrappers-sumo@0.8.4/README.md
+7. Telegram, "Telegram Mini Apps" (SecureStorage, CloudStorage, DeviceStorage). https://core.telegram.org/bots/webapps
+8. HeroDevs, "Spring Boot versions, EOL dates and latest releases." https://www.herodevs.com/blog-posts/spring-boot-versions-eol-dates-and-latest-releases-april-2026
+9. J. Fernández, "Can I use Secure Curves in the Web Platform?" Igalia. https://blogs.igalia.com/jfernandez/?p=1913
