@@ -30,7 +30,7 @@ People accumulate critical digital assets but have no safe, practical way to han
 | Member | Group | Responsibilities |
 |---|---|---|
 | Alisher Medebaev | SE-2414 | Backend, cryptographic core (client-side encryption, Shamir secret sharing, recovery protocol), hybrid activation mechanism, threat model, repository and YouTrack administration |
-| Aibyn Samat | SE-2415 | Frontend and platform: owner, trustee and recipient cabinets, check-ins, notifications (email, SMS, Telegram), user research, literature review, existing system comparison, mockups, usability evaluation |
+| Aibyn Samat | SE-2415 | Frontend and platform: owner web application, Telegram bot and Mini App for trusted persons and recipients, check-ins, notifications (email, SMS, Telegram), user research, literature review, existing system comparison, mockups, usability evaluation |
 
 **Supervisor:** Tutkyshbayeva Sh.S.
 
@@ -68,7 +68,7 @@ Full responsibility matrix: `docs/10-project-management.md`.
 | Key derivation | Argon2id (libsodium.js) |
 | Secret sharing | `shamir-secret-sharing` (audited by Cure53 and Zellic) for *k* ≥ 2 |
 | Trusted person and recipient client | Telegram Bot API + Telegram Mini App, keys in SecureStorage |
-| Frontend | React / Next.js, TypeScript |
+| Frontend | React / Next.js, TypeScript (to be confirmed in the technology comparison) |
 | Backend | Java 21, Spring Boot 4.1, Quartz Scheduler |
 | Database | PostgreSQL (metadata, encrypted shares and encrypted capsule files) |
 | Notifications | Email, SMS gateway, Telegram Bot API |
