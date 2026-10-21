@@ -49,7 +49,7 @@ To develop a platform for transferring digital legacy that releases the owner's 
 1. Analyse existing digital legacy solutions and literature on secret sharing, client-side encryption and activation protocols, and identify their limitations.
 2. Collect and confirm requirements through 3–5 interviews with potential users and domain experts.
 3. Design a cryptographic protocol and threat model that define who holds which key or share and when data can be decrypted.
-4. Implement client-side encryption (AES-256-GCM, Argon2id) and *k*-of-*n* key splitting with Shamir's Secret Sharing, including recovery with printable paper shares.
+4. Implement client-side encryption (AES-256-GCM, Argon2id) and *k*-of-*n* key splitting with Shamir's Secret Sharing, including owner access recovery with a recovery key.
 5. Implement the hybrid activation mechanism as a state machine (check-ins → trustee confirmation → waiting period → release or cancellation) with check-ins via SMS and Telegram and notifications via SMS, Telegram and email.
 6. Develop a web application for owners and a Telegram bot with Mini App for trusted persons and recipients (no registration), in Kazakh and Russian.
 7. Evaluate the system against a simple dead man's switch baseline on false activation, resistance to unauthorized access and usability (SUS ≥ 70).
@@ -74,7 +74,6 @@ To develop a platform for transferring digital legacy that releases the owner's 
 - Trusted persons and recipients without registration: invitation by SMS and Telegram, interaction through a Telegram bot and Mini App.
 - Check-ins via SMS and Telegram; notifications via SMS, Telegram and email.
 - Waiting period with notifications and owner cancellation.
-- Printable key shares with QR codes for recovery without the service.
 - Kazakh and Russian interface.
 - Consideration of Kazakhstan legislation on inheritance and personal data storage.
 
@@ -86,6 +85,7 @@ To develop a platform for transferring digital legacy that releases the owner's 
 - Interaction for trusted persons and recipients through messengers other than Telegram.
 - Development of new cryptographic algorithms (only proven libraries are used).
 - Integration with government services (e.g. automatic death registry check).
+- Data recovery without the service (offline tools, printed key shares).
 
 ## 1.9 Engineering complexity
 
@@ -94,5 +94,5 @@ To develop a platform for transferring digital legacy that releases the owner's 
 3. **Keys without registration.** Trusted persons and recipients have no account: their key pairs are generated inside a Telegram Mini App and kept in the phone's secure storage, so the protocol must handle lost devices, identity verification by phone number and the fact that a Telegram bot cannot write to a user first.
 4. **Hybrid activation state machine.** Combining time-based triggers, confirmations from several independent people and a cancellable waiting period, while correctly handling edge cases (owner returns, trusted person unavailable, repeated confirmations).
 5. **Reliable multi-channel notifications.** Timely delivery through SMS, Telegram and email, since a missed notification can lead to false activation.
-6. **Key recovery without the provider.** The owner may forget the password, and recipients must be able to recover data even if the service stops working (paper shares).
+6. **Key recovery.** The owner may forget the master password; access must be recoverable with a recovery key without letting the provider read the data.
 7. **Threat modelling.** Protection against a compromised server, a single malicious trusted person, collusion of fewer than *k* persons, a lost phone or hijacked Telegram account of a trusted person, and false triggers.
