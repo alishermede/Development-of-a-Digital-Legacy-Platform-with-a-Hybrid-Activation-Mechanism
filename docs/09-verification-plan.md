@@ -1,6 +1,27 @@
-## 9.5 Usability evaluation (DIP-22)
+# 9. Verification and Evaluation Plan
 
-*Responsible: Aibyn Samat. This section goes into `docs/09-verification-plan.md` next to Alisher's sections (DIP-21). Adjust the section number to match that file.*
+| Section | Responsible |
+|---|---|
+| 9.1 Verification framework, 9.2 Requirements mapping, 9.3 Unit and integration tests, 9.4 Cryptographic protocol verification (DIP-21) | Alisher Medebaev |
+| 9.5 Usability evaluation (DIP-22) | Aibyn Samat |
+
+## 9.1 Verification framework (DIP-21)
+
+*To be added in DIP-21.*
+
+## 9.2 Requirements mapping (DIP-21)
+
+*To be added in DIP-21.*
+
+## 9.3 Unit and integration tests (DIP-21)
+
+*To be added in DIP-21.*
+
+## 9.4 Cryptographic protocol verification (DIP-21)
+
+*To be added in DIP-21.*
+
+## 9.5 Usability evaluation (DIP-22)
 
 ### 9.5.1 Goal and what is measured
 
@@ -9,8 +30,8 @@ The test checks whether ordinary people can set up the platform and act in it wi
 | Metric | Target | Source requirement | How it is measured |
 |---|---|---|---|
 | SUS score | At least 70 | NFR-USE-01 | System Usability Scale [16 in section 3], filled in after all tasks |
-| Task success rate | At least 80% of participant-task attempts completed without help | NFR-USE-02 | Observer marks each attempt: success, success with a hint, failure |
-| First capsule with two trusted persons (T2) | At least 80% of participants finish in at most 15 minutes | NFR-USE-02 | Stopwatch from the first tap of S2 to the dashboard in S4-5 |
+| Task success rate | At least 80% of participant-task attempts completed without help | NFR-USE-01 | Observer marks each attempt: success, success with a hint, failure |
+| First capsule with two trusted persons (T2) | At least 80% of participants finish in at most 15 minutes | NFR-USE-01 | Stopwatch from the first tap of S2 to the dashboard in S4-5 |
 | Time on task | Targets in the task table | PRP | Stopwatch per task |
 | Taps to accept an invitation | At most 5 | NFR-USE-05 | Observer counts taps on S6-2, S6-3, S6-5, S6-6 |
 | Steps to confirm an event | At most 3, and no confirmation after a single tap | NFR-USE-05, FR-TRU-04 | Observer counts steps and notes any accidental confirmation |
@@ -84,8 +105,8 @@ Problems found are listed with a severity: critical (the participant cannot fini
 
 | Material | Location |
 |---|---|
-| Consent text, task cards, note sheet, SUS form in Russian | `docs/09-verification-plan/usability/` |
-| Anonymized notes and SUS answers (U-01 to U-08) | `docs/09-verification-plan/usability/results/` |
+| Consent text, task cards, note sheet, SUS form in Russian | `docs/usability/` |
+| Anonymized notes and SUS answers (U-01 to U-08) | `docs/usability/results/` |
 | Screen recordings | Not stored in the repository |
 
 No names, phone numbers or other personal data are committed.
