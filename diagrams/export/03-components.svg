@@ -1,0 +1,1313 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="1655px" preserveAspectRatio="none" style="width:2017px;height:1655px;background:#FFFFFF;" version="1.1" viewBox="0 0 2017 1655" width="2017px" zoomAndPan="magnify"><defs/><g><rect fill="none" height="26.9395" id="_title" style="stroke:none;stroke-width:1.0;" width="325" x="839" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="315" x="844" y="23.5625">Components (draft) — Digital Legacy Platform</text><!--MD5=[d3abe4259346eb92d5e24c2376c74721]
+cluster trusted_owner--><g id="cluster_trusted_owner"><rect fill="none" height="484" rx="2.5" ry="2.5" style="stroke:#444444;stroke-width:1.0;stroke-dasharray:7.0,7.0;" width="271" x="7" y="220.9395"/><text fill="#444444" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="255" x="15" y="238.4395">Owner's browser (trusted zone)</text></g><!--MD5=[56896457187c2a3767ebcac02fb2eeed]
+cluster trusted_phone--><g id="cluster_trusted_phone"><rect fill="none" height="502" rx="2.5" ry="2.5" style="stroke:#444444;stroke-width:1.0;stroke-dasharray:7.0,7.0;" width="409" x="1602" y="213.9395"/><text fill="#444444" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="393" x="1610" y="231.4395">Phone of trusted person / recipient (trusted zone)</text></g><!--MD5=[4ef80439e1ef409f8f3a0ec422262701]
+cluster server--><g id="cluster_server"><rect fill="none" height="907.5" rx="2.5" ry="2.5" style="stroke:#444444;stroke-width:1.0;stroke-dasharray:7.0,7.0;" width="1276" x="302" y="461.9395"/><text fill="#444444" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="291" x="794.5" y="479.4395">Server (untrusted for confidentiality)</text></g><!--MD5=[47c14c564e796a575e671c2b0469a7bb]
+cluster backend--><g id="cluster_backend"><rect fill="none" height="837.5" rx="2.5" ry="2.5" style="stroke:#444444;stroke-width:1.0;stroke-dasharray:7.0,7.0;" width="1002" x="552" y="507.9395"/><text fill="#444444" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="353" x="876.5" y="525.4395">Backend — Spring Boot 4.1 modular monolith</text><text fill="#444444" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="66" x="1020" y="540.9238">[Container]</text></g><!--MD5=[2021705b656b270ae1616113380bc97f]
+entity webapp--><g id="elem_webapp"><rect fill="#438DD5" height="104.6973" rx="2.5" ry="2.5" style="stroke:#3C7FC0;stroke-width:0.5;" width="220" x="42" y="258.9395"/><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="130" x="87" y="284.4395">Owner Web App</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="138" x="83" y="299.9238">[React, TypeScript, Vite]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="150" y="316.3809"> </text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="192" x="56" y="333.3203">Capsule editor, setup wizard,</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="116.5" y="350.2598">dashboard</text></g><!--MD5=[79bceecd48125311c5dd2cf183250b35]
+entity cryptoW--><g id="elem_cryptoW"><rect fill="#85BBF0" height="136.1563" rx="2.5" ry="2.5" style="stroke:#78A8D8;stroke-width:0.5;" width="216" x="42" y="552.9395"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="98" x="101" y="578.4395">Crypto Core</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="169" x="64" y="593.9238">[WebCrypto, libsodium-sumo,</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="133" x="83.5" y="608.4434">shamir-secret-sharing]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="148" y="624.9004"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="181" x="59.5" y="641.8398">AES-256-GCM, Argon2id +</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="192" x="52" y="658.7793">HKDF, X25519 sealed boxes,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="173" x="63.5" y="675.7188">key splitting, safety codes</text></g><!--MD5=[ea99d075a347c9f4c407d04e35902ce3]
+entity miniapp--><g id="elem_miniapp"><rect fill="#438DD5" height="119.2168" rx="2.5" ry="2.5" style="stroke:#3C7FC0;stroke-width:0.5;" width="209" x="1618.5" y="251.9395"/><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="149" x="1648.5" y="277.4395">Telegram Mini App</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="175" x="1634" y="292.9238">[React, TypeScript (same code</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="35" x="1705.5" y="307.4434">base)]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1721" y="323.9004"> </text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="181" x="1632.5" y="340.8398">Invitation, confirmation, key</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="163" x="1641.5" y="357.7793">check, opening capsules</text></g><!--MD5=[c0aecc1044030ceac93443920c6c9fca]
+entity cryptoM--><g id="elem_cryptoM"><rect fill="#85BBF0" height="157.9355" rx="2.5" ry="2.5" style="stroke:#78A8D8;stroke-width:0.5;" width="203" x="1621.5" y="541.9395"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="113" x="1664.5" y="567.4395">Crypto Core +</text><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="183" x="1631.5" y="586.7988">SecureStorage adapter</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="170" x="1638" y="602.2832">[WebCrypto, libsodium-sumo]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1721" y="618.7402"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="135" x="1655.5" y="635.6797">Key pair in Telegram</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142" x="1650" y="652.6191">SecureStorage, share</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="1660.5" y="669.5586">re-encryption, key</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="1676" y="686.498">reconstruction</text></g><!--MD5=[7468467f3b6b392f1d176d828c753b77]
+entity db--><g id="elem_db"><path d="M318.5,1212.9395 C318.5,1202.9395 427,1202.9395 427,1202.9395 C427,1202.9395 535.5,1202.9395 535.5,1212.9395 L535.5,1340.5156 C535.5,1350.5156 427,1350.5156 427,1350.5156 C427,1350.5156 318.5,1350.5156 318.5,1340.5156 L318.5,1212.9395 " fill="#438DD5" style="stroke:#3C7FC0;stroke-width:0.5;"/><path d="M318.5,1212.9395 C318.5,1222.9395 427,1222.9395 427,1222.9395 C427,1222.9395 535.5,1222.9395 535.5,1212.9395 " fill="none" style="stroke:#3C7FC0;stroke-width:0.5;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="93" x="380.5" y="1242.4395">PostgreSQL</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="101" x="376.5" y="1257.9238">[Spring Data JPA]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="425" y="1274.3809"> </text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="141" x="356.5" y="1291.3203">Accounts, ciphertext,</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="163" x="343.5" y="1308.2598">encrypted shares, public</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="197" x="328.5" y="1325.1992">keys, state, Quartz jobs, audit</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="20" x="417" y="1342.1387">log</text></g><!--MD5=[e2307af040e3f87d22824e7603ca28ec]
+entity api--><g id="elem_api"><rect fill="#85BBF0" height="121.6367" rx="2.5" ry="2.5" style="stroke:#78A8D8;stroke-width:0.5;" width="217" x="945.5" y="559.9395"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="73" x="1017.5" y="585.4395">REST API</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="187" x="960.5" y="600.9238">[Spring Web, springdoc-openapi]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1052" y="617.3809"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="180" x="964" y="634.3203">Entry point for the web app</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="197" x="955.5" y="651.2598">and the Mini App; rate limiting</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="68" x="1020" y="668.1992">(Bucket4j)</text></g><!--MD5=[e29493a8775effcafa538aa0485107d1]
+entity auth--><g id="elem_auth"><rect fill="#85BBF0" height="121.6367" rx="2.5" ry="2.5" style="stroke:#78A8D8;stroke-width:0.5;" width="216" x="568" y="806.9395"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="118" x="617" y="832.4395">Identity &amp; Auth</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="96" x="628" y="847.9238">[Spring Security]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="674" y="864.3809"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="174" x="589" y="881.3203">Owner accounts, sessions,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="192" x="578" y="898.2598">TOTP; validation of Telegram</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="53" x="649.5" y="915.1992">init data</text></g><!--MD5=[7c76da6a7d41b50abf5731823a6b8086]
+entity capsules--><g id="elem_capsules"><rect fill="#85BBF0" height="104.6973" rx="2.5" ry="2.5" style="stroke:#78A8D8;stroke-width:0.5;" width="220" x="819" y="815.4395"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="128" x="865" y="840.9395">Capsule Service</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="127" x="865.5" y="856.4238">[FileStorage interface]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="927" y="872.8809"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="196" x="833" y="889.8203">Stores ciphertext only; 50 MB</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="26" x="916" y="906.7598">limit</text></g><!--MD5=[7e60beee43ec565c7c0b8fa293553b38]
+entity trust--><g id="elem_trust"><rect fill="#85BBF0" height="121.6367" rx="2.5" ry="2.5" style="stroke:#78A8D8;stroke-width:0.5;" width="211" x="1074.5" y="806.9395"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="179" x="1090.5" y="832.4395">Trust Network Service</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="90" x="1135" y="847.9238">[Spring module]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1178" y="864.3809"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="183" x="1088.5" y="881.3203">Trusted persons, recipients,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="174" x="1091" y="898.2598">invitations, consent, public</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="183" x="1088.5" y="915.1992">keys, key verification status</text></g><!--MD5=[238af37904abd2debf67da0af9788ab4]
+entity vault--><g id="elem_vault"><rect fill="#85BBF0" height="121.6367" rx="2.5" ry="2.5" style="stroke:#78A8D8;stroke-width:0.5;" width="206" x="1079" y="1004.9395"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="91" x="1136.5" y="1030.4395">Share Vault</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="90" x="1137" y="1045.9238">[Spring module]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1180" y="1062.3809"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="170" x="1097" y="1079.3203">Encrypted shares; release</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="182" x="1089" y="1096.2598">after the waiting period and</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="1136.5" y="1113.1992">capsule delay</text></g><!--MD5=[cb028c5091c687ec367cd0cbfd70389f]
+entity engine--><g id="elem_engine"><rect fill="#85BBF0" height="121.6367" rx="2.5" ry="2.5" style="stroke:#78A8D8;stroke-width:0.5;" width="217" x="1320.5" y="806.9395"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="138" x="1360" y="832.4395">Activation Engine</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="143" x="1357.5" y="847.9238">[State machine + Quartz]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1427" y="864.3809"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="144" x="1357" y="881.3203">Check-ins, escalation,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="193" x="1330.5" y="898.2598">confirmations, waiting period,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47" x="1405.5" y="915.1992">release</text></g><!--MD5=[5a055a6222b7af8727bdc2f9245e88a6]
+entity notify--><g id="elem_notify"><rect fill="#85BBF0" height="102.2773" rx="2.5" ry="2.5" style="stroke:#78A8D8;stroke-width:0.5;" width="217" x="1320.5" y="1014.9395"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="154" x="1352" y="1040.4395">Notification Service</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="171" x="1342" y="1055.9238">[SmsGateway, EmailGateway,</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="110" x="1374" y="1070.4434">TelegramGateway]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1427" y="1086.9004"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="193" x="1334.5" y="1103.8398">Notification catalogue, retries</text></g><!--MD5=[943a728237655bc9344eb86c044ec590]
+entity bot--><g id="elem_bot"><rect fill="#85BBF0" height="104.6973" rx="2.5" ry="2.5" style="stroke:#78A8D8;stroke-width:0.5;" width="214" x="1309" y="1224.4395"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="175" x="1328.5" y="1249.9395">Telegram Bot Adapter</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="146" x="1343" y="1265.4238">[TelegramBots, webhook]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1414" y="1281.8809"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="186" x="1323" y="1298.8203">Welcome message, buttons,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="102" x="1365" y="1315.7598">contact sharing</text></g><!--MD5=[48868214a272108ecd71a9ccaa6fccea]
+entity audit--><g id="elem_audit"><rect fill="#85BBF0" height="104.6973" rx="2.5" ry="2.5" style="stroke:#78A8D8;stroke-width:0.5;" width="194" x="850" y="1013.4395"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="75" x="909.5" y="1038.9395">Audit Log</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="90" x="902" y="1054.4238">[Spring module]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="945" y="1070.8809"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="166" x="864" y="1087.8203">Activation history without</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="901.5" y="1104.7598">sensitive data</text></g><!--MD5=[55f2968de154b8cc740615bf6e5af92f]
+entity owner--><g id="elem_owner"><rect fill="#08427B" height="87.3594" rx="2.5" ry="2.5" style="stroke:#073B6F;stroke-width:0.5;" width="73" x="115.5" y="54.9395"/><image height="48" width="48" x="128" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAACD0lEQVR4Xu2YoU4EMRCGT+4j8Ai8AhaH4QHgAUjQuFMECUgMIUgwJAgMhgQsAYUiJCiQIBBY+EITsjfTdme6V24v4c8vyGbb+ZjOtN0bNcvjQXmkH83WvYBWto6PLm6v7p7uH1/w2fXD+PBycX1Pv2l3IdDm/vn7x+dXQiAubRzoURa7gRZWd0iGRIiJbOnhnfYBQZNJjNbuyY2eJG8fkDE3bbG4ep6MHUAsgYxmE3nVs6VsBWJSGccsOlFPmLIViMzLOB7pCVO2AtHJMohH7Fh6zqitQK7m0rJvAVYgGcEpe//PLdDz65sM4pF9N7ICcXDKIB5Nv6j7tD0NoSdM2QrU9Gg0ewE1LqBhHR3BBdvj2vapnidjHxD/q6vd7Pvhr31AwcY8eXMTXAKECZZJFXuEq27aLgQK5uLMohCenGGuGewOxSjBvYBqeG6B+Nqiblggdjnc+ZXDy+FNFpFzw76O3UBAROuXh6FoiAcf5g9eTvUgzy0nWg6I8cXHRUpg5bOVBCo+KDpFajOf23GgPme7RSQ+lacIENUgJ6gg1k6HjgOlqnLqip4tEuhv0hNEMXUD0clyXE3p6pZA0S2nnvTlXwLJEZWlb7cTQH1+USgTN4VhAenm/wea1OCAOmqo6fE1WCb9WSKBah+rbUWPWAmE2Rvk0ApiB45eOyNAzU8xcTvj8KvkKEoOaIYeHNA3ZuygAvFMUO0AAAAASUVORK5CYII=" y="64.9395"/><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="53" x="125.5" y="128.4395">Owner</text></g><!--MD5=[30b269a3c0aa19a32528085840d8c4a1]
+entity invited--><g id="elem_invited"><rect fill="#08427B" height="106.7188" rx="2.5" ry="2.5" style="stroke:#073B6F;stroke-width:0.5;" width="157" x="1644.5" y="44.9395"/><image height="48" width="48" x="1699" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAACD0lEQVR4Xu2YoU4EMRCGT+4j8Ai8AhaH4QHgAUjQuFMECUgMIUgwJAgMhgQsAYUiJCiQIBBY+EITsjfTdme6V24v4c8vyGbb+ZjOtN0bNcvjQXmkH83WvYBWto6PLm6v7p7uH1/w2fXD+PBycX1Pv2l3IdDm/vn7x+dXQiAubRzoURa7gRZWd0iGRIiJbOnhnfYBQZNJjNbuyY2eJG8fkDE3bbG4ep6MHUAsgYxmE3nVs6VsBWJSGccsOlFPmLIViMzLOB7pCVO2AtHJMohH7Fh6zqitQK7m0rJvAVYgGcEpe//PLdDz65sM4pF9N7ICcXDKIB5Nv6j7tD0NoSdM2QrU9Gg0ewE1LqBhHR3BBdvj2vapnidjHxD/q6vd7Pvhr31AwcY8eXMTXAKECZZJFXuEq27aLgQK5uLMohCenGGuGewOxSjBvYBqeG6B+Nqiblggdjnc+ZXDy+FNFpFzw76O3UBAROuXh6FoiAcf5g9eTvUgzy0nWg6I8cXHRUpg5bOVBCo+KDpFajOf23GgPme7RSQ+lacIENUgJ6gg1k6HjgOlqnLqip4tEuhv0hNEMXUD0clyXE3p6pZA0S2nnvTlXwLJEZWlb7cTQH1+USgTN4VhAenm/wea1OCAOmqo6fE1WCb9WSKBah+rbUWPWAmE2Rvk0ApiB45eOyNAzU8xcTvj8KvkKEoOaIYeHNA3ZuygAvFMUO0AAAAASUVORK5CYII=" y="54.9395"/><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="133" x="1654.5" y="118.4395">Trusted person /</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="74" x="1686" y="137.7988">Recipient</text></g><!--MD5=[3a6b8c46e8abe8b8338eeff4c0971985]
+entity tg--><g id="elem_tg"><rect fill="#999999" height="73.2383" rx="2.5" ry="2.5" style="stroke:#8A8A8A;stroke-width:0.5;" width="199" x="1316.5" y="1446.4395"/><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="76" x="1378" y="1471.9395">Telegram</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1414" y="1489.3613"> </text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="175" x="1330.5" y="1506.3008">Bot API, Mini App platform</text></g><!--MD5=[893b01c522ea618c375ef8b789c1bb17]
+entity sms--><g id="elem_sms"><rect fill="#999999" height="73.2383" rx="2.5" ry="2.5" style="stroke:#8A8A8A;stroke-width:0.5;" width="127" x="1594.5" y="1240.4395"/><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="107" x="1604.5" y="1265.9395">SMS gateway</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1656" y="1283.3613"> </text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="61" x="1629.5" y="1300.3008">SMSC.kz</text></g><!--MD5=[d214511de4cf5d41d91ac0d6a862c909]
+entity mail--><g id="elem_mail"><rect fill="#999999" height="73.2383" rx="2.5" ry="2.5" style="stroke:#8A8A8A;stroke-width:0.5;" width="127" x="1756.5" y="1240.4395"/><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="105" x="1767.5" y="1265.9395">Email service</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1818" y="1283.3613"> </text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="103" x="1770.5" y="1300.3008">Resend (SMTP)</text></g><!--MD5=[306f22ac3e9c7ab68b5ae0ace344ceae]
+link owner to webapp--><g id="link_owner_webapp"><path d="M152,142.1395 C152,173.3495 152,216.0995 152,250.6995 " fill="none" id="owner-to-webapp" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="152,258.8595,155,250.8595,149,250.8595,152,258.8595" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="30" x="153" y="194.5645">Uses</text></g><!--MD5=[db2f10b9a89994d2e573681a005507d3]
+link invited to miniapp--><g id="link_invited_miniapp"><path d="M1723,152.1395 C1723,179.8095 1723,214.0095 1723,243.5295 " fill="none" id="invited-to-miniapp" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1723,251.7295,1726,243.7295,1720,243.7295,1723,251.7295" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="127" x="1724" y="194.5645">Uses inside Telegram</text></g><!--MD5=[c4d67c67c6b1743e42333adeffadeca5]
+link webapp to cryptoW--><g id="link_webapp_cryptoW"><path d="M151.66,364.2595 C151.34,413.6895 150.85,488.6995 150.49,544.7095 " fill="none" id="webapp-to-cryptoW" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="150.44,552.8295,153.4828,544.8456,147.4829,544.8135,150.44,552.8295" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="116" x="153" y="420.5645">Encrypts / decrypts</text><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="37" x="194" y="435.084">locally</text></g><!--MD5=[66b226d16c45eaddda51c5fbcf0753fb]
+link miniapp to cryptoM--><g id="link_miniapp_cryptoM"><path d="M1723,370.9995 C1723,416.9795 1723,481.6995 1723,533.6095 " fill="none" id="miniapp-to-cryptoM" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1723,541.8295,1726,533.8295,1720,533.8295,1723,541.8295" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="85" x="1724" y="420.5645">Uses key from</text><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="87" x="1724.5" y="435.084">SecureStorage</text></g><!--MD5=[1605a2a6ba32452067a763d7b455190c]
+link webapp to api--><g id="link_webapp_api"><path d="M262.15,349.9895 C433.49,408.3995 762.32,520.4995 937.48,580.2195 " fill="none" id="webapp-to-api" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="945.19,582.8395,938.5889,577.415,936.6498,583.093,945.19,582.8395" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="128" x="523" y="413.5645">Ciphertext, encrypted</text><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="94" x="541.5" y="428.084">shares, settings</text><text fill="#666666" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="88" x="544.5" y="442.6035">[HTTPS, JSON]</text></g><!--MD5=[7658d853b32dfcb0748fa51647a8c838]
+link miniapp to api--><g id="link_miniapp_api"><path d="M1618.47,360.4895 C1496.77,416.4195 1296.36,508.5395 1169.97,566.6295 " fill="none" id="miniapp-to-api" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1162.51,570.0595,1171.0318,569.4436,1168.5256,563.9921,1162.51,570.0595" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="145" x="1526" y="413.5645">Public key, re-encrypted</text><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="127" x="1536.5" y="428.084">shares, confirmations</text><text fill="#666666" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="100" x="1550" y="442.6035">[HTTPS, init data]</text></g><!--MD5=[dcd173ae8e6a2c91b6e1fa4388899dd5]
+link api to auth--><g id="link_api_auth"><path d="M961.05,682.1895 C904.75,718.6795 832.97,765.1995 775.53,802.4295 " fill="none" id="api-to-auth" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="768.59,806.9295,776.9339,805.0911,773.6677,800.058,768.59,806.9295" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="80" x="877" y="759.0645">Authenticates</text></g><!--MD5=[ef1f727c72b1e78fd5f5fd2c2fab1db1]
+link api to capsules--><g id="link_api_capsules"><path d="M1023.26,682.1895 C1003.74,720.4395 978.6,769.7295 959.19,807.7695 " fill="none" id="api-to-capsules" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="955.39,815.2295,961.6926,809.4608,956.3455,806.739,955.39,815.2295" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="55" x="996" y="759.0645">Capsules</text></g><!--MD5=[a6e68c57bc525ea56e9849ef7534d8b5]
+link api to trust--><g id="link_api_trust"><path d="M1084.98,682.1895 C1103.29,717.7895 1126.51,762.9395 1145.42,799.6895 " fill="none" id="api-to-trust" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1149.14,806.9295,1148.1506,798.4429,1142.8144,801.186,1149.14,806.9295" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="114" x="1132" y="759.0645">Persons, invitations</text></g><!--MD5=[e9b5a9e8b116f43219aa3b3ec62de0bc]
+link api to engine--><g id="link_api_engine"><path d="M1162.51,677.2295 C1193.01,693.8595 1225.81,712.7995 1255,731.9395 C1287.25,753.0895 1321.1,778.5295 1350.29,801.5995 " fill="none" id="api-to-engine" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1356.82,806.7895,1352.4144,799.4689,1348.6872,804.1707,1356.82,806.7895" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="110" x="1315" y="744.5645">Check-in answers,</text><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="84" x="1328" y="759.084">confirmations,</text><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="69" x="1337" y="773.6035">cancellation</text></g><!--MD5=[a27e7f13979de57d16b7e3946f72738a]
+link engine to vault--><g id="link_engine_vault"><path d="M1353.21,929.0795 C1325,951.4695 1292.86,976.9695 1264.11,999.7895 " fill="none" id="engine-to-vault" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1257.64,1004.9195,1265.7728,1002.3007,1262.0456,997.5989,1257.64,1004.9195" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="96" x="1313" y="971.5645">Releases shares</text></g><!--MD5=[89619605e519ff341d687976f9a07d10]
+link engine to notify--><g id="link_engine_notify"><path d="M1429,929.0795 C1429,953.7495 1429,982.1995 1429,1006.6695 " fill="none" id="engine-to-notify" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1429,1014.8095,1432,1006.8095,1426,1006.8095,1429,1014.8095" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="125" x="1430" y="971.5645">Triggers notifications</text></g><!--MD5=[ca73693430089e9bd3046732d2ac8742]
+link engine to audit--><g id="link_engine_audit"><path d="M1320.18,923.1895 C1314.43,925.2895 1308.68,927.2195 1303,928.9395 C1212.74,956.1895 1180.38,923.5395 1093,958.9395 C1063.82,970.7595 1035.04,989.6395 1010.86,1008.2195 " fill="none" id="engine-to-audit" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1004.48,1013.1795,1012.6294,1010.613,1008.9325,1005.8873,1004.48,1013.1795" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="113" x="1094" y="971.5645">Records transitions</text></g><!--MD5=[58cd4b0384f4b421edfa2af4f3677e81]
+link trust to notify--><g id="link_trust_notify"><path d="M1198.43,928.9695 C1205.82,945.5095 1215.79,962.3495 1229,974.9395 C1254.69,999.4295 1270.52,990.6395 1303,1004.9395 C1307.84,1007.0695 1312.77,1009.2795 1317.75,1011.5295 " fill="none" id="trust-to-notify" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1325.06,1014.8495,1319.0203,1008.8061,1316.5358,1014.2676,1325.06,1014.8495" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="59" x="1230" y="971.5645">Invitations</text></g><!--MD5=[6d710f196c24ec30623eba4efc8c0391]
+link notify to bot--><g id="link_notify_bot"><path d="M1425.89,1116.9995 C1424.04,1146.7095 1421.68,1184.5595 1419.74,1215.8795 " fill="none" id="notify-to-bot" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1419.22,1224.1095,1422.7002,1216.3063,1416.7112,1215.9421,1419.22,1224.1095" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="120" x="1424" y="1169.5645">Telegram messages</text></g><!--MD5=[f8ab6ffdb6dac7357aee67904bba6d62]
+link capsules to db--><g id="link_capsules_db"><path d="M827.18,920.5395 C818.79,923.7095 810.33,926.5795 802,928.9395 C639.25,975.1495 522.33,863.8295 429,1004.9395 C392.37,1060.3195 395.52,1136.9895 405.72,1194.6495 " fill="none" id="capsules-to-db" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="407.2,1202.6495,408.6937,1194.237,402.7939,1195.3292,407.2,1202.6495" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="70" x="430" y="1070.5645">Read / write</text></g><!--MD5=[a4ef636e142f5960f6a720e95a9a2785]
+link trust to db--><g id="link_trust_db"><path d="M1074.29,923.5195 C1068.51,925.5495 1062.73,927.3795 1057,928.9395 C846.08,986.4795 731.57,856.5695 571,1004.9395 C569,1006.7895 510.94,1116.5795 469.17,1195.8295 " fill="none" id="trust-to-db" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="465.43,1202.9195,471.815,1197.2421,466.5076,1194.4437,465.43,1202.9195" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="70" x="572" y="1070.5645">Read / write</text></g><!--MD5=[1b5081450dc85e8d170cb57622ff5b20]
+link vault to db--><g id="link_vault_db"><path d="M1078.98,1120.5395 C1073.3,1122.8395 1067.61,1124.9995 1062,1126.9395 C966.38,1160.0695 939,1157.4395 839,1172.9395 C712.26,1192.5895 673.89,1163.0395 552,1202.9395 C549,1203.9195 545.99,1204.9895 542.98,1206.1195 " fill="none" id="vault-to-db" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="535.5,1209.0695,544.0427,1208.9177,541.8365,1203.3381,535.5,1209.0695" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="70" x="949" y="1169.5645">Read / write</text></g><!--MD5=[3576da7b7f3992326cebd5de067c0ebd]
+link engine to db--><g id="link_engine_db"><path d="M1320.23,923.3395 C1314.47,925.3995 1308.7,927.2895 1303,928.9395 C1045.26,1003.6595 920.49,846.3595 704,1004.9395 C655.72,1040.3095 685.84,1081.4095 647,1126.9395 C630.34,1146.4695 586.59,1177.1795 542.45,1205.6495 " fill="none" id="engine-to-db" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="535.65,1210.0195,544.0011,1208.2142,540.755,1203.1682,535.65,1210.0195" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="124" x="705" y="1063.0645">State and timers (one</text><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="70" x="733.5" y="1077.584">transaction)</text></g><!--MD5=[81750c6b54dbb440db4522185e92d8e3]
+link audit to db--><g id="link_audit_db"><path d="M863.77,1118.4495 C857.84,1121.4795 851.88,1124.3395 846,1126.9395 C781.82,1155.2795 762.95,1155.4995 695,1172.9395 C632.1,1189.0795 612.6,1179.5995 552,1202.9395 C549.05,1204.0795 546.09,1205.2795 543.12,1206.5295 " fill="none" id="audit-to-db" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="535.75,1209.7695,544.2813,1209.3035,541.8713,1203.8088,535.75,1209.7695" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="70" x="760" y="1169.5645">Read / write</text></g><!--MD5=[0c9e23df24824f5ef0c479d0dc0ad50a]
+link bot to tg--><g id="link_bot_tg"><path d="M1416,1329.6795 C1416,1363.1595 1416,1406.2795 1416,1438.0795 " fill="none" id="bot-to-tg" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1416,1446.3195,1419,1438.3195,1413,1438.3195,1416,1446.3195" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="42" x="1448" y="1398.0645">Bot API</text><text fill="#666666" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="104" x="1417" y="1412.584">[HTTPS webhook]</text></g><!--MD5=[6410cbbc081bfbf973ea45485c61f4e2]
+link notify to sms--><g id="link_notify_sms"><path d="M1503.54,1116.9595 C1520.36,1129.3495 1537.75,1143.0695 1553,1156.9395 C1579.01,1180.5895 1605.18,1210.2295 1624.89,1234.0095 " fill="none" id="notify-to-sms" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1630.01,1240.2295,1627.2467,1232.1446,1622.612,1235.9551,1630.01,1240.2295" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="56" x="1569" y="1169.5645">HTTP API</text></g><!--MD5=[a21a241159227d315bb9c1112ac5475b]
+link notify to mail--><g id="link_notify_mail"><path d="M1537.69,1104.7495 C1599.22,1128.5195 1676.18,1162.3695 1739,1202.9395 C1753.08,1212.0295 1767.1,1223.5595 1779.43,1234.7595 " fill="none" id="notify-to-mail" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1785.34,1240.2195,1781.4933,1232.5904,1777.4254,1237.0008,1785.34,1240.2195" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="35" x="1684" y="1169.5645">SMTP</text></g><rect fill="none" height="98.6973" id="_legend" rx="7.5" ry="7.5" style="stroke:none;stroke-width:1.0;" width="144" x="1847" y="1536.6777"/><rect fill="none" height="16.9395" style="stroke:none;stroke-width:1.0;" width="134" x="1852" y="1543.6777"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="51" x="1852" y="1557.2402">Legend</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1903" y="1557.2402"> </text><rect fill="#08427B" height="16.9395" style="stroke:none;stroke-width:1.0;" width="134" x="1852" y="1560.6172"/><text fill="#073B6F" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="8" x="1856" y="1574.1797">▯</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1864" y="1574.1797"> </text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45" x="1872" y="1574.1797">person</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1921" y="1574.1797"> </text><rect fill="#438DD5" height="16.9395" style="stroke:none;stroke-width:1.0;" width="134" x="1852" y="1577.5566"/><text fill="#3C7FC0" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="8" x="1856" y="1591.1191">▯</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1864" y="1591.1191"> </text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="61" x="1872" y="1591.1191">container</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1937" y="1591.1191"> </text><rect fill="#85BBF0" height="16.9395" style="stroke:none;stroke-width:1.0;" width="134" x="1852" y="1594.4961"/><text fill="#78A8D8" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="8" x="1856" y="1608.0586">▯</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1864" y="1608.0586"> </text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="74" x="1872" y="1608.0586">component</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1950" y="1608.0586"> </text><rect fill="#999999" height="16.9395" style="stroke:none;stroke-width:1.0;" width="134" x="1852" y="1611.4355"/><text fill="#8A8A8A" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="8" x="1856" y="1624.998">▯</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1864" y="1624.998"> </text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="1872" y="1624.998">external_system</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4" x="1982" y="1624.998"> </text><line style="stroke:none;stroke-width:1.0;" x1="1852" x2="1986" y1="1543.6777" y2="1543.6777"/><line style="stroke:none;stroke-width:1.0;" x1="1852" x2="1986" y1="1560.6172" y2="1560.6172"/><line style="stroke:none;stroke-width:1.0;" x1="1852" x2="1986" y1="1577.5566" y2="1577.5566"/><line style="stroke:none;stroke-width:1.0;" x1="1852" x2="1986" y1="1594.4961" y2="1594.4961"/><line style="stroke:none;stroke-width:1.0;" x1="1852" x2="1986" y1="1611.4355" y2="1611.4355"/><line style="stroke:none;stroke-width:1.0;" x1="1852" x2="1986" y1="1628.375" y2="1628.375"/><line style="stroke:none;stroke-width:1.0;" x1="1852" x2="1852" y1="1543.6777" y2="1628.375"/><line style="stroke:none;stroke-width:1.0;" x1="1986" x2="1986" y1="1543.6777" y2="1628.375"/><!--MD5=[38be759862135ff947d53bf7e9354ad9]
+@startuml 03-components
+' DIP-18 — Component diagram, draft (C4 level 2: containers and main backend modules)
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+HIDE_STEREOTYPE()
+LAYOUT_TOP_DOWN()
+
+title Components (draft) — Digital Legacy Platform
+
+Person(owner, "Owner")
+Person(invited, "Trusted person / Recipient")
+
+Boundary(trusted_owner, "Owner's browser (trusted zone)") {
+  Container(webapp, "Owner Web App", "React, TypeScript, Vite", "Capsule editor, setup wizard, dashboard")
+  Component(cryptoW, "Crypto Core", "WebCrypto, libsodium-sumo, shamir-secret-sharing", "AES-256-GCM, Argon2id + HKDF, X25519 sealed boxes, key splitting, safety codes")
+}
+
+Boundary(trusted_phone, "Phone of trusted person / recipient (trusted zone)") {
+  Container(miniapp, "Telegram Mini App", "React, TypeScript (same code base)", "Invitation, confirmation, key check, opening capsules")
+  Component(cryptoM, "Crypto Core + SecureStorage adapter", "WebCrypto, libsodium-sumo", "Key pair in Telegram SecureStorage, share re-encryption, key reconstruction")
+}
+
+Boundary(server, "Server (untrusted for confidentiality)") {
+  Container_Boundary(backend, "Backend — Spring Boot 4.1 modular monolith") {
+    Component(api, "REST API", "Spring Web, springdoc-openapi", "Entry point for the web app and the Mini App; rate limiting (Bucket4j)")
+    Component(auth, "Identity & Auth", "Spring Security", "Owner accounts, sessions, TOTP; validation of Telegram init data")
+    Component(capsules, "Capsule Service", "FileStorage interface", "Stores ciphertext only; 50 MB limit")
+    Component(trust, "Trust Network Service", "Spring module", "Trusted persons, recipients, invitations, consent, public keys, key verification status")
+    Component(vault, "Share Vault", "Spring module", "Encrypted shares; release after the waiting period and capsule delay")
+    Component(engine, "Activation Engine", "State machine + Quartz", "Check-ins, escalation, confirmations, waiting period, release")
+    Component(notify, "Notification Service", "SmsGateway, EmailGateway, TelegramGateway", "Notification catalogue, retries")
+    Component(bot, "Telegram Bot Adapter", "TelegramBots, webhook", "Welcome message, buttons, contact sharing")
+    Component(audit, "Audit Log", "Spring module", "Activation history without sensitive data")
+  }
+  ContainerDb(db, "PostgreSQL", "Spring Data JPA", "Accounts, ciphertext, encrypted shares, public keys, state, Quartz jobs, audit log")
+}
+
+System_Ext(tg, "Telegram", "Bot API, Mini App platform")
+System_Ext(sms, "SMS gateway", "SMSC.kz")
+System_Ext(mail, "Email service", "Resend (SMTP)")
+
+Rel(owner, webapp, "Uses")
+Rel(invited, miniapp, "Uses inside Telegram")
+Rel(webapp, cryptoW, "Encrypts / decrypts locally")
+Rel(miniapp, cryptoM, "Uses key from SecureStorage")
+Rel(webapp, api, "Ciphertext, encrypted shares, settings", "HTTPS, JSON")
+Rel(miniapp, api, "Public key, re-encrypted shares, confirmations", "HTTPS, init data")
+
+Rel(api, auth, "Authenticates")
+Rel(api, capsules, "Capsules")
+Rel(api, trust, "Persons, invitations")
+Rel(api, engine, "Check-in answers, confirmations, cancellation")
+Rel(engine, vault, "Releases shares")
+Rel(engine, notify, "Triggers notifications")
+Rel(engine, audit, "Records transitions")
+Rel(trust, notify, "Invitations")
+Rel(notify, bot, "Telegram messages")
+
+Rel(capsules, db, "Read / write")
+Rel(trust, db, "Read / write")
+Rel(vault, db, "Read / write")
+Rel(engine, db, "State and timers (one transaction)")
+Rel(audit, db, "Read / write")
+
+Rel(bot, tg, "Bot API", "HTTPS webhook")
+Rel(notify, sms, "HTTP API")
+Rel(notify, mail, "SMTP")
+
+SHOW_LEGEND()
+@enduml
+
+@startuml 03-components
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skinparam defaultTextAlignment center
+
+skinparam wrapWidth 200
+skinparam maxMessageSize 150
+
+skinparam LegendBorderColor transparent
+skinparam LegendBackgroundColor transparent
+skinparam LegendFontColor #FFFFFF
+
+skinparam shadowing<<legendArea>> false
+skinparam rectangle<<legendArea>> {
+    backgroundcolor #00000000
+    bordercolor #00000000
+}
+
+skinparam rectangle {
+    StereotypeFontSize 12
+    shadowing false
+}
+
+skinparam database {
+    StereotypeFontSize 12
+    shadowing false
+}
+
+skinparam queue {
+    StereotypeFontSize 12
+    shadowing false
+}
+
+skinparam arrow {
+    Color #666666
+    FontColor #666666
+    FontSize 12
+}
+
+skinparam actor {
+    StereotypeFontSize 12
+    shadowing false
+    style awesome
+}
+
+skinparam person {
+    StereotypeFontSize 12
+    shadowing false
+}
+
+skinparam package {
+    StereotypeFontSize 6
+    StereotypeFontColor transparent
+    FontStyle plain
+    BackgroundColor transparent
+}
+
+skinparam rectangle<<boundary>> {
+    Shadowing false
+    StereotypeFontSize 6
+    StereotypeFontColor transparent
+    FontColor #444444
+    BorderColor #444444
+    BackgroundColor transparent
+    BorderStyle dashed
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skinparam rectangle<<person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+skinparam database<<person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+skinparam queue<<person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+skinparam actor<<person>> {
+    StereotypeFontColor #08427B
+    FontColor #08427B
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+skinparam person<<person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+
+
+skinparam rectangle<<external_person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+skinparam database<<external_person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+skinparam queue<<external_person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+skinparam actor<<external_person>> {
+    StereotypeFontColor #686868
+    FontColor #686868
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+skinparam person<<external_person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+
+
+skinparam rectangle<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+skinparam database<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+skinparam queue<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+skinparam actor<<system>> {
+    StereotypeFontColor #1168BD
+    FontColor #1168BD
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+skinparam person<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+
+
+skinparam rectangle<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+skinparam database<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+skinparam queue<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+skinparam actor<<external_system>> {
+    StereotypeFontColor #999999
+    FontColor #999999
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+skinparam person<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+
+
+
+
+
+sprite $person [48x48/16] {
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+0000000000000000000049BCCA7200000000000000000000
+0000000000000000006EFFFFFFFFB3000000000000000000
+00000000000000001CFFFFFFFFFFFF700000000000000000
+0000000000000001EFFFFFFFFFFFFFF80000000000000000
+000000000000000CFFFFFFFFFFFFFFFF6000000000000000
+000000000000007FFFFFFFFFFFFFFFFFF100000000000000
+00000000000001FFFFFFFFFFFFFFFFFFF900000000000000
+00000000000006FFFFFFFFFFFFFFFFFFFF00000000000000
+0000000000000BFFFFFFFFFFFFFFFFFFFF40000000000000
+0000000000000EFFFFFFFFFFFFFFFFFFFF70000000000000
+0000000000000FFFFFFFFFFFFFFFFFFFFF80000000000000
+0000000000000FFFFFFFFFFFFFFFFFFFFF80000000000000
+0000000000000DFFFFFFFFFFFFFFFFFFFF60000000000000
+0000000000000AFFFFFFFFFFFFFFFFFFFF40000000000000
+00000000000006FFFFFFFFFFFFFFFFFFFE00000000000000
+00000000000000EFFFFFFFFFFFFFFFFFF800000000000000
+000000000000007FFFFFFFFFFFFFFFFFF100000000000000
+000000000000000BFFFFFFFFFFFFFFFF5000000000000000
+0000000000000001DFFFFFFFFFFFFFF70000000000000000
+00000000000000000BFFFFFFFFFFFF500000000000000000
+0000000000000000005DFFFFFFFFA1000000000000000000
+0000000000000000000037ABB96100000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000025788300000000005886410000000000000
+000000000007DFFFFFFD9643347BFFFFFFFB400000000000
+0000000004EFFFFFFFFFFFFFFFFFFFFFFFFFFB1000000000
+000000007FFFFFFFFFFFFFFFFFFFFFFFFFFFFFD200000000
+00000006FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE10000000
+0000003FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB0000000
+000000BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5000000
+000003FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD000000
+000009FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF200000
+00000DFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF600000
+00000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF800000
+00001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA00000
+00001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB00000
+00001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB00000
+00001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB00000
+00001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA00000
+00000EFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF700000
+000006FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE100000
+0000008FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD3000000
+000000014555555555555555555555555555555300000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+}
+
+sprite $person2 [48x48/16] {
+0000000000000000000049BCCA7200000000000000000000
+0000000000000000006EFFFFFFFFB3000000000000000000
+00000000000000001CFFFFFFFFFFFF700000000000000000
+0000000000000001EFFFFFFFFFFFFFF80000000000000000
+000000000000000CFFFFFFFFFFFFFFFF6000000000000000
+000000000000007FFFFFFFFFFFFFFFFFF100000000000000
+00000000000001FFFFFFFFFFFFFFFFFFF900000000000000
+00000000000006FFFFFFFFFFFFFFFFFFFF00000000000000
+0000000000000BFFFFFFFFFFFFFFFFFFFF40000000000000
+0000000000000EFFFFFFFFFFFFFFFFFFFF70000000000000
+0000000000000FFFFFFFFFFFFFFFFFFFFF80000000000000
+0000000000000FFFFFFFFFFFFFFFFFFFFF80000000000000
+0000000000000DFFFFFFFFFFFFFFFFFFFF60000000000000
+0000000000000AFFFFFFFFFFFFFFFFFFFF40000000000000
+00000000000006FFFFFFFFFFFFFFFFFFFE00000000000000
+00000000000000EFFFFFFFFFFFFFFFFFF800000000000000
+000000000000007FFFFFFFFFFFFFFFFFF100000000000000
+000000000000000BFFFFFFFFFFFFFFFF5000000000000000
+0000000000000001DFFFFFFFFFFFFFF70000000000000000
+00000000000000000BFFFFFFFFFFFF500000000000000000
+0000000000000000005DFFFFFFFFA1000000000000000000
+0000000000000000000037ABB96100000000000000000000
+000000000002578888300000000005888864100000000000
+0000000007DFFFFFFFFD9643347BFFFFFFFFFB4000000000
+00000004EFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB10000000
+0000007FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD2000000
+000006FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE100000
+00003FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB00000
+0000BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF50000
+0003FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD0000
+0009FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF2000
+000DFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6000
+000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8000
+001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB000
+001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB000
+001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB000
+001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA000
+000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8000
+000DFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6000
+0009FFFFFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFFFFF2000
+0003FFFFFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFFFFD0000
+0000BFFFFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFFFF50000
+00003FFFFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFFFB00000
+000006FFFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFFE100000
+0000007FFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFD2000000
+00000004EFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFB10000000
+0000000007DF8FFFFFFFFFFFFFFFFFFFFFF8FB4000000000
+000000000002578888888888888888888864100000000000
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skinparam rectangle<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+skinparam database<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+skinparam queue<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+skinparam actor<<container>> {
+    StereotypeFontColor #438DD5
+    FontColor #438DD5
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+skinparam person<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+
+
+skinparam rectangle<<external_container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #B3B3B3
+    BorderColor #A6A6A6
+}
+skinparam database<<external_container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #B3B3B3
+    BorderColor #A6A6A6
+}
+skinparam queue<<external_container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #B3B3B3
+    BorderColor #A6A6A6
+}
+skinparam actor<<external_container>> {
+    StereotypeFontColor #B3B3B3
+    FontColor #B3B3B3
+    BackgroundColor #B3B3B3
+    BorderColor #A6A6A6
+}
+skinparam person<<external_container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #B3B3B3
+    BorderColor #A6A6A6
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skinparam defaultTextAlignment center
+
+skinparam wrapWidth 200
+skinparam maxMessageSize 150
+
+skinparam LegendBorderColor transparent
+skinparam LegendBackgroundColor transparent
+skinparam LegendFontColor #FFFFFF
+
+skinparam shadowing<<legendArea>> false
+skinparam rectangle<<legendArea>> {
+    backgroundcolor #00000000
+    bordercolor #00000000
+}
+
+skinparam rectangle {
+    StereotypeFontSize 12
+    shadowing false
+}
+
+skinparam database {
+    StereotypeFontSize 12
+    shadowing false
+}
+
+skinparam queue {
+    StereotypeFontSize 12
+    shadowing false
+}
+
+skinparam arrow {
+    Color #666666
+    FontColor #666666
+    FontSize 12
+}
+
+skinparam actor {
+    StereotypeFontSize 12
+    shadowing false
+    style awesome
+}
+
+skinparam person {
+    StereotypeFontSize 12
+    shadowing false
+}
+
+skinparam package {
+    StereotypeFontSize 6
+    StereotypeFontColor transparent
+    FontStyle plain
+    BackgroundColor transparent
+}
+
+skinparam rectangle<<boundary>> {
+    Shadowing false
+    StereotypeFontSize 6
+    StereotypeFontColor transparent
+    FontColor #444444
+    BorderColor #444444
+    BackgroundColor transparent
+    BorderStyle dashed
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skinparam rectangle<<person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+skinparam database<<person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+skinparam queue<<person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+skinparam actor<<person>> {
+    StereotypeFontColor #08427B
+    FontColor #08427B
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+skinparam person<<person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+
+
+skinparam rectangle<<external_person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+skinparam database<<external_person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+skinparam queue<<external_person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+skinparam actor<<external_person>> {
+    StereotypeFontColor #686868
+    FontColor #686868
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+skinparam person<<external_person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+
+
+skinparam rectangle<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+skinparam database<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+skinparam queue<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+skinparam actor<<system>> {
+    StereotypeFontColor #1168BD
+    FontColor #1168BD
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+skinparam person<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+
+
+skinparam rectangle<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+skinparam database<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+skinparam queue<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+skinparam actor<<external_system>> {
+    StereotypeFontColor #999999
+    FontColor #999999
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+skinparam person<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+
+
+
+
+
+sprite $person [48x48/16] {
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+0000000000000000000049BCCA7200000000000000000000
+0000000000000000006EFFFFFFFFB3000000000000000000
+00000000000000001CFFFFFFFFFFFF700000000000000000
+0000000000000001EFFFFFFFFFFFFFF80000000000000000
+000000000000000CFFFFFFFFFFFFFFFF6000000000000000
+000000000000007FFFFFFFFFFFFFFFFFF100000000000000
+00000000000001FFFFFFFFFFFFFFFFFFF900000000000000
+00000000000006FFFFFFFFFFFFFFFFFFFF00000000000000
+0000000000000BFFFFFFFFFFFFFFFFFFFF40000000000000
+0000000000000EFFFFFFFFFFFFFFFFFFFF70000000000000
+0000000000000FFFFFFFFFFFFFFFFFFFFF80000000000000
+0000000000000FFFFFFFFFFFFFFFFFFFFF80000000000000
+0000000000000DFFFFFFFFFFFFFFFFFFFF60000000000000
+0000000000000AFFFFFFFFFFFFFFFFFFFF40000000000000
+00000000000006FFFFFFFFFFFFFFFFFFFE00000000000000
+00000000000000EFFFFFFFFFFFFFFFFFF800000000000000
+000000000000007FFFFFFFFFFFFFFFFFF100000000000000
+000000000000000BFFFFFFFFFFFFFFFF5000000000000000
+0000000000000001DFFFFFFFFFFFFFF70000000000000000
+00000000000000000BFFFFFFFFFFFF500000000000000000
+0000000000000000005DFFFFFFFFA1000000000000000000
+0000000000000000000037ABB96100000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000025788300000000005886410000000000000
+000000000007DFFFFFFD9643347BFFFFFFFB400000000000
+0000000004EFFFFFFFFFFFFFFFFFFFFFFFFFFB1000000000
+000000007FFFFFFFFFFFFFFFFFFFFFFFFFFFFFD200000000
+00000006FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE10000000
+0000003FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB0000000
+000000BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5000000
+000003FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD000000
+000009FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF200000
+00000DFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF600000
+00000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF800000
+00001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA00000
+00001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB00000
+00001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB00000
+00001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB00000
+00001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA00000
+00000EFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF700000
+000006FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE100000
+0000008FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD3000000
+000000014555555555555555555555555555555300000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+}
+
+sprite $person2 [48x48/16] {
+0000000000000000000049BCCA7200000000000000000000
+0000000000000000006EFFFFFFFFB3000000000000000000
+00000000000000001CFFFFFFFFFFFF700000000000000000
+0000000000000001EFFFFFFFFFFFFFF80000000000000000
+000000000000000CFFFFFFFFFFFFFFFF6000000000000000
+000000000000007FFFFFFFFFFFFFFFFFF100000000000000
+00000000000001FFFFFFFFFFFFFFFFFFF900000000000000
+00000000000006FFFFFFFFFFFFFFFFFFFF00000000000000
+0000000000000BFFFFFFFFFFFFFFFFFFFF40000000000000
+0000000000000EFFFFFFFFFFFFFFFFFFFF70000000000000
+0000000000000FFFFFFFFFFFFFFFFFFFFF80000000000000
+0000000000000FFFFFFFFFFFFFFFFFFFFF80000000000000
+0000000000000DFFFFFFFFFFFFFFFFFFFF60000000000000
+0000000000000AFFFFFFFFFFFFFFFFFFFF40000000000000
+00000000000006FFFFFFFFFFFFFFFFFFFE00000000000000
+00000000000000EFFFFFFFFFFFFFFFFFF800000000000000
+000000000000007FFFFFFFFFFFFFFFFFF100000000000000
+000000000000000BFFFFFFFFFFFFFFFF5000000000000000
+0000000000000001DFFFFFFFFFFFFFF70000000000000000
+00000000000000000BFFFFFFFFFFFF500000000000000000
+0000000000000000005DFFFFFFFFA1000000000000000000
+0000000000000000000037ABB96100000000000000000000
+000000000002578888300000000005888864100000000000
+0000000007DFFFFFFFFD9643347BFFFFFFFFFB4000000000
+00000004EFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB10000000
+0000007FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD2000000
+000006FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE100000
+00003FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB00000
+0000BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF50000
+0003FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD0000
+0009FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF2000
+000DFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6000
+000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8000
+001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB000
+001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB000
+001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB000
+001FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA000
+000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8000
+000DFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6000
+0009FFFFFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFFFFF2000
+0003FFFFFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFFFFD0000
+0000BFFFFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFFFF50000
+00003FFFFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFFFB00000
+000006FFFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFFE100000
+0000007FFFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFFD2000000
+00000004EFFF8FFFFFFFFFFFFFFFFFFFFFF8FFFB10000000
+0000000007DF8FFFFFFFFFFFFFFFFFFFFFF8FB4000000000
+000000000002578888888888888888888864100000000000
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skinparam rectangle<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+skinparam database<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+skinparam queue<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+skinparam actor<<container>> {
+    StereotypeFontColor #438DD5
+    FontColor #438DD5
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+skinparam person<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+
+
+skinparam rectangle<<external_container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #B3B3B3
+    BorderColor #A6A6A6
+}
+skinparam database<<external_container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #B3B3B3
+    BorderColor #A6A6A6
+}
+skinparam queue<<external_container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #B3B3B3
+    BorderColor #A6A6A6
+}
+skinparam actor<<external_container>> {
+    StereotypeFontColor #B3B3B3
+    FontColor #B3B3B3
+    BackgroundColor #B3B3B3
+    BorderColor #A6A6A6
+}
+skinparam person<<external_container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #B3B3B3
+    BorderColor #A6A6A6
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skinparam rectangle<<component>> {
+    StereotypeFontColor #000000
+    FontColor #000000
+    BackgroundColor #85BBF0
+    BorderColor #78A8D8
+}
+skinparam database<<component>> {
+    StereotypeFontColor #000000
+    FontColor #000000
+    BackgroundColor #85BBF0
+    BorderColor #78A8D8
+}
+skinparam queue<<component>> {
+    StereotypeFontColor #000000
+    FontColor #000000
+    BackgroundColor #85BBF0
+    BorderColor #78A8D8
+}
+skinparam actor<<component>> {
+    StereotypeFontColor #85BBF0
+    FontColor #85BBF0
+    BackgroundColor #85BBF0
+    BorderColor #78A8D8
+}
+skinparam person<<component>> {
+    StereotypeFontColor #000000
+    FontColor #000000
+    BackgroundColor #85BBF0
+    BorderColor #78A8D8
+}
+
+
+skinparam rectangle<<external_component>> {
+    StereotypeFontColor #000000
+    FontColor #000000
+    BackgroundColor #CCCCCC
+    BorderColor #BFBFBF
+}
+skinparam database<<external_component>> {
+    StereotypeFontColor #000000
+    FontColor #000000
+    BackgroundColor #CCCCCC
+    BorderColor #BFBFBF
+}
+skinparam queue<<external_component>> {
+    StereotypeFontColor #000000
+    FontColor #000000
+    BackgroundColor #CCCCCC
+    BorderColor #BFBFBF
+}
+skinparam actor<<external_component>> {
+    StereotypeFontColor #CCCCCC
+    FontColor #CCCCCC
+    BackgroundColor #CCCCCC
+    BorderColor #BFBFBF
+}
+skinparam person<<external_component>> {
+    StereotypeFontColor #000000
+    FontColor #000000
+    BackgroundColor #CCCCCC
+    BorderColor #BFBFBF
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+hide stereotype
+top to bottom direction
+
+title Components (draft) — Digital Legacy Platform
+
+rectangle "<$person>\n==Owner" <<person>> as owner 
+rectangle "<$person>\n==Trusted person / Recipient" <<person>> as invited 
+
+rectangle "==Owner's browser (trusted zone)" <<boundary>> as trusted_owner  {
+  rectangle "==Owner Web App\n//<size:12>[React, TypeScript, Vite]</size>//\n\n Capsule editor, setup wizard, dashboard" <<container>> as webapp 
+  rectangle "==Crypto Core\n//<size:12>[WebCrypto, libsodium-sumo, shamir-secret-sharing]</size>//\n\n AES-256-GCM, Argon2id + HKDF, X25519 sealed boxes, key splitting, safety codes" <<component>> as cryptoW 
+}
+
+rectangle "==Phone of trusted person / recipient (trusted zone)" <<boundary>> as trusted_phone  {
+  rectangle "==Telegram Mini App\n//<size:12>[React, TypeScript (same code base)]</size>//\n\n Invitation, confirmation, key check, opening capsules" <<container>> as miniapp 
+  rectangle "==Crypto Core + SecureStorage adapter\n//<size:12>[WebCrypto, libsodium-sumo]</size>//\n\n Key pair in Telegram SecureStorage, share re-encryption, key reconstruction" <<component>> as cryptoM 
+}
+
+rectangle "==Server (untrusted for confidentiality)" <<boundary>> as server  {
+rectangle "==Backend — Spring Boot 4.1 modular monolith\n<size:12>[Container]</size>" <<boundary>> as backend  {
+    rectangle "==REST API\n//<size:12>[Spring Web, springdoc-openapi]</size>//\n\n Entry point for the web app and the Mini App; rate limiting (Bucket4j)" <<component>> as api 
+    rectangle "==Identity & Auth\n//<size:12>[Spring Security]</size>//\n\n Owner accounts, sessions, TOTP; validation of Telegram init data" <<component>> as auth 
+    rectangle "==Capsule Service\n//<size:12>[FileStorage interface]</size>//\n\n Stores ciphertext only; 50 MB limit" <<component>> as capsules 
+    rectangle "==Trust Network Service\n//<size:12>[Spring module]</size>//\n\n Trusted persons, recipients, invitations, consent, public keys, key verification status" <<component>> as trust 
+    rectangle "==Share Vault\n//<size:12>[Spring module]</size>//\n\n Encrypted shares; release after the waiting period and capsule delay" <<component>> as vault 
+    rectangle "==Activation Engine\n//<size:12>[State machine + Quartz]</size>//\n\n Check-ins, escalation, confirmations, waiting period, release" <<component>> as engine 
+    rectangle "==Notification Service\n//<size:12>[SmsGateway, EmailGateway, TelegramGateway]</size>//\n\n Notification catalogue, retries" <<component>> as notify 
+    rectangle "==Telegram Bot Adapter\n//<size:12>[TelegramBots, webhook]</size>//\n\n Welcome message, buttons, contact sharing" <<component>> as bot 
+    rectangle "==Audit Log\n//<size:12>[Spring module]</size>//\n\n Activation history without sensitive data" <<component>> as audit 
+  }
+  database "==PostgreSQL\n//<size:12>[Spring Data JPA]</size>//\n\n Accounts, ciphertext, encrypted shares, public keys, state, Quartz jobs, audit log" <<container>> as db 
+}
+
+rectangle "==Telegram\n\n Bot API, Mini App platform" <<external_system>> as tg 
+rectangle "==SMS gateway\n\n SMSC.kz" <<external_system>> as sms 
+rectangle "==Email service\n\n Resend (SMTP)" <<external_system>> as mail 
+
+owner - ->> webapp : **Uses**
+invited - ->> miniapp : **Uses inside Telegram**
+webapp - ->> cryptoW : **Encrypts / decrypts locally**
+miniapp - ->> cryptoM : **Uses key from SecureStorage**
+webapp - ->> api : **Ciphertext, encrypted shares, settings**\n//<size:12>[HTTPS, JSON]</size>//
+miniapp - ->> api : **Public key, re-encrypted shares, confirmations**\n//<size:12>[HTTPS, init data]</size>//
+
+api - ->> auth : **Authenticates**
+api - ->> capsules : **Capsules**
+api - ->> trust : **Persons, invitations**
+api - ->> engine : **Check-in answers, confirmations, cancellation**
+engine - ->> vault : **Releases shares**
+engine - ->> notify : **Triggers notifications**
+engine - ->> audit : **Records transitions**
+trust - ->> notify : **Invitations**
+notify - ->> bot : **Telegram messages**
+
+capsules - ->> db : **Read / write**
+trust - ->> db : **Read / write**
+vault - ->> db : **Read / write**
+engine - ->> db : **State and timers (one transaction)**
+audit - ->> db : **Read / write**
+
+bot - ->> tg : **Bot API**\n//<size:12>[HTTPS webhook]</size>//
+notify - ->> sms : **HTTP API**
+notify - ->> mail : **SMTP**
+
+hide stereotype
+legend right
+<#00000000,#00000000>|<color:#000000>**Legend**</color> |
+|<#08427B><color:#073B6F> <U+25AF></color> <color:#FFFFFF> person </color> |
+|<#438DD5><color:#3C7FC0> <U+25AF></color> <color:#FFFFFF> container </color> |
+|<#85BBF0><color:#78A8D8> <U+25AF></color> <color:#000000> component </color> |
+|<#999999><color:#8A8A8A> <U+25AF></color> <color:#FFFFFF> external_system </color> |
+endlegend
+@enduml
+
+PlantUML version 1.2022.12(Sun Oct 23 23:12:26 QYZT 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

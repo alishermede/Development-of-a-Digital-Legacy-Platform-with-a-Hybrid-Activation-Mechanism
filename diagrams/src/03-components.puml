@@ -1,0 +1,71 @@
+@startuml 03-components
+' DIP-18 — Component diagram, draft (C4 level 2: containers and main backend modules)
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+HIDE_STEREOTYPE()
+LAYOUT_TOP_DOWN()
+
+title Components (draft) — Digital Legacy Platform
+
+Person(owner, "Owner")
+Person(invited, "Trusted person / Recipient")
+
+Boundary(trusted_owner, "Owner's browser (trusted zone)") {
+  Container(webapp, "Owner Web App", "React, TypeScript, Vite", "Capsule editor, setup wizard, dashboard")
+  Component(cryptoW, "Crypto Core", "WebCrypto, libsodium-sumo, shamir-secret-sharing", "AES-256-GCM, Argon2id + HKDF, X25519 sealed boxes, key splitting, safety codes")
+}
+
+Boundary(trusted_phone, "Phone of trusted person / recipient (trusted zone)") {
+  Container(miniapp, "Telegram Mini App", "React, TypeScript (same code base)", "Invitation, confirmation, key check, opening capsules")
+  Component(cryptoM, "Crypto Core + SecureStorage adapter", "WebCrypto, libsodium-sumo", "Key pair in Telegram SecureStorage, share re-encryption, key reconstruction")
+}
+
+Boundary(server, "Server (untrusted for confidentiality)") {
+  Container_Boundary(backend, "Backend — Spring Boot 4.1 modular monolith") {
+    Component(api, "REST API", "Spring Web, springdoc-openapi", "Entry point for the web app and the Mini App; rate limiting (Bucket4j)")
+    Component(auth, "Identity & Auth", "Spring Security", "Owner accounts, sessions, TOTP; validation of Telegram init data")
+    Component(capsules, "Capsule Service", "FileStorage interface", "Stores ciphertext only; 50 MB limit")
+    Component(trust, "Trust Network Service", "Spring module", "Trusted persons, recipients, invitations, consent, public keys, key verification status")
+    Component(vault, "Share Vault", "Spring module", "Encrypted shares; release after the waiting period and capsule delay")
+    Component(engine, "Activation Engine", "State machine + Quartz", "Check-ins, escalation, confirmations, waiting period, release")
+    Component(notify, "Notification Service", "SmsGateway, EmailGateway, TelegramGateway", "Notification catalogue, retries")
+    Component(bot, "Telegram Bot Adapter", "TelegramBots, webhook", "Welcome message, buttons, contact sharing")
+    Component(audit, "Audit Log", "Spring module", "Activation history without sensitive data")
+  }
+  ContainerDb(db, "PostgreSQL", "Spring Data JPA", "Accounts, ciphertext, encrypted shares, public keys, state, Quartz jobs, audit log")
+}
+
+System_Ext(tg, "Telegram", "Bot API, Mini App platform")
+System_Ext(sms, "SMS gateway", "SMSC.kz")
+System_Ext(mail, "Email service", "Resend (SMTP)")
+
+Rel(owner, webapp, "Uses")
+Rel(invited, miniapp, "Uses inside Telegram")
+Rel(webapp, cryptoW, "Encrypts / decrypts locally")
+Rel(miniapp, cryptoM, "Uses key from SecureStorage")
+Rel(webapp, api, "Ciphertext, encrypted shares, settings", "HTTPS, JSON")
+Rel(miniapp, api, "Public key, re-encrypted shares, confirmations", "HTTPS, init data")
+
+Rel(api, auth, "Authenticates")
+Rel(api, capsules, "Capsules")
+Rel(api, trust, "Persons, invitations")
+Rel(api, engine, "Check-in answers, confirmations, cancellation")
+Rel(engine, vault, "Releases shares")
+Rel(engine, notify, "Triggers notifications")
+Rel(engine, audit, "Records transitions")
+Rel(trust, notify, "Invitations")
+Rel(notify, bot, "Telegram messages")
+
+Rel(capsules, db, "Read / write")
+Rel(trust, db, "Read / write")
+Rel(vault, db, "Read / write")
+Rel(engine, db, "State and timers (one transaction)")
+Rel(audit, db, "Read / write")
+
+Rel(bot, tg, "Bot API", "HTTPS webhook")
+Rel(notify, sms, "HTTP API")
+Rel(notify, mail, "SMTP")
+
+SHOW_LEGEND()
+@enduml
