@@ -1,5 +1,5 @@
-@startuml 02-use-cases
-title Digital Legacy Platform: Use Case diagram
+@startuml 02-use-cases-system
+title Digital Legacy Platform: Use Cases (Trustee, Recipient & System)
 left to right direction
 skinparam packageStyle rectangle
 skinparam actorStyle awesome
@@ -9,7 +9,6 @@ skinparam usecase {
 }
 skinparam shadowing false
 
-actor "Owner\n(web application)" as Owner
 actor "Trusted person\n(Telegram bot and Mini App)" as Trustee
 actor "Recipient\n(Telegram bot and Mini App)" as Recipient
 actor "Invited person" as Invited
@@ -19,26 +18,6 @@ Trustee --|> Invited
 Recipient --|> Invited
 
 rectangle "Digital Legacy Platform" {
-
-  package "Owner: account and capsules" {
-    usecase "UC-01\nRegister and confirm email" as UC01
-    usecase "UC-02\nCreate capsule" as UC02
-    usecase "UC-03\nEdit or delete capsule" as UC03
-    usecase "UC-04\nRecover access with\nrecovery key" as UC04
-    usecase "UC-05\nDelete account" as UC05
-  }
-
-  package "Owner: trusted persons and rules" {
-    usecase "UC-06\nManage trusted persons,\nrecipients, n and k" as UC06
-    usecase "UC-07\nConfigure check-ins and\nwaiting period" as UC07
-    usecase "UC-08\nView dashboard,\nhistory and invitation status" as UC08
-  }
-
-  package "Activation: owner side" {
-    usecase "UC-09\nAnswer check-in\n(Are you OK?)" as UC09
-    usecase "UC-10\nCancel activation" as UC10
-  }
-
   package "Trusted person and recipient" {
     usecase "UC-11\nAccept or decline invitation" as UC11
     usecase "UC-12\nCheck own key" as UC12
@@ -57,29 +36,17 @@ rectangle "Digital Legacy Platform" {
   }
 }
 
-Owner --> UC01
-Owner --> UC02
-Owner --> UC03
-Owner --> UC04
-Owner --> UC05
-Owner --> UC06
-Owner --> UC07
-Owner --> UC08
-Owner --> UC09
-Owner --> UC10
-
 Invited --> UC11
-Trustee --> UC12
+Invited --> UC12
 Trustee --> UC13
 Trustee --> UC14
 Recipient --> UC15
 
 Timer --> UC17
 Timer --> UC18
-Timer --> UC19
 Timer --> UC20
 Timer --> UC21
 
 UC16 .> UC15 : <<extend>>
-
+UC13 .> UC19 : <<include>>
 @enduml
