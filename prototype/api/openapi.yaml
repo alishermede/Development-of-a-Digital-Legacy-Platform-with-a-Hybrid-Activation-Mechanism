@@ -1,0 +1,473 @@
+openapi: 3.0.3
+info:
+  title: Digital Legacy Platform API (draft)
+  version: 0.1.0
+  description: |
+    Draft of the REST API for pre-defense 1 (DIP-20). It shows which requests the owner web application
+    and the Telegram Mini App send and that the server only receives ciphertext, encrypted (sealed) shares
+    and public keys (NFR-SEC-01). Binary values are Base64 strings in JSON; capsule files are uploaded as
+    raw ciphertext.
+
+    Authentication:
+    - Owner web application: session cookie issued after login with the authentication key (FR-CRY-12).
+    - Telegram Mini App: header `X-Telegram-Init-Data`, validated by the server (no account, FR-INV-01).
+    - SMS check-in link: single-use token in the path (FR-ACT-16).
+servers:
+  - url: https://api.example.kz/api/v1
+tags:
+  - name: auth
+  - name: capsules
+  - name: persons
+  - name: shares
+  - name: activation
+  - name: checkins
+  - name: mini-app
+  - name: telegram
+
+paths:
+  /auth/prelogin:
+    get:
+      tags: [auth]
+      summary: Get key derivation parameters for an email (FR-CRY-12)
+      parameters:
+        - { name: email, in: query, required: true, schema: { type: string, format: email } }
+      responses:
+        '200':
+          description: Argon2id parameters and salt; returned for unknown emails too, to avoid account enumeration
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/KdfParams' }
+              example: { kdf: argon2id, memoryKiB: 65536, iterations: 3, parallelism: 1, salt: "base64:8f1c…" }
+
+  /auth/register:
+    post:
+      tags: [auth]
+      summary: Register an owner (FR-OWN-01, FR-CRY-02, FR-CRY-03, FR-CRY-09, FR-CRY-12)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RegisterRequest' }
+            example:
+              email: owner@example.kz
+              kdf: { kdf: argon2id, memoryKiB: 65536, iterations: 3, parallelism: 1, salt: "base64:8f1c…" }
+              authKey: "base64:Jr9m…"
+              publicKey: "base64:Q2uX…(X25519)"
+              encryptedPrivateKey: "base64:nZ0a…(AES-256-GCM, key from master password)"
+              encryptedPrivateKeyByRecoveryKey: "base64:7kLp…(AES-256-GCM, key from recovery key)"
+      responses:
+        '201': { description: Account created; email confirmation link sent }
+
+  /auth/login:
+    post:
+      tags: [auth]
+      summary: Log in with the authentication key; the master password is never sent (FR-CRY-12)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, authKey]
+              properties:
+                email: { type: string, format: email }
+                authKey: { type: string, description: "Base64; derived from the master password with Argon2id + HKDF" }
+                totp: { type: string, description: "Required when 2FA is enabled (NFR-SEC-06)" }
+            example: { email: owner@example.kz, authKey: "base64:Jr9m…" }
+      responses:
+        '200':
+          description: Session cookie set; encrypted private key returned for local decryption
+          content:
+            application/json:
+              example: { encryptedPrivateKey: "base64:nZ0a…", publicKey: "base64:Q2uX…" }
+        '401': { description: Wrong credentials }
+        '429': { description: Rate limit exceeded (NFR-SEC-05) }
+
+  /capsules:
+    get:
+      tags: [capsules]
+      summary: List the owner's capsules (metadata only)
+      responses:
+        '200':
+          description: Capsules
+          content:
+            application/json:
+              example:
+                - { id: "c-19a2", encryptedTitle: "base64:Yk3…", sizeBytes: 482113, releaseDelayDays: 0, recipientIds: ["p-04b1"] }
+    post:
+      tags: [capsules]
+      summary: Create a capsule; the title is encrypted too (FR-OWN-02, FR-CRY-01)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CapsuleCreate' }
+            example: { encryptedTitle: "base64:Yk3…", releaseDelayDays: 30, recipientIds: ["p-04b1"] }
+      responses:
+        '201': { description: Created, content: { application/json: { example: { id: "c-19a2" } } } }
+
+  /capsules/{capsuleId}:
+    parameters:
+      - { name: capsuleId, in: path, required: true, schema: { type: string } }
+    get:
+      tags: [capsules]
+      summary: Get capsule metadata
+      responses: { '200': { description: Capsule } }
+    put:
+      tags: [capsules]
+      summary: Update metadata or release delay (FR-OWN-04, FR-ACT-15)
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CapsuleCreate' }
+      responses: { '200': { description: Updated } }
+    delete:
+      tags: [capsules]
+      summary: Delete the capsule, its ciphertext and shares in one transaction (FR-OWN-05)
+      responses: { '204': { description: Deleted } }
+
+  /capsules/{capsuleId}/content:
+    parameters:
+      - { name: capsuleId, in: path, required: true, schema: { type: string } }
+    put:
+      tags: [capsules]
+      summary: Upload the encrypted content (AES-256-GCM ciphertext with IV and tag), max 50 MB (NFR-CAP-01)
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema: { type: string, format: binary }
+      responses:
+        '204': { description: Stored }
+        '413': { description: Larger than 50 MB }
+
+  /capsules/{capsuleId}/shares:
+    parameters:
+      - { name: capsuleId, in: path, required: true, schema: { type: string } }
+    put:
+      tags: [shares]
+      summary: Store the shares of the capsule key, each sealed for one trusted person (FR-CRY-04, FR-CRY-05, FR-CRY-08)
+      description: Replaces all previous shares of the capsule; old shares are invalidated.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ShareSet' }
+            example:
+              k: 2
+              n: 3
+              scheme: shamir
+              shares:
+                - { trustedPersonId: "p-11aa", sealedShare: "base64:Wc0F…(X25519 sealed box)" }
+                - { trustedPersonId: "p-22bb", sealedShare: "base64:p9Qe…(X25519 sealed box)" }
+                - { trustedPersonId: "p-33cc", sealedShare: "base64:Lm2r…(X25519 sealed box)" }
+      responses:
+        '204': { description: Stored }
+        '409': { description: A trusted person has no accepted public key yet }
+
+  /persons:
+    get:
+      tags: [persons]
+      summary: List trusted persons and recipients with invitation and key verification status (FR-INV-07, FR-CRY-11)
+      responses:
+        '200':
+          description: Persons
+          content:
+            application/json:
+              example:
+                - { id: "p-11aa", role: TRUSTED_PERSON, name: "Aigerim", invitation: ACCEPTED, keyVerified: true, publicKey: "base64:Ux8…" }
+                - { id: "p-22bb", role: TRUSTED_PERSON, name: "Daniyar", invitation: SENT, keyVerified: false }
+    post:
+      tags: [persons]
+      summary: Add a person and send the SMS invitation (FR-INV-02, FR-OWN-06)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PersonCreate' }
+            example: { role: TRUSTED_PERSON, name: "Aigerim", phone: "+77010000000" }
+      responses:
+        '201':
+          description: Invitation sent; a prepared Telegram message for FR-INV-03 is returned
+          content:
+            application/json:
+              example: { id: "p-11aa", invitation: SENT, telegramShareText: "…", expiresAt: "2026-11-05T10:00:00+05:00" }
+
+  /persons/{personId}:
+    parameters:
+      - { name: personId, in: path, required: true, schema: { type: string } }
+    delete:
+      tags: [persons]
+      summary: Remove a person; the owner must re-split the keys (FR-CRY-08)
+      responses: { '204': { description: Removed } }
+
+  /persons/{personId}/resend:
+    parameters:
+      - { name: personId, in: path, required: true, schema: { type: string } }
+    post:
+      tags: [persons]
+      summary: Resend an invitation with a new single-use link (FR-INV-06)
+      responses: { '202': { description: Sent } }
+
+  /persons/{personId}/verify-key:
+    parameters:
+      - { name: personId, in: path, required: true, schema: { type: string } }
+    post:
+      tags: [persons]
+      summary: Mark the person's key as verified after comparing safety codes (FR-CRY-11)
+      description: The safety code is computed in the browser from the public key; the server only stores the flag.
+      requestBody:
+        content:
+          application/json:
+            example: { publicKeyFingerprint: "base64:3fA9…" }
+      responses:
+        '204': { description: Marked as verified }
+        '409': { description: The public key changed since the code was shown }
+
+  /activation/settings:
+    get:
+      tags: [activation]
+      summary: Get activation settings
+      responses: { '200': { description: Settings, content: { application/json: { schema: { $ref: '#/components/schemas/ActivationSettings' } } } } }
+    put:
+      tags: [activation]
+      summary: Update activation settings (FR-ACT-01, FR-ACT-02, FR-ACT-04, FR-ACT-05, FR-NOT-09)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ActivationSettings' }
+            example: { checkInIntervalDays: 7, checkInTime: "18:00", channels: [SMS, TELEGRAM], k: 2, waitingPeriodDays: 7 }
+      responses:
+        '200':
+          description: Saved; the total silence time is returned for the settings screen (FR-ACT-03)
+          content:
+            application/json:
+              example: { totalSilenceDays: 10 }
+        '422': { description: Value out of range }
+
+  /activation:
+    get:
+      tags: [activation]
+      summary: Current state for the dashboard (FR-OWN-08, FR-ACT-06)
+      responses:
+        '200':
+          description: State
+          content:
+            application/json:
+              example: { state: WAITING_PERIOD, confirmations: 2, k: 2, waitingPeriodEndsAt: "2026-11-02T10:00:00+05:00", lastCheckInAnsweredAt: "2026-10-01T18:02:11+05:00" }
+
+  /activation/cancel:
+    post:
+      tags: [activation]
+      summary: Cancel the process before RELEASED; requires the authentication key again (FR-ACT-10)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example: { authKey: "base64:Jr9m…" }
+      responses:
+        '200': { description: Back to ACTIVE; submitted shares deleted, content: { application/json: { example: { state: ACTIVE } } } }
+        '409': { description: Already RELEASED }
+
+  /activation/history:
+    get:
+      tags: [activation]
+      summary: Audit log of transitions and notifications (FR-ACT-13)
+      responses: { '200': { description: Events } }
+
+  /checkins/{token}/answer:
+    parameters:
+      - { name: token, in: path, required: true, description: "Single-use token, at least 128 bits (FR-ACT-16)", schema: { type: string } }
+    post:
+      tags: [checkins]
+      summary: '"I''m OK" button on the page opened from the SMS link; opening the page alone changes nothing (FR-ACT-16)'
+      responses:
+        '200': { description: Answer counted; state ACTIVE, content: { application/json: { example: { nextCheckInAt: "2026-10-29T18:00:00+05:00" } } } }
+        '410': { description: Token used or expired }
+        '409': { description: The process is in WAITING PERIOD; cancellation needs the web application }
+
+  /mini/invitations/{token}/accept:
+    parameters:
+      - { name: token, in: path, required: true, schema: { type: string } }
+      - { name: X-Telegram-Init-Data, in: header, required: true, schema: { type: string } }
+    post:
+      tags: [mini-app]
+      summary: Accept an invitation with consent and the public key generated on the phone (FR-INV-05, FR-INV-08, FR-CRY-03a)
+      description: The phone number is checked separately through Telegram contact sharing in the bot.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example: { consent: true, publicKey: "base64:Ux8…(X25519)" }
+      responses:
+        '200': { description: Accepted, content: { application/json: { example: { role: TRUSTED_PERSON, ownerName: "Alexei", status: ACCEPTED } } } }
+        '403': { description: Phone number does not match the invitation }
+        '410': { description: Invitation used or expired }
+
+  /mini/key-check:
+    parameters:
+      - { name: X-Telegram-Init-Data, in: header, required: true, schema: { type: string } }
+    post:
+      tags: [mini-app]
+      summary: Report that the private key is present in SecureStorage (FR-CRY-10, FR-TRU-07)
+      requestBody:
+        content:
+          application/json:
+            example: { keyPresent: true, publicKey: "base64:Ux8…" }
+      responses: { '204': { description: Recorded } }
+
+  /mini/confirmations/{ownerId}:
+    parameters:
+      - { name: ownerId, in: path, required: true, schema: { type: string } }
+      - { name: X-Telegram-Init-Data, in: header, required: true, schema: { type: string } }
+    get:
+      tags: [mini-app]
+      summary: Get the trusted person's own sealed shares to re-encrypt, and the recipients' public keys
+      responses:
+        '200':
+          description: Data for re-encryption; only allowed in AWAITING CONFIRMATION
+          content:
+            application/json:
+              example:
+                shares:
+                  - capsuleId: "c-19a2"
+                    sealedShare: "base64:Wc0F…(sealed for this trusted person)"
+                    recipients: [ { recipientId: "p-04b1", publicKey: "base64:Hh7…" } ]
+    post:
+      tags: [mini-app]
+      summary: Confirm the event; shares are decrypted on the phone and re-encrypted for the recipients (FR-CRY-06, FR-ACT-08)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Confirmation' }
+            example:
+              confirmed: true
+              reencryptedShares:
+                - { capsuleId: "c-19a2", recipientId: "p-04b1", sealedShare: "base64:Qm9y…(X25519 sealed box for the recipient)" }
+      responses:
+        '202': { description: Confirmation recorded; the number of other confirmations is not returned (FR-TRU-02) }
+        '409': { description: Process is not in AWAITING CONFIRMATION }
+    delete:
+      tags: [mini-app]
+      summary: Withdraw the confirmation before the waiting period (FR-ACT-12)
+      responses: { '204': { description: Withdrawn } }
+
+  /mini/capsules:
+    parameters:
+      - { name: X-Telegram-Init-Data, in: header, required: true, schema: { type: string } }
+    get:
+      tags: [mini-app]
+      summary: Recipient's capsules after release (FR-TRU-08)
+      responses:
+        '200':
+          description: Available capsules with title; scheduled capsules without title
+          content:
+            application/json:
+              example:
+                - { id: "c-19a2", status: AVAILABLE, ownerName: "Alexei", encryptedTitle: "base64:Yk3…" }
+                - { id: "c-77ef", status: SCHEDULED, ownerName: "Alexei", availableFrom: "2026-12-25" }
+
+  /mini/capsules/{capsuleId}:
+    parameters:
+      - { name: capsuleId, in: path, required: true, schema: { type: string } }
+      - { name: X-Telegram-Init-Data, in: header, required: true, schema: { type: string } }
+    get:
+      tags: [mini-app]
+      summary: Get ciphertext and the k shares sealed for this recipient; decryption happens in the Mini App (FR-CRY-07)
+      responses:
+        '200':
+          description: Ciphertext and shares
+          content:
+            application/json:
+              example:
+                ciphertext: "base64:…(AES-256-GCM)"
+                k: 2
+                sealedShares: [ "base64:Qm9y…", "base64:Zx1T…" ]
+        '403': { description: Capsule is not AVAILABLE for this recipient }
+
+  /telegram/webhook:
+    post:
+      tags: [telegram]
+      summary: Telegram Bot API updates (Start, buttons, contact sharing)
+      parameters:
+        - { name: X-Telegram-Bot-Api-Secret-Token, in: header, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses: { '200': { description: Processed } }
+
+components:
+  schemas:
+    KdfParams:
+      type: object
+      required: [kdf, memoryKiB, iterations, parallelism, salt]
+      properties:
+        kdf: { type: string, enum: [argon2id] }
+        memoryKiB: { type: integer }
+        iterations: { type: integer }
+        parallelism: { type: integer }
+        salt: { type: string }
+    RegisterRequest:
+      type: object
+      required: [email, kdf, authKey, publicKey, encryptedPrivateKey]
+      properties:
+        email: { type: string, format: email }
+        kdf: { $ref: '#/components/schemas/KdfParams' }
+        authKey: { type: string, description: "Derived from the master password; the server stores only a slow hash" }
+        publicKey: { type: string }
+        encryptedPrivateKey: { type: string }
+        encryptedPrivateKeyByRecoveryKey: { type: string, description: "For recovery with the recovery key (FR-CRY-09)" }
+    CapsuleCreate:
+      type: object
+      properties:
+        encryptedTitle: { type: string }
+        releaseDelayDays: { type: integer, minimum: 0, maximum: 365 }
+        recipientIds: { type: array, items: { type: string } }
+    ShareSet:
+      type: object
+      required: [k, n, scheme, shares]
+      properties:
+        k: { type: integer, minimum: 1, maximum: 5 }
+        n: { type: integer, minimum: 1, maximum: 5 }
+        scheme: { type: string, enum: [shamir, copy], description: "copy is used when k = 1 (FR-CRY-04)" }
+        shares:
+          type: array
+          items:
+            type: object
+            required: [trustedPersonId, sealedShare]
+            properties:
+              trustedPersonId: { type: string }
+              sealedShare: { type: string }
+    PersonCreate:
+      type: object
+      required: [role, name, phone]
+      properties:
+        role: { type: string, enum: [TRUSTED_PERSON, RECIPIENT] }
+        name: { type: string }
+        phone: { type: string }
+    ActivationSettings:
+      type: object
+      properties:
+        checkInIntervalDays: { type: integer, minimum: 1, maximum: 180 }
+        checkInTime: { type: string, example: "10:00" }
+        channels: { type: array, items: { type: string, enum: [SMS, TELEGRAM] }, minItems: 1 }
+        k: { type: integer, minimum: 1, maximum: 5 }
+        waitingPeriodDays: { type: integer, minimum: 1, maximum: 60 }
+    Confirmation:
+      type: object
+      required: [confirmed, reencryptedShares]
+      properties:
+        confirmed: { type: boolean }
+        reencryptedShares:
+          type: array
+          items:
+            type: object
+            required: [capsuleId, recipientId, sealedShare]
+            properties:
+              capsuleId: { type: string }
+              recipientId: { type: string }
+              sealedShare: { type: string }
