@@ -12,7 +12,7 @@ Dates marked `[TBD]` depend on the schedule of the department and the supervisor
 | Proposal and scope | DIP-3 (`01-proposal.md`) | Review |
 | Evidence of relevance | Review | DIP-4, DIP-5, DIP-6 (`02-relevance-evidence/`) |
 | Literature review | Review | DIP-7, DIP-8, DIP-9 (`03-literature-review.md`) |
-| Existing systems | DIP-11: verification of cryptographic criteria | DIP-10 (`04-existing-systems.md`) |
+| Existing systems | DIP-10 (`04-existing-systems.md`) | DIP-11: verification of cryptographic criteria |
 | Technology comparison | DIP-12: backend, database, crypto libraries, interaction | DIP-13: frontend, notification services |
 | Requirements | DIP-14: sections 6.1–6.4, 6.9 (encryption, key shares, activation, security) | DIP-15: sections 6.5–6.8 (cabinets, capsules, check-ins, notifications, usability, localization) |
 | Diagrams | DIP-16 system context, DIP-18 component | DIP-17 use case |
@@ -40,13 +40,13 @@ The first block is fixed by the task plan. The second block lists the later mile
 | M3 | Requirements and technology choices | 22.10.2026 | Requirements 6.1–6.8; technology comparison; system context and use case diagrams | DIP-12 – DIP-17 |
 | M4 | Architecture, prototype and plans | 23.10.2026 | Literature review; component diagram and architecture; Figma mockups; API examples; verification and usability plans; this document; drafts sent to supervisor | DIP-9, DIP-18 – DIP-24 |
 | M5 | Pre-defense 1 | 24.10.2026 | Tag `pre-defense-1` on reviewed `main`; submission summary with known limitations and outstanding tasks | DIP-25 |
-| M6 | Supervisor feedback processed | [TBD] | Every comment in `11-supervisor-feedback.md` has a decision and a link to the change; requirements updated | DIP-24 follow-up |
-| M7 | Open questions closed | [TBD] | Expert interview (notary or IT security) done; legal question on personal data location answered; threat model written (NFR-SEC-03) | Follow-up of DIP-5, DIP-6, DIP-14 |
-| M8 | Working core | [TBD] | Client-side encryption, key splitting and the activation state machine running in `src/` with tests in `tests/` | Implementation |
-| M9 | Working system and test results | [TBD] | End-to-end flow with Telegram Mini App and notifications; results of the protocol and security tests; baseline comparison against a simple dead man's switch | Implementation, DIP-21 |
-| M10 | Usability test | [TBD] | Eight participants, SUS and task results, list of problems with severity | DIP-22 |
-| M11 | Pre-defense 2 | [TBD] | Updated report, demonstration of the working system | All |
-| M12 | Final defense | [TBD] | Final report, repository tag, presentation | All |
+| M6 | Supervisor feedback processed | November 2026 | Every comment in `11-supervisor-feedback.md` has a decision and a link to the change; requirements updated | DIP-24 follow-up |
+| M7 | Open questions closed | November 2026 | Expert interview (notary or IT security) done; legal question on personal data location answered; threat model written (NFR-SEC-03) | Follow-up of DIP-5, DIP-6, DIP-14 |
+| M8 | Working core | December 2026 | Client-side encryption, key splitting and the activation state machine running in `src/` with tests in `tests/` | Implementation |
+| M9 | Working system and test results | January 2027 | End-to-end flow with Telegram Mini App and notifications; results of the protocol and security tests; baseline comparison against a simple dead man's switch | Implementation, DIP-21 |
+| M10 | Usability test | February 2027 | Eight participants, SUS and task results, list of problems with severity | DIP-22 |
+| M11 | Pre-defense 2 | March 2027 | Updated report, demonstration of the working system | All |
+| M12 | Final defense | May 2027 | Final report, repository tag, presentation | All |
 
 ## 10.3 Risk register
 
@@ -56,10 +56,10 @@ Scales. Probability: Low (unlikely during the project), Medium (could happen), H
 |---|---|---|---|---|---|
 | R-01 | The interview sample is small and not representative: three respondents aged 40+, no domain expert, short messenger answers | High | Medium | Mark findings as assumptions when only one interview supports them; add an expert interview and 1–2 younger respondents (M7); report limitations in `02-relevance-evidence/README.md` | Aibyn |
 | R-02 | Trusted persons depend on Telegram: a person without Telegram cannot take part, and SecureStorage support outside iOS and Android clients is unverified (CON-01 to CON-04) | Medium | High | Recommend *n* greater than *k*; keep SMS for invitations and notifications; verify Mini App and SecureStorage behavior on the prototype early | Alisher |
-| R-03 | A malicious server could substitute a trusted person's public key, because the requirements do not say how the owner's browser authenticates it (literature review, section 3.2.3) | Medium | High | Define key authentication (for example a fingerprint check) in the threat model (NFR-SEC-03); add a test case to the verification plan | Alisher |
+| R-03 | A malicious server could substitute a trusted person's public key, because the requirements do not say how the owner's browser authenticates it (literature review, section 3.2.3) | Medium | High | Define key authentication (via security code verification, FR-CRY-11) in the threat model (NFR-SEC-03); add a test case to the verification plan | Alisher |
 | R-04 | A lost or replaced phone destroys a trusted person's key, and fewer than *k* shares remain after the owner is gone (CON-02, FR-CRY-10) | Medium | High | Periodic key checks every 180 days; re-split by the owner (FR-CRY-08); *n* greater than *k*; explain the consequence in the interface | Alisher |
 | R-05 | False activation: the owner is alive but silent (travel, hospital) and data is released | Medium | High | Three check-ins, *k* confirmations, a waiting period with daily notifications and cancellation with the master password; measure the false activation rate in the verification plan (DIP-21) | Alisher |
-| R-06 | Legal uncertainty in Kazakhstan: Article 12 of the Law on Personal Data requires storage in a database in Kazakhstan; NFR-LAW-01 is only Should; consent of a trusted person whose phone number is entered by the owner; transfer of numbers to an SMS provider | Medium | High | Raise with the supervisor; hold the notary interview; decide hosting location and, if needed, raise NFR-LAW-01 to Must; keep the scope to a technical transfer of data | Aibyn |
+| R-06 | Legal uncertainty in Kazakhstan: Article 12 of the Law on Personal Data requires storage in a database in Kazakhstan; NFR-LAW-01 is only Should; consent of a trusted person whose phone number is entered by the owner (FR-INV-08); transfer of numbers to an SMS provider | Medium | High | Raise with the supervisor; hold the notary interview; decide hosting location and, if needed, raise NFR-LAW-01 to Must; keep the scope to a technical transfer of data | Aibyn |
 | R-07 | A custom or unaudited cryptographic implementation introduces a vulnerability | Low | High | Use only WebCrypto, libsodium and an audited Shamir library (NFR-SEC-02); test with known vectors; second reviewer for every cryptographic change | Alisher |
 | R-08 | Argon2id or encryption is too slow on mid-range phones (NFR-PERF-01, NFR-PERF-02) | Medium | Medium | Measure early on real devices; choose parameters by measurement and document them; lower the memory setting if the 2 s target fails | Alisher |
 | R-09 | SMS or Telegram delivery in Kazakhstan is unreliable or too expensive, so check-ins or confirmations do not arrive | Medium | High | Retry at least three times and keep channels independent (NFR-REL-02); compare providers by delivery and cost (DIP-13); fall back to the other channel | Aibyn |
@@ -85,8 +85,8 @@ flowchart LR
     D6 --> D15
     D7["DIP-7 Sources A"] --> D9["DIP-9 Literature review"]
     D8["DIP-8 Sources B"] --> D9
-    D11["DIP-11 Crypto criteria"] --> D10["DIP-10 Existing systems"]
-    D10 --> D9
+    D10["DIP-10 Existing systems"] --> D11["DIP-11 Crypto criteria"]
+    D11 --> D9
     D9 --> D14
     D14 --> D12["DIP-12 Technology A"]
     D15 --> D13["DIP-13 Technology B"]
@@ -117,8 +117,9 @@ flowchart LR
 | DIP-3 Proposal | DIP-1 | Written and reviewed as a pull request in the repository |
 | DIP-5 Interviews | DIP-4 | The guide gives questions, consent text and the note template |
 | DIP-6 Findings | DIP-5 | Every finding refers to interview IDs |
-| DIP-9 Literature review | DIP-7, DIP-8, DIP-10 | Needs all sources and the comparison of systems it refers to |
-| DIP-10 Existing systems | DIP-11 | Cryptographic criteria are verified against official documents |
+| DIP-9 Literature review | DIP-7, DIP-8, DIP-11 | Needs all sources and the comparison of systems it refers to |
+| DIP-10 Existing systems | DIP-7, DIP-8 | Analyzes existing systems |
+| DIP-11 Crypto criteria | DIP-10 | Cryptographic criteria verify existing systems |
 | DIP-14 Requirements A | DIP-3, DIP-6, DIP-9 | Requirements cite the proposal, findings and literature as sources |
 | DIP-15 Requirements B | DIP-3, DIP-6 | Same as above |
 | DIP-12 Technology A | DIP-14 | Criteria are linked to requirements |
@@ -140,6 +141,7 @@ Cross-member handoffs (the places where one member waits for the other):
 | From | To | What | Needed by |
 |---|---|---|---|
 | Aibyn | Alisher | Findings table (DIP-6) for the sources of requirements | 22.10 |
+| Alisher | Alisher | Existing systems (DIP-10) and Crypto criteria verification (DIP-11) | 22.10 |
 | Alisher | Aibyn | Requirements 6.1–6.4 for the use cases and mockups | 22.10 |
 | Alisher | Aibyn | Technology choices for the notification services that affect NFRs | 22.10 |
 | Aibyn | Alisher | Mockups (DIP-19) and usability tasks for the shared prototype document | 23.10 |
