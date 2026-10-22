@@ -50,7 +50,7 @@ Full responsibility matrix: `docs/10-project-management.md`.
 |---|---|---|
 | Project proposal and scope | [docs/01-proposal.md](docs/01-proposal.md) | In progress |
 | Evidence of relevance (interviews) | [docs/02-relevance-evidence/](docs/02-relevance-evidence/) | In progress |
-| Literature review | [docs/03-literature-review.md](docs/03-literature-review.md) | In progress |
+| Literature review | [docs/03-literature-review.md](docs/03-literature-review.md) | Done |
 | Existing system comparison | [docs/04-existing-systems.md](docs/04-existing-systems.md) | In progress |
 | Technology comparison | [docs/05-technology-comparison.md](docs/05-technology-comparison.md) | In progress |
 | Requirements and acceptance criteria | [docs/06-requirements.md](docs/06-requirements.md) | In progress |
