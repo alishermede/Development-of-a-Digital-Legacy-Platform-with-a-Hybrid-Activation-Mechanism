@@ -141,4 +141,16 @@ Recipient, Mini App. Requirements: FR-NOT-06, FR-TRU-08, FR-TRU-09, FR-CRY-07, F
 
 ## 8.2 API examples
 
-*To be added in DIP-20.*
+For external systems and for the Mini App the interaction is described by a draft REST API:
+
+- Specification: [`prototype/api/openapi.yaml`](../prototype/api/openapi.yaml) — OpenAPI 3.0.3, 22 paths with request and response examples (validated with `openapi-spec-validator`; can be opened in Swagger Editor).
+- Explanation and example flow: [`prototype/api/README.md`](../prototype/api/README.md).
+
+| Client | Authentication | Main endpoints | Requirements |
+|---|---|---|---|
+| Owner web application | Session after login with the authentication key derived from the master password | `/auth/*`, `/capsules`, `/capsules/{id}/content`, `/capsules/{id}/shares`, `/persons`, `/activation/*` | FR-CRY-12, FR-OWN-01…13, FR-ACT-01…16 |
+| Telegram Mini App | Telegram init data, no account | `/mini/invitations/{token}/accept`, `/mini/key-check`, `/mini/confirmations/{ownerId}`, `/mini/capsules` | FR-INV-01…08, FR-CRY-03a, FR-CRY-06, FR-CRY-07, FR-TRU-01…10 |
+| SMS check-in page | Single-use token in the link | `/checkins/{token}/answer` | FR-ACT-16, FR-NOT-02, FR-NOT-03 |
+| Telegram bot | Webhook secret | `/telegram/webhook` | FR-INV-04, FR-INV-05 |
+
+The examples follow the scenarios above: registration (S1) sends only the authentication key and the encrypted private key; capsule creation (S2, S3) uploads ciphertext and shares sealed for each trusted person; confirmation (S7) sends shares re-encrypted on the phone for the recipients; opening a capsule (S8) returns ciphertext and sealed shares that are decrypted in the Mini App. At no step does the server receive plaintext, the master password or a private key (NFR-SEC-01).
