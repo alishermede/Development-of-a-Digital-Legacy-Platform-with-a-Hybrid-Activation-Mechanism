@@ -1,0 +1,45 @@
+@startuml 02-use-cases-owner
+title Digital Legacy Platform: Use Cases (Owner Flow)
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #444444
+}
+skinparam shadowing false
+
+actor "Owner\n(web application)" as Owner
+
+rectangle "Digital Legacy Platform" {
+  package "Owner: account and capsules" {
+    usecase "UC-01\nRegister and confirm email" as UC01
+    usecase "UC-02\nCreate capsule" as UC02
+    usecase "UC-03\nEdit or delete capsule" as UC03
+    usecase "UC-04\nRecover access with\nrecovery key" as UC04
+    usecase "UC-05\nDelete account" as UC05
+  }
+
+  package "Owner: trusted persons and rules" {
+    usecase "UC-06\nManage trusted persons,\nrecipients, n and k" as UC06
+    usecase "UC-07\nConfigure check-ins and\nwaiting period" as UC07
+    usecase "UC-08\nView dashboard,\nhistory and invitation status" as UC08
+  }
+
+  package "Activation: owner side" {
+    usecase "UC-09\nAnswer check-in\n(Are you OK?)" as UC09
+    usecase "UC-10\nCancel activation" as UC10
+  }
+}
+
+Owner --> UC01
+Owner --> UC02
+Owner --> UC03
+Owner --> UC04
+Owner --> UC05
+Owner --> UC06
+Owner --> UC07
+Owner --> UC08
+Owner --> UC09
+Owner --> UC10
+@enduml
