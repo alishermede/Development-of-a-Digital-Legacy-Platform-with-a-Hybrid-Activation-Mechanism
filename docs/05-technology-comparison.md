@@ -173,16 +173,116 @@ Trusted persons and recipients have no account, so their private key cannot be p
 | Client–server API | REST + OpenAPI (springdoc-openapi), generated TypeScript client |
 | Background jobs | Quartz Scheduler (JDBC JobStore) |
 | Rate limiting | Bucket4j |
-| Frontend framework | Section 5.6 (DIP-13) |
-| Notification services | Section 5.7 (DIP-13) |
+| Frontend framework | React with TypeScript, built with Vite as a single-page application; the Telegram Mini App is a second entry point of the same code base |
+| Notification services | SMS: SMSC.kz (HTTP API); email: Resend (SMTP via Spring Mail); Telegram: Bot API with the TelegramBots library (webhook); WhatsApp not used in this version |
 
 ## 5.6 Frontend framework
 
-*To be added in DIP-13.*
+The frontend has two entry points built from one code base: the owner web application and the Telegram Mini App for trusted persons and recipients (section 5.4c). Both run all cryptography in the browser (NFR-SEC-01).
+
+| Criterion | Related requirements | React + Vite (single-page application) | Next.js (React) | Vue 3 + Vite |
+|---|---|---|---|---|
+| One code base for the owner web application and the Mini App | FR-CRY-06, FR-CRY-07, FR-INV-01 | 5 | 3 | 5 |
+| Tooling for Telegram Mini Apps | FR-CRY-03a, FR-INV-01 | 5 (official React template, SDK package and TelegramUI component library) [17][18] | 4 (same React libraries, but the official template does not target Next.js) | 3 (official Vue binding of the SDK, no UI kit found) [16] |
+| No server-side JavaScript inside the trust boundary | NFR-SEC-01, NFR-SEC-07 | 5 (static files only) | 3 (server rendering needs a Node server; a static export removes the benefit of Next.js) | 5 |
+| Browser-only crypto libraries (WebCrypto, libsodium WASM) | FR-CRY-01…07 | 5 | 3 (must be kept out of server rendering) | 5 |
+| Kazakh and Russian localization | NFR-L10N-01, NFR-L10N-02 | 5 (react-i18next) | 5 (next-intl) | 5 (vue-i18n) |
+| Responsive and accessible components | NFR-USE-07, NFR-USE-08 | 5 | 5 | 4 |
+| Deployment | — | 5 (static files behind any web server) | 3 (Node runtime or static export) | 5 |
+| Familiarity of the team | — | 4 | 4 | 3 |
+| **Total** | | **39** | 30 | 35 |
+
+**Decision:** React with TypeScript, built with Vite as a single-page application. The Mini App is a second entry point of the same code base and uses the Telegram Mini Apps SDK for React and the TelegramUI components.
+
+**Rationale:** the application has no public pages that need search indexing, and every sensitive operation happens in the browser. Server rendering therefore adds a Node server to the trust boundary and a rule that crypto code must never run on it, without giving anything back. A single-page application is a set of static files, so the Spring Boot backend stays the only server component. React has the most complete tooling for Mini Apps among the three options. The TypeScript API client is generated from the OpenAPI specification (section 5.4a).
+
+**Limitations:** the first page load needs JavaScript, which is acceptable for an application behind a login. The component library for the owner web application is chosen at the implementation stage; TelegramUI is used only in the Mini App. The score for team familiarity is the authors' own judgement.
 
 ## 5.7 Notification services (SMS, Telegram, email)
 
-*To be added in DIP-13.*
+The notification catalogue is in section 6.7 (FR-NOT-01). SMS and Telegram carry check-ins and invitations (FR-ACT-02, FR-INV-02), email carries owner notifications (FR-ACT-09). Every provider is hidden behind an interface (`SmsGateway`, `EmailGateway`, `TelegramGateway`), so it can be replaced without changing the activation logic.
+
+### 5.7.1 SMS gateway
+
+A message to a phone number in Kazakhstan costs far less through a local provider. SMSC.kz lists prices per message including VAT of 12.10 to 23.50 tenge at the lowest volume plan, depending on the operator and the type of traffic [10]; Twilio lists $0.3382 per segment [21]. Infobip and Sinch are not compared: a secondary source lists them at $0.20–0.24 per segment [20], which is again several times the local price.
+
+| Criterion | Related requirements | SMSC.kz | Twilio |
+|---|---|---|---|
+| Price per SMS to numbers in Kazakhstan | F-12 (willingness to pay) | 5 (12.10–23.50 tenge) | 1 ($0.3382 per segment) |
+| Starting without registering an own sender name | FR-INV-02, FR-ACT-02 | 5 (common sender names SMSC.KZ, INFORM and InfoSMS are free) [10] | 2 (alphanumeric sender ID is pre-registered, about 3 weeks; a dynamic sender ID is not preserved) [12] |
+| Payment in tenge, invoices with VAT | — | 5 | 2 |
+| API and delivery reports | NFR-REL-02, FR-ACT-09 | 4 (HTTP and JSON API, delivery status by request, available for one day) [11] | 5 (mature SDKs, status callbacks) |
+| Kazakh and Russian text | NFR-L10N-03 | 4 (UTF-8, 70 characters per message, 67 when split) [11] | 4 (UCS-2 supported, segment length not stated) [12] |
+| **Total** | | **23** | 14 |
+
+**Decision:** SMSC.kz through its HTTP API, with the free common sender name at the start. An own sender name costs a monthly fee per operator (14,500 tenge for K'cell, 17,500 for Beeline, 20,800 for Tele2 and Altel) [10] and takes about three weeks to register [12], so it is left for the production stage.
+
+**Cost estimate:** with the default check-in interval of 30 days, an owner generates 12 check-in SMS per year, plus up to 5 invitations. At the highest listed price of 23.50 tenge this is about 400 tenge per owner per year, far below the 500–1000 tenge per month that respondents named (F-12, preliminary). If the owner is silent, a full activation adds 3 check-ins and about one SMS per day of the waiting period.
+
+**Limitations:** the prices are for the lowest volume plan and were read on 22.10.2026. SMS in Kazakhstan has a 70-character limit per Cyrillic message, so templates are kept short (NFR-L10N-03). Where the provider stores logs, and whether this conflicts with NFR-LAW-01, is not confirmed and goes into the risk register.
+
+### 5.7.2 Email service
+
+Email carries only owner notifications, such as the confirmation of registration and the waiting-period alerts (FR-ACT-09). It is not a check-in channel (FR-ACT-02), because one respondent may not open email for a week (F-05). The volume is small.
+
+| Criterion | Related requirements | Resend | Amazon SES | Own mail server (Postfix) |
+|---|---|---|---|---|
+| Cost at the expected volume | — | 5 (free plan: 3,000 emails per month) [15] | 4 ($0.10 per 1,000 emails, no free plan) [15] | 3 (server and time) |
+| Setup and maintenance effort | — | 5 | 3 | 1 (SPF, DKIM, DMARC, IP reputation) |
+| Delivery to common mailboxes | FR-ACT-09 | 4 | 4 | 2 |
+| Standard SMTP access from Spring | NFR-REL-02 | 5 | 5 | 5 |
+| Data stays in Kazakhstan | NFR-LAW-01 | 2 | 2 | 5 |
+| **Total** | | **21** | 18 | 16 |
+
+**Decision:** Resend, used through standard SMTP from Spring Mail, so SES or an own server can be connected by changing the configuration.
+
+**Rationale:** it is the cheapest and fastest option to set up. The messages contain no capsule data, keys or titles (FR-NOT-07), only the owner's email address and a short text.
+
+**Limitations:** the email address of the owner passes through a provider outside Kazakhstan, which is recorded as a risk for NFR-LAW-01 (a Should requirement). The daily sending limit of the free plan must be checked before the demo.
+
+### 5.7.3 Telegram bot integration
+
+Telegram has no cost for the bot. A bot can send about 30 messages per second to different users, and no more than one message per second to one chat [13]. This is enough for the planned volume, but the integration must handle HTTP 429 and retry (NFR-REL-02).
+
+| Criterion | Related requirements | TelegramBots library with Spring Boot webhook starter | Direct Bot API calls from Spring | Separate Node.js bot service (grammY) |
+|---|---|---|---|---|
+| Same runtime and one deployment as the backend | — | 5 | 5 | 2 |
+| Same transaction and scheduler as the activation state machine | FR-ACT-06, NFR-REL-01 | 5 | 5 | 2 (calls between two services) |
+| Effort for commands, buttons, contact sharing | FR-INV-04, FR-INV-05 | 5 | 2 (own types and update parsing) | 4 |
+| Webhook support | NFR-REL-01 | 5 (webhook module and starter) [19] | 4 | 5 |
+| Dependency risk | NFR-SEC-02 | 3 (community library) | 5 (no extra dependency) | 4 |
+| **Total** | | **23** | 21 | 17 |
+
+**Decision:** the TelegramBots library with its Spring Boot webhook starter, behind a `TelegramGateway` interface.
+
+**Rationale:** the bot needs no secrets of its own: keys stay in the Mini App (section 5.3e), and the bot only sends messages and receives button presses. Running it inside the backend keeps timers, state changes and notifications in one transaction.
+
+**Limitations:** compatibility of the library with Spring Boot 4.1 is not checked yet and is the first task of the prototype. If it fails, the fallback is direct Bot API calls behind the same interface. A bot cannot write first (CON-01), so the first contact is always an SMS invitation.
+
+### 5.7.4 WhatsApp as an additional channel
+
+One respondent named WhatsApp for check-ins (F-05), and trusted persons without Telegram would be unable to take part (F-16). Two options are compared.
+
+| Criterion | Related requirements | Telegram and SMS only | Add the WhatsApp Business Platform |
+|---|---|---|---|
+| Trusted persons can store a key on the device and decrypt | FR-CRY-03a, FR-CRY-06 | 5 (Mini App with SecureStorage) | 1 (no equivalent of the Mini App) |
+| Cost | F-12 | 4 (Telegram free, SMS 12–24 tenge) | 2 (each delivered template message is charged; Kazakhstan is a separate price market since 1 October 2026) [14] |
+| Setup effort | — | 4 | 2 (business-initiated messages need approved templates) [14] |
+| Reach of owners who prefer WhatsApp | F-05 | 3 (SMS reaches all three respondents) | 4 |
+| **Total** | | **16** | 9 |
+
+**Decision:** Telegram and SMS only. WhatsApp stays in the list of future improvements (FR-NOT-11, priority Won't) and may be reconsidered for owner notifications, where no key storage is needed.
+
+**Limitations:** the rate for Kazakhstan was not read, because the page links to rate cards instead of listing figures [14]. A relative without Telegram cannot take part in this version. The cabinet warns the owner and recommends *n* greater than *k* (FR-OWN-13).
+
+### 5.7.5 Summary
+
+| Channel | Used for | Receivers | Provider and integration |
+|---|---|---|---|
+| SMS | Invitations, check-ins, fallback notifications | Owner, trusted persons, recipients | SMSC.kz, HTTP API |
+| Telegram | Check-ins, confirmation requests, notifications, Mini App | Owner, trusted persons, recipients | Bot API, TelegramBots library with webhook |
+| Email | Registration, waiting-period alerts | Owner | Resend through SMTP |
+| WhatsApp | Not used in this version | — | Future work |
 
 ## References
 
@@ -195,3 +295,15 @@ Trusted persons and recipients have no account, so their private key cannot be p
 7. Telegram, "Telegram Mini Apps" (SecureStorage, CloudStorage, DeviceStorage). https://core.telegram.org/bots/webapps
 8. HeroDevs, "Spring Boot versions, EOL dates and latest releases." https://www.herodevs.com/blog-posts/spring-boot-versions-eol-dates-and-latest-releases-april-2026
 9. J. Fernández, "Can I use Secure Curves in the Web Platform?" Igalia. https://blogs.igalia.com/jfernandez/?p=1913
+10. SMSC.kz, "Tariffs" (accessed 22.10.2026). https://smsc.kz/tariffs/
+11. SMSC.kz, "HTTP API" (accessed 22.10.2026). https://smsc.kz/api/http/?lang=en
+12. Twilio, "Kazakhstan SMS guidelines" (accessed 22.10.2026). https://www.twilio.com/en-us/guidelines/kz/sms
+13. Telegram, "Bots FAQ" (accessed 22.10.2026). https://core.telegram.org/bots/faq
+14. Meta, "Pricing on the WhatsApp Business Platform" (accessed 22.10.2026). https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing.md
+15. CostBench, "Amazon SES vs Resend pricing" (accessed 22.10.2026). https://costbench.com/compare/amazon-ses-vs-resend/
+16. Telegram Mini Apps documentation, "@telegram-apps/sdk-vue" (accessed 22.10.2026). https://docs.telegram-mini-apps.com/packages/telegram-apps-sdk-vue
+17. Telegram Mini Apps, React template (accessed 22.10.2026). https://github.com/Telegram-Mini-Apps/reactjs-js-template
+18. Telegram Mini Apps, TelegramUI component library (accessed 22.10.2026). https://github.com/telegram-mini-apps-dev/TelegramUI
+19. rubenlagus, TelegramBots Java library (accessed 22.10.2026). https://github.com/rubenlagus/TelegramBots
+20. Sent.dm, "Kazakhstan SMS pricing", secondary source (accessed 22.10.2026). https://sent.dm/en/resources/sms-pricing/kazakhstan-sms-pricing
+21. Twilio, "SMS pricing for Kazakhstan" (accessed 22.10.2026). https://www.twilio.com/en-us/sms/pricing/kz
