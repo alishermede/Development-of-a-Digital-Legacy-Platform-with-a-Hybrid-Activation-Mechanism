@@ -1,0 +1,39 @@
+@startuml 04-activation-state-machine
+' DIP-18 — Activation state machine (FR-ACT-06), one process per owner (FR-ACT-14)
+hide empty description
+skinparam shadowing false
+skinparam state {
+  BackgroundColor #FFFFFF
+  BorderColor #444444
+}
+title Activation state machine (one process per owner)
+
+[*] --> NOT_ARMED
+state "NOT ARMED" as NOT_ARMED : configuration not ready\n(fewer than k trusted persons\nor a recipient has not accepted)
+state "ACTIVE" as ACTIVE : scheduled check-ins\n(interval 1–180 days)
+state "CHECK-IN PENDING" as PENDING : repeated check-in at +2 days,\nfinal check-in at +1 day
+state "AWAITING CONFIRMATION" as AWAIT : trusted persons notified;\nconfirmations counted
+state "WAITING PERIOD" as WAIT : 1–60 days (default 7);\nowner notified every 24 h
+state "CANCELLED" as CANCELLED : transient, recorded\nin the audit log
+state "RELEASED" as RELEASED {
+  state "LOCKED" as LOCKED
+  state "SCHEDULED" as SCHEDULED : release delay\n0–365 days
+  state "AVAILABLE" as AVAILABLE
+  [*] --> LOCKED
+  LOCKED --> SCHEDULED : delay > 0
+  LOCKED --> AVAILABLE : delay = 0
+  SCHEDULED --> AVAILABLE : delay ends
+}
+
+NOT_ARMED --> ACTIVE : ≥ k trusted persons and\nall recipients accepted
+ACTIVE --> NOT_ARMED : fewer than k trusted persons\n(declined, removed, key lost)
+ACTIVE --> PENDING : scheduled check-in missed
+PENDING --> ACTIVE : answer (Telegram button\nor SMS link + "I'm OK")
+PENDING --> AWAIT : final check-in missed
+AWAIT --> WAIT : k-th distinct confirmation
+AWAIT --> AWAIT : confirmation withdrawn
+AWAIT --> CANCELLED : owner cancels\n(master password)
+WAIT --> CANCELLED : owner cancels\n(master password)
+CANCELLED --> ACTIVE : shares deleted,\ntrusted persons notified
+WAIT --> RELEASED : waiting period ends
+@enduml

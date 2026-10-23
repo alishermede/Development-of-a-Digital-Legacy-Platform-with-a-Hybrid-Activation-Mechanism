@@ -50,7 +50,7 @@ Full responsibility matrix: `docs/10-project-management.md`.
 |---|---|---|
 | Project proposal and scope | [docs/01-proposal.md](docs/01-proposal.md) | In progress |
 | Evidence of relevance (interviews) | [docs/02-relevance-evidence/](docs/02-relevance-evidence/) | In progress |
-| Literature review | [docs/03-literature-review.md](docs/03-literature-review.md) | In progress |
+| Literature review | [docs/03-literature-review.md](docs/03-literature-review.md) | Done |
 | Existing system comparison | [docs/04-existing-systems.md](docs/04-existing-systems.md) | In progress |
 | Technology comparison | [docs/05-technology-comparison.md](docs/05-technology-comparison.md) | In progress |
 | Requirements and acceptance criteria | [docs/06-requirements.md](docs/06-requirements.md) | In progress |
@@ -68,10 +68,10 @@ Full responsibility matrix: `docs/10-project-management.md`.
 | Key derivation | Argon2id (libsodium.js) |
 | Secret sharing | `shamir-secret-sharing` (audited by Cure53 and Zellic) for *k* ≥ 2 |
 | Trusted person and recipient client | Telegram Bot API + Telegram Mini App, keys in SecureStorage |
-| Frontend | React / Next.js, TypeScript (to be confirmed in the technology comparison) |
+| Frontend | React, TypeScript, Vite (single-page application) |
 | Backend | Java 21, Spring Boot 4.1, Quartz Scheduler |
 | Database | PostgreSQL (metadata, encrypted shares and encrypted capsule files) |
-| Notifications | Email, SMS gateway, Telegram Bot API |
+| Notifications | SMS (SMSC.kz), email (Resend), Telegram Bot API (TelegramBots library) |
 | Infrastructure | Docker, GitHub Actions |
 
 ## Links
