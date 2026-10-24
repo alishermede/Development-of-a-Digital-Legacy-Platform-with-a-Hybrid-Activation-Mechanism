@@ -27,7 +27,7 @@ Requirement IDs refer to [06-requirements.md](../06-requirements.md).
 | F-05 | SMS is acceptable for check-ins for every respondent. Telegram is named by one, WhatsApp by one. One respondent rules out email because she may not open it for a week | SMS: I-01, I-02, I-03. Telegram: I-03. WhatsApp: I-02. Email rejected: I-03 | verified for SMS, assumption for Telegram and WhatsApp | FR-ACT-02, FR-ACT-09, FR-INV-02 |
 | F-06 | The desired check-in frequency differs: weekly (I-02), monthly (I-03). The configurable range of 1–180 days with a 30-day default covers both | I-02 (Q11), I-03 (Q11) | verified (the interval must be configurable) | FR-ACT-01 |
 | F-07 | Time without an answer before an alarm: 2 days (I-01), about 7 days (I-02), about 10 days (I-03). Pause after confirmation: 2 days, about a month, about 5 days. The spread is large. FR-ACT-05 (1–60 days, default 7) covers all three; FR-ACT-03 fixes the escalation at day 0, 2 and 3 and is not configurable | I-01 (Q11), I-02 (Q11), I-03 (Q11) | verified that the waiting period must be configurable. The default of 7 days remains an assumption | FR-ACT-03, FR-ACT-05 |
-| F-08 | Respondents want data opened only in part: the necessary data, or in stages | I-01 (Q12), I-02 (Q5), I-03 (Q12) | verified | No matching requirement. Proposed: owner can split data into capsules with different recipients and release conditions (FR-OWN, DIP-15) |
+| F-08 | Respondents want data opened only in part: the necessary data, or in stages | I-01 (Q12), I-02 (Q5), I-03 (Q12) | verified | FR-ACT-14, FR-ACT-15, FR-OWN-03, FR-OWN-04 (separate recipients and release delays per capsule) |
 | F-09 | A false activation is seen as unpleasant but not critical. A failed activation is called "the worst" by I-03. I-02 calls both bad | I-02 (Q12, Q13), I-03 (Q12, Q13) | assumption | FR-ACT-07, FR-ACT-10, NFR-REL-01, NFR-REL-02 |
 | F-10 | The ability to cancel the release during the waiting period is wanted | I-02 (Q12) | assumption | FR-ACT-10 |
 | F-11 | Two respondents are uneasy about who can see data stored by a service, or consider storage unsafe. One respondent who uses a password manager and 2FA trusts strong encryption | I-01 (Q7), I-02 (Q7), I-03 (Q7) | assumption | FR-CRY-01, FR-CRY-02, NFR-SEC-01, NFR-SEC-02 |
@@ -51,16 +51,18 @@ Requirement IDs refer to [06-requirements.md](../06-requirements.md).
 
 ## 5. Impact on requirements and other documents
 
-These are points for discussion with Alisher and the supervisor, not changes already made.
+The following decisions are reflected in the merged requirements and design documents (PRs #9, #11 and #18). They are design decisions based on a small sample, not implementation or validation results.
 
-- **FR-ACT-03 (escalation).** The fixed schedule (day 0, 2, 3) is shorter than what two respondents describe (about 7 and about 10 days without an answer). Consider making it configurable or confirm that the check-in interval already covers it.
-- **Staged or partial release (F-08).** All three respondents want it, and there is no requirement for it. It could be covered by separate capsules with their own recipients and delays (FR-OWN, DIP-15).
-- **Dependence on Telegram (F-16, CON-04).** Check whether the trusted persons named by respondents would have Telegram. SMS fallback and n > k are already suggested in CON-04.
-- **FR-CRY-10.** Periodic key checks add a duty for trusted persons, while respondents accept only minimal tasks. Keep the check simple and rare.
-- **Usability (F-13).** NFR-USE in DIP-15 should require plain-language explanations of encryption and key splitting and a step-by-step instruction.
-- **WhatsApp (F-05).** Check as an additional channel in DIP-13.
-- **Existing systems (F-14).** Google "Inactive Account Manager" is used in practice, so it is a real alternative in DIP-10.
-- **Risk register (DIP-23).** Add the risk of a small, non-representative sample.
+- **FR-ACT-03 (escalation).** Resolved in PR #11: keep day 0, +2 and +3; show total silence as the check-in interval plus 3 days. The default and schedule still need evaluation.
+- **Staged or partial release (F-08).** Resolved: one process per owner (FR-ACT-14), separate recipients per capsule (FR-OWN-03), and a release delay of 0–365 days after the waiting period (FR-ACT-15, raised to Must in PR #18).
+- **FR-CRY-10.** Resolved in PR #11: one tap every 180 days, counted automatically when the Mini App is opened, with a reminder after 7 days without a response.
+- **SMS check-in without login.** Resolved in FR-ACT-16: a single-use link and an explicit button press; it cannot cancel the waiting period.
+- **Usability (F-13).** Covered by NFR-USE-03, NFR-USE-04 and FR-TRU-10; understanding is evaluated in section 9.5.
+- **WhatsApp (F-05).** Considered in section 5.7.4 and excluded from this version (FR-NOT-11).
+- **Existing systems (F-14).** Google Inactive Account Manager is included in section 4.
+- **Sample risk.** Recorded as R-01 in section 10.3; an expert interview and younger respondents remain planned for M7.
+- **Dependence on Telegram (F-16, CON-04).** Still open for user validation: check whether the selected relatives can participate. SMS notifications do not replace the Mini App for cryptographic operations.
+
 - **Requirements with source ASM.** FR-CRY-08, FR-CRY-09, FR-ACT-12, FR-ACT-13, FR-INV-06, NFR-SEC-06, NFR-REL-01, NFR-REL-02, NFR-PERF-01, NFR-PERF-02 and NFR-CAP-01 are not covered by the interviews and remain assumptions. NFR-SEC-06 (2FA) is only indirectly supported, since I-03 uses 2FA herself.
 
 ## 6. Next steps

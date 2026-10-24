@@ -24,7 +24,7 @@ Actor: owner, web application. Requirements: FR-OWN-01, FR-CRY-02, FR-CRY-09, NF
 | S1-1 | Language and sign up | Language switch (RU/KZ); fields for email and master password; a one-sentence note that the master password never leaves the device |
 | S1-2 | Master password strength | Strength indicator; a plain sentence that the service cannot reset this password |
 | S1-3 | Confirm email | "We sent a link" screen; the account stays locked until the link is opened (FR-OWN-01) |
-| S1-4 | Recovery key | Key shown once with Print and Copy buttons; the owner must enter two words from it to continue (my proposal for NFR-USE-03; it checks that the key was saved) |
+| S1-4 | Recovery key | Key shown once with Print and Copy buttons; the owner must enter two words from it to continue (design choice supporting NFR-USE-03; it checks that the key was saved) |
 | S1-5 | Welcome | Start of the wizard (S2) |
 
 ### S2. Create the first capsule (wizard, steps 1 of 4)
@@ -102,7 +102,7 @@ Actor: trusted person, Mini App. Requirements: FR-NOT-04, FR-TRU-03, FR-TRU-04, 
 | S7-1 | Telegram notification | The owner did not answer check-ins; the message has no capsule data (FR-NOT-07) |
 | S7-2 | Confirmation screen | Plain explanation of what is being confirmed and the button "Confirm the event" (FR-TRU-03) |
 | S7-3 | Are you sure | Second step that states the consequence: the data will be handed over after the waiting period unless the owner cancels (FR-TRU-04) |
-| S7-4 | Sent | The screen says the confirmation was sent and shows no count of other confirmations (my choice, to avoid pressure on the other trusted persons) |
+| S7-4 | Sent | The screen says the confirmation was sent and shows no count of other confirmations (design choice to avoid pressure on the other trusted persons) |
 | S7-5 | Withdraw | "Withdraw" button available until the waiting period starts (FR-TRU-05) |
 | S7-6 | Key check | One-tap key check every 180 days: message with Open, Mini App checks and closes, short confirmation (FR-TRU-07) |
 
@@ -141,4 +141,16 @@ Recipient, Mini App. Requirements: FR-NOT-06, FR-TRU-08, FR-TRU-09, FR-CRY-07, F
 
 ## 8.2 API examples
 
-*To be added in DIP-20.*
+For external systems and for the Mini App the interaction is described by a draft REST API:
+
+- Specification: [`prototype/api/openapi.yaml`](../prototype/api/openapi.yaml) — OpenAPI 3.0.3, 22 paths with request and response examples (validated with `openapi-spec-validator`; can be opened in Swagger Editor).
+- Explanation and example flow: [`prototype/api/README.md`](../prototype/api/README.md).
+
+| Client | Authentication | Main endpoints | Requirements |
+|---|---|---|---|
+| Owner web application | Session after login with the authentication key derived from the master password | `/auth/*`, `/capsules`, `/capsules/{id}/content`, `/capsules/{id}/shares`, `/persons`, `/activation/*` | FR-CRY-12, FR-OWN-01…13, FR-ACT-01…16 |
+| Telegram Mini App | Telegram init data, no account | `/mini/invitations/{token}/accept`, `/mini/key-check`, `/mini/confirmations/{ownerId}`, `/mini/capsules` | FR-INV-01…08, FR-CRY-03a, FR-CRY-06, FR-CRY-07, FR-TRU-01…10 |
+| SMS check-in page | Single-use token in the link | `/checkins/{token}/answer` | FR-ACT-16, FR-NOT-02, FR-NOT-03 |
+| Telegram bot | Webhook secret | `/telegram/webhook` | FR-INV-04, FR-INV-05 |
+
+The examples follow the scenarios above: registration (S1) sends only the authentication key and the encrypted private key; capsule creation (S2, S3) uploads ciphertext and shares sealed for each trusted person; confirmation (S7) sends shares re-encrypted on the phone for the recipients; opening a capsule (S8) returns ciphertext and sealed shares that are decrypted in the Mini App. At no step does the server receive plaintext, the master password or a private key (NFR-SEC-01).
