@@ -21,8 +21,8 @@ Dates marked `[TBD]` depend on the schedule of the department and the supervisor
 | Verification | DIP-21: protocol, security, metrics, baseline | DIP-22: usability evaluation (section 9.5) |
 | Project management | Review | DIP-23 (`10-project-management.md`) |
 | Supervisor communication | DIP-24 (`11-supervisor-feedback.md`) | Takes part in meetings |
-| Legal analysis (Kazakhstan) | Review | DIP-26 (`12-legal-analysis.md`, planned) |
-| Notification reliability | Review; tests M6, M8, M12 (DIP-21) | DIP-27 (specification in section 6.7.1 and `06-requirements.md`) |
+| Legal analysis (Kazakhstan) | Review | DIP-26 (`12-legal-analysis.md`, prepared 24.10.2026) |
+| Notification reliability | Review; tests M6, M8, M12 (DIP-21) | DIP-27 (`13-notification-reliability.md` and section 6.7.1) |
 
 Working rules:
 
@@ -62,8 +62,8 @@ Every task has one responsible member and one reviewer, the other member (workin
 | DIP-23 | Project management and risks | Aibyn | Alisher | M4 | Done | #17, #26 |
 | DIP-24 | Supervisor feedback and decisions | Alisher | Aibyn | M4, M6 | Done for round 1 (24.10.2026) | this change |
 | DIP-25 | Tag `pre-defense-1` and submission summary | Alisher | Aibyn | M5 | Open until the tag is placed | — |
-| DIP-26 | Legal analysis: Kazakhstan personal data law and inheritance law | Aibyn | Alisher | M7, due 07.11.2026 | Planned | — |
-| DIP-27 | Notification reliability: specification and tests | Aibyn | Alisher | M7, due 07.11.2026 | Planned | — |
+| DIP-26 | Legal analysis: Kazakhstan personal data law and inheritance law | Aibyn | Alisher | M5, 24.10.2026 18:00 UTC+5 | Document prepared; review and deployment gates open | this follow-up to #27 |
+| DIP-27 | Notification reliability: specification and tests | Aibyn | Alisher | M5, 24.10.2026 18:00 UTC+5 | Specification and model prepared; integration/live tests pending | this follow-up to #27 |
 
 Balance: Alisher is responsible for 12 tasks (repository, proposal, cryptography, architecture, API, verification, feedback) and Aibyn for 15 (research, requirements 6.5–6.8, use cases, prototype, usability, project management, legal analysis, notification reliability). Reviews are done by both members for all pull requests.
 
@@ -79,7 +79,7 @@ The first block is fixed by the task plan. The second block lists the later mile
 | M4 | Architecture, prototype and plans | 23.10.2026 | Literature review; component diagram and architecture; Figma mockups; API examples; verification and usability plans; this document; drafts sent to supervisor | DIP-9, DIP-18 – DIP-24 |
 | M5 | Pre-defense 1 | 24.10.2026 | Tag `pre-defense-1` on reviewed `main`; submission summary with known limitations and outstanding tasks | DIP-25 |
 | M6 | Supervisor feedback processed | Round 1: 24.10.2026; later rounds: November 2026 | Every comment in `11-supervisor-feedback.md` has a decision and a link to the change; requirements updated | DIP-24 follow-up |
-| M7 | Open questions closed | November 2026 (DIP-26 and DIP-27 due 07.11.2026) | Expert interview (notary or IT security) done; legal analysis written and the personal data location decided (`12-legal-analysis.md`); notification reliability specified and its tests described; threat model written (NFR-SEC-03) | DIP-26, DIP-27; follow-up of DIP-5, DIP-6, DIP-14 |
+| M7 | Open questions closed | November 2026 (expert review and implementation follow-ups; DIP-26/27 documents delivered for 24.10) | Expert interview (notary or IT security) done; legal analysis written and the personal data location decided (`12-legal-analysis.md`); notification reliability specified and its tests described; threat model written (NFR-SEC-03) | DIP-26, DIP-27; follow-up of DIP-5, DIP-6, DIP-14 |
 | M8 | Working core | December 2026 | Client-side encryption, key splitting and the activation state machine running in `src/` with tests in `tests/` | Implementation |
 | M9 | Working system and test results | January 2027 | End-to-end flow with Telegram Mini App and notifications; results of the protocol and security tests; baseline comparison against a simple dead man's switch | Implementation, DIP-21 |
 | M10 | Usability test | February 2027 | Eight participants, SUS and task results, list of problems with severity | DIP-22 |
@@ -97,10 +97,10 @@ Scales. Probability: Low (unlikely during the project), Medium (could happen), H
 | R-03 | A malicious server could substitute a trusted person's public key, if safety codes are not compared or a previously verified key is replaced (literature review, section 3.2.3) | Medium | High | Define key authentication (via security code verification, FR-CRY-11) in the threat model (NFR-SEC-03); add a test case to the verification plan | Alisher |
 | R-04 | A lost or replaced phone destroys a trusted person's key, and fewer than *k* shares remain after the owner is gone (CON-02, FR-CRY-10) | Medium | High | Periodic key checks every 180 days; re-split by the owner (FR-CRY-08); *n* greater than *k*; explain the consequence in the interface | Alisher |
 | R-05 | False activation: the owner is alive but silent (travel, hospital) and data is released | Medium | High | Three check-ins, *k* confirmations, a waiting period with daily notifications and cancellation with the master password; measure the false activation rate against the baseline (M1, M1b and scenarios E1–E10 in the verification plan, DIP-21) | Alisher |
-| R-06 | Legal uncertainty in Kazakhstan: Article 12 of the Law on Personal Data requires storage in a database in Kazakhstan; NFR-LAW-01 is only Should; consent of a trusted person whose phone number is entered by the owner (FR-INV-08); transfer of numbers to an SMS provider | Medium | High | Raise with the supervisor; legal analysis as a separate task (DIP-26, due 07.11.2026); hold the notary interview; decide hosting location and, if needed, raise NFR-LAW-01 to Must; keep the scope to a technical transfer of data | Aibyn |
+| R-06 | Legal uncertainty in Kazakhstan: Article 12 requires Kazakhstan personal-data storage; actual hosting and transfer compliance are not yet evidenced; consent of a trusted person whose phone number is entered by the owner (FR-INV-08); transfer of numbers to an SMS provider | Medium | High | Open, partially mitigated 24.10.2026: section 12 maps official articles; LD-01 selects Kazakhstan storage and NFR-LAW-01 is Must; initial invitation/transfer gates are NFR-LAW-02/04. Expert interview, provider assessment and implementation tests remain open; no claim of operational compliance | Aibyn |
 | R-07 | A custom or unaudited cryptographic implementation introduces a vulnerability | Low | High | Use only WebCrypto, libsodium and an audited Shamir library (NFR-SEC-02); test with known vectors; second reviewer for every cryptographic change | Alisher |
 | R-08 | Argon2id or encryption is too slow on mid-range phones (NFR-PERF-01, NFR-PERF-02) | Medium | Medium | Measure early on real devices; choose parameters by measurement and document them; lower the memory setting if the 2 s target fails | Alisher |
-| R-09 | SMS or Telegram delivery in Kazakhstan is unreliable or too expensive, so check-ins or confirmations do not arrive | Medium | High | Retry at least three times and keep channels independent (NFR-REL-02); compare providers by delivery and cost (DIP-13); fall back to the other channel; an undelivered check-in is never counted as missed (FR-NOT-13); full specification and tests in DIP-27 | Aibyn |
+| R-09 | SMS or Telegram delivery in Kazakhstan is unreliable or too expensive, so check-ins or confirmations do not arrive | Medium | High | Retry at least three times and keep channels independent (NFR-REL-02); compare providers by delivery and cost (DIP-13); fall back to the other channel; an undelivered check-in is never counted as missed (FR-NOT-13); specification and model checks in section 13 (DIP-27); FR-NOT-14 pauses waiting-period release during total outage; integration/live tests remain open | Aibyn |
 | R-10 | Usability results are only indicative: the prototype has no real encryption or Telegram, and eight participants cannot confirm the SUS target statistically | High | Medium | Report means and ranges without claiming significance; record hints separately; measure key derivation time and SecureStorage behavior in the technical tests, not in the usability test | Aibyn |
 | R-11 | The team has two members and several tasks fall due on the same days; illness or overload of one member delays the other's review | Medium | High | Keep the task table in section 10.4 up to date; start reviews as soon as a draft exists; agree in advance which tasks can move without breaking dependencies | Aibyn |
 | R-12 | The literature review contains unverified details: some sources were read only in part, preprints are not peer reviewed, article numbers of laws and some bibliographic data were not rechecked | Medium | Medium | Recheck against publisher pages and adilet.zan.kz before each defense; keep the list of unchecked sources in section 3.7 current | Aibyn |
@@ -153,6 +153,8 @@ flowchart LR
     D22 --> D25
     D23["DIP-23 Management"] --> D25
     D24 --> D25
+    D26 --> D25
+    D27 --> D25
 ```
 
 | Task | Depends on | Why |
@@ -177,7 +179,7 @@ flowchart LR
 | DIP-24 Supervisor review | DIP-3, DIP-14, DIP-15 | Proposal and requirements go to the supervisor by 22.10 |
 | DIP-26 Legal analysis | DIP-6, DIP-14 | Findings and the notary interview give the questions; requirements NFR-LAW-01 and FR-INV-08 are checked against the law |
 | DIP-27 Notification reliability | DIP-13, DIP-14, DIP-21 | Uses the chosen channels and providers, the requirements NFR-REL-01/02 and the metrics M6, M8, M12 |
-| DIP-25 Tag and summary | All other tasks except DIP-26 and DIP-27 | Tag is placed on reviewed `main`; unfinished tasks are listed as outstanding |
+| DIP-25 Tag and summary | All document tasks including DIP-26 and DIP-27; list unexecuted implementation/expert checks explicitly | Tag is placed on reviewed `main`; unfinished tasks are listed as outstanding |
 
 Critical path to pre-defense-1: DIP-4 → DIP-5 → DIP-6 → DIP-14 and DIP-15 → DIP-17, DIP-18, DIP-19 → DIP-25. A delay in the interviews moves the source column of the requirements and everything after it. If the interviews slip, the requirements are submitted with the source ASM and the findings table is completed in the next iteration; this is recorded as an outstanding task in DIP-25.
 
