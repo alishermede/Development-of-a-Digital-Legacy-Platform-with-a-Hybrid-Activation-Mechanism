@@ -83,6 +83,7 @@ Full responsibility matrix: `docs/10-project-management.md`.
 - [Kazakhstan legal analysis](docs/12-legal-analysis.md) and [notification reliability specification](docs/13-notification-reliability.md), prepared 24.10.2026.
 - **YouTrack project:** <https://diplom-digital-legacy.youtrack.cloud/projects/DIP>
 - **Documentation (Word, formatted version):** https://astanait-my.sharepoint.com/:w:/g/personal/242551_astanait_edu_kz/IQA0Auwqv1QSS4dFHn9q1cK0AbuxJlQ6kyQyDXWBEQA3vsM?e=3PXiQ7
+- **Documentation (Word, this version):** [docs/submissions/Project-Documentation-pre-defense-1.docx](docs/submissions/Project-Documentation-pre-defense-1.docx)
 - **Documentation index:** [docs/](docs/)
 
 ## Repository structure

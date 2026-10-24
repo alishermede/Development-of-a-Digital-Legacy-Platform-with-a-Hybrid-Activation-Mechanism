@@ -4,7 +4,9 @@
 |---|---|
 | Project | Development of a Digital Legacy Platform with a Hybrid Activation Mechanism Based on Shamir's Secret Sharing |
 | Repository | https://github.com/alishermede/Development-of-a-Digital-Legacy-Platform-with-a-Hybrid-Activation-Mechanism |
-| Tag | `pre-defense-1` (annotated tag on the merge of pull request #27 into `main`) |
+| Tags | `pre-defense-1` and `prob-period-1` on the same commit: the merge of the pull request that adds the formatted documentation |
+| Tagged version | https://github.com/alishermede/Development-of-a-Digital-Legacy-Platform-with-a-Hybrid-Activation-Mechanism/tree/prob-period-1 |
+| Formatted documentation | `docs/submissions/Project-Documentation-pre-defense-1.docx` (built from the Markdown sources of this version) |
 | Date | 24.10.2026 |
 | Team | Alisher Medebaev (SE-2414), Aibyn Samat (SE-2415) |
 | Supervisor | Tutkyshbayeva Sh.S. |
