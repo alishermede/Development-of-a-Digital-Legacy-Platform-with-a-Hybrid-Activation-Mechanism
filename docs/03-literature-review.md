@@ -1,6 +1,6 @@
 # 3. Literature Review
 
-This section reviews the literature behind the Digital Legacy Platform. It covers secret sharing, key derivation, zero-knowledge encryption, recovery protocols and dead man's switches (DIP-7), then digital legacy, usable security and the law of Kazakhstan (DIP-8). The last parts compare the approaches, state the research gap and list the limits of the review (DIP-9). Web sources were accessed on 22.10.2026, and section 3.7 says which sources were read only in part or not rechecked.
+This section reviews the literature behind the Digital Legacy Platform. It covers secret sharing, key derivation, zero-knowledge encryption, recovery protocols and dead man's switches (DIP-7), then digital legacy, usable security and the law of Kazakhstan (DIP-8). The last parts compare the approaches, state the research gap and list the limits of the review (DIP-9). Web sources were accessed on 22.10.2026, and section 3.7 records the review's limits.
 
 | Section | Responsible |
 |---|---|
@@ -34,7 +34,7 @@ NIST SP 800-38D [6] specifies AES-GCM, the mode used for capsules (FR-CRY-01). T
 
 Scarlata et al. [7] tested the "zero-knowledge encryption" claim of three cloud password managers against a fully malicious server. They report 12 attacks on Bitwarden, 7 on LastPass and 6 on Dashlane, and most of them recover passwords. The attacks fall into four groups: abuse of key escrow used for account recovery and single sign-on, missing integrity of the vault as a whole, flaws in the sharing features, and old cryptographic code kept for backward compatibility. The paper concerns password managers, so it does not say our protocol is broken. It does show where systems of the same kind failed, and three of the four groups touch our design directly: recovery (FR-CRY-09), sharing between people (FR-CRY-05, FR-CRY-06) and integrity of stored ciphertext (FR-CRY-01).
 
-Applied to our case, a malicious server could hand the owner's browser a wrong public key for a trusted person and so receive a share it can decrypt. FR-INV-05 checks the person's phone number, but the requirements do not say how the owner's browser learns that the public key it encrypts to really belongs to that person. This remains an open point for the threat model (NFR-SEC-03) and for the verification plan (DIP-21), inferred from the attack classes.
+Applied to our case, a malicious server could hand the owner's browser a wrong public key for a trusted person and so receive a share it can decrypt. FR-INV-05 checks the person's phone number, but the requirements do not say how the owner's browser learns that the public key it encrypts to really belongs to that person. FR-CRY-11 now requires out-of-band safety-code comparison, and metric M3 tests substitution detection when that comparison is performed. This mitigates key substitution; it does not establish security against every malicious-server attack, and skipped comparisons remain a threat-model limitation (NFR-SEC-03).
 
 ### 3.2.4 Recovery by trusted people, and the waiting period
 
@@ -70,7 +70,7 @@ The System Usability Scale [16] is a ten-item questionnaire that gives one score
 
 The Civil Code, Special Part [19], regulates inheritance in section 6. Article 1040 says the estate consists of the property of the deceased and of rights and obligations that do not end with death. Rights and obligations inseparable from the person are excluded. A capsule is not a will and does not transfer property, which matches the out-of-scope list in the proposal. The reviewed sources do not settle whether an online account is part of the estate. Zakirov and Khayarova [18] state, for Russian law, that civil legislation does not regulate the legal regime of an account, and Russian law is not Kazakh law, so this point serves only as a sign that the question is open in neighbouring systems. Zhanabilova's dissertation [17] has a chapter on the regulation of digital assets in Kazakhstan and one on inheriting particular kinds of them. A careful reading is still needed before the proposal says anything about the legal status of accounts.
 
-The Law on Personal Data and Their Protection [20] says in Article 12 that personal data is stored by the owner, the operator or a third party in a database located in the territory of Kazakhstan. The platform stores the names and phone numbers of trusted persons and recipients, so this applies to those fields. NFR-LAW-01 is a Should requirement, and given the text of the article it may need to be a Must for the stored personal data; this is raised for the supervisor and for the risk register. Two further questions are not answered by the sources I read: whether the owner may enter a trusted person's phone number before that person has agreed, and how the transfer of a number to an SMS provider or to the email provider outside Kazakhstan is treated (section 5.7.2 already notes the email case). Both require a legal opinion and remain unanswered here. Prg.kz shows the text of the law as amended on 12.07.2026; the current edition must be checked on adilet.zan.kz before the defense.
+The Law on Personal Data and Their Protection [20] says in Article 12 that personal data is stored by the owner, the operator or a third party in a database located in the territory of Kazakhstan. The platform stores the names and phone numbers of trusted persons and recipients, so this applies to those fields. NFR-LAW-01 is a Should requirement, and given the text of the article it may need to be a Must for the stored personal data; this is raised for the supervisor and for the risk register. Two further questions are not answered by the reviewed sources: whether the owner may enter a trusted person's phone number before that person has agreed, and how the transfer of a number to an SMS provider or to the email provider outside Kazakhstan is treated (section 5.7.2 already notes the email case). Both require a legal opinion and remain unanswered here. Prg.kz shows the text of the law as amended on 12.07.2026; the current edition must be checked on adilet.zan.kz before the defense.
 
 ## 3.4 Analysis table
 
@@ -105,7 +105,7 @@ The sources and the systems in section 4 give four answers. A timer alone is the
 
 ### Where trust sits
 
-The password manager study [7] shows that a vendor's statement about zero knowledge says little about a malicious server. Its attack classes are the ones a legacy platform has too, because recovery, sharing and stored ciphertext all exist there. The platform's answer is to keep every private key off the server (FR-CRY-03, FR-CRY-03a) and to verify tamper-evidence through AES-GCM tags (FR-CRY-01). What stays open is how a public key is authenticated, as described in 3.2.3.
+The password manager study [7] shows that a vendor's statement about zero knowledge says little about a malicious server. Its attack classes are the ones a legacy platform has too, because recovery, sharing and stored ciphertext all exist there. The platform's answer is to keep every private key off the server (FR-CRY-03, FR-CRY-03a) and to verify tamper-evidence through AES-GCM tags (FR-CRY-01). Public-key authentication is addressed by FR-CRY-11 and tested by M3, subject to the comparison and threat-model limits described in section 3.2.3.
 
 ### How shares are kept and renewed
 
@@ -129,7 +129,7 @@ Third, no scientific work was found on digital legacy tools for Kazakhstan, in e
 
 Search engines and publisher pages were used to select sources that bear on decisions already in the proposal, so important work may be missing, especially in the older literature on timed release and on legacy services.
 
-Two sources, [8] and [10], are preprints. Source [10] is from 2026 and has had little time to be tested. The papers on usability [11][13] come from Germany and the United Kingdom, and their users may differ from users in Kazakhstan. No source in Kazakh was found, and the Russian scholarship [17][18] is on Russian law with Kazakh material only in part. No court practice of Kazakhstan was reviewed.
+Two sources, [8] and [10], are preprints. Source [10] is from 2026 and has had little time to be tested. The papers on usability [11][13] come from Germany and the United Kingdom, and their users may differ from users in Kazakhstan. No source in Kazakh was found, and the Russian scholarship [17][18] is on Russian law with Kazakh material only in part. No court practice of Kazakhstan was reviewed. Full-text analysis of [7], [8] and [10], requested in the review of PR #14, remains to be documented; the summaries here must not be treated as a completed full-text verification.
 
 ## References
 

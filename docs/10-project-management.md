@@ -12,7 +12,7 @@ Dates marked `[TBD]` depend on the schedule of the department and the supervisor
 | Proposal and scope | DIP-3 (`01-proposal.md`) | Review |
 | Evidence of relevance | Review | DIP-4, DIP-5, DIP-6 (`02-relevance-evidence/`) |
 | Literature review | Review | DIP-7, DIP-8, DIP-9 (`03-literature-review.md`) |
-| Existing systems | DIP-10 (`04-existing-systems.md`) | DIP-11: verification of cryptographic criteria |
+| Existing systems | DIP-11: verification of cryptographic criteria | DIP-10 (`04-existing-systems.md`) |
 | Technology comparison | DIP-12: backend, database, crypto libraries, interaction | DIP-13: frontend, notification services |
 | Requirements | DIP-14: sections 6.1–6.4, 6.9 (encryption, key shares, activation, security) | DIP-15: sections 6.5–6.8 (cabinets, capsules, check-ins, notifications, usability, localization) |
 | Diagrams | DIP-16 system context, DIP-18 component | DIP-17 use case |
@@ -55,8 +55,8 @@ Scales. Probability: Low (unlikely during the project), Medium (could happen), H
 | ID | Risk | Probability | Impact | Mitigation | Owner |
 |---|---|---|---|---|---|
 | R-01 | The interview sample is small and not representative: three respondents aged 40+, no domain expert, short messenger answers | High | Medium | Mark findings as assumptions when only one interview supports them; add an expert interview and 1–2 younger respondents (M7); report limitations in `02-relevance-evidence/README.md` | Aibyn |
-| R-02 | Trusted persons depend on Telegram: a person without Telegram cannot take part, and SecureStorage support outside iOS and Android clients is unverified (CON-01 to CON-04) | Medium | High | Recommend *n* greater than *k*; keep SMS for invitations and notifications; verify Mini App and SecureStorage behavior on the prototype early | Alisher |
-| R-03 | A malicious server could substitute a trusted person's public key, because the requirements do not say how the owner's browser authenticates it (literature review, section 3.2.3) | Medium | High | Define key authentication (via security code verification, FR-CRY-11) in the threat model (NFR-SEC-03); add a test case to the verification plan | Alisher |
+| R-02 | Trusted persons depend on Telegram: a person without Telegram cannot take part, and SecureStorage support outside iOS and Android clients is unverified (CON-01 to CON-04) | Medium | High | Recommend *n* greater than *k*; keep SMS for invitations and notifications; verify Mini App and SecureStorage behavior on the prototype early; run a TelegramBots / Spring Boot 4.1 compatibility spike before implementing the adapter (review of PR #12) | Alisher |
+| R-03 | A malicious server could substitute a trusted person's public key, if safety codes are not compared or a previously verified key is replaced (literature review, section 3.2.3) | Medium | High | Define key authentication (via security code verification, FR-CRY-11) in the threat model (NFR-SEC-03); add a test case to the verification plan | Alisher |
 | R-04 | A lost or replaced phone destroys a trusted person's key, and fewer than *k* shares remain after the owner is gone (CON-02, FR-CRY-10) | Medium | High | Periodic key checks every 180 days; re-split by the owner (FR-CRY-08); *n* greater than *k*; explain the consequence in the interface | Alisher |
 | R-05 | False activation: the owner is alive but silent (travel, hospital) and data is released | Medium | High | Three check-ins, *k* confirmations, a waiting period with daily notifications and cancellation with the master password; measure the false activation rate in the verification plan (DIP-21) | Alisher |
 | R-06 | Legal uncertainty in Kazakhstan: Article 12 of the Law on Personal Data requires storage in a database in Kazakhstan; NFR-LAW-01 is only Should; consent of a trusted person whose phone number is entered by the owner (FR-INV-08); transfer of numbers to an SMS provider | Medium | High | Raise with the supervisor; hold the notary interview; decide hosting location and, if needed, raise NFR-LAW-01 to Must; keep the scope to a technical transfer of data | Aibyn |
@@ -66,7 +66,7 @@ Scales. Probability: Low (unlikely during the project), Medium (could happen), H
 | R-10 | Usability results are only indicative: the prototype has no real encryption or Telegram, and eight participants cannot confirm the SUS target statistically | High | Medium | Report means and ranges without claiming significance; record hints separately; measure key derivation time and SecureStorage behavior in the technical tests, not in the usability test | Aibyn |
 | R-11 | The team has two members and several tasks fall due on the same days; illness or overload of one member delays the other's review | Medium | High | Keep the task table in section 10.4 up to date; start reviews as soon as a draft exists; agree in advance which tasks can move without breaking dependencies | Aibyn |
 | R-12 | The literature review contains unverified details: some sources were read only in part, preprints are not peer reviewed, article numbers of laws and some bibliographic data were not rechecked | Medium | Medium | Recheck against publisher pages and adilet.zan.kz before each defense; keep the list of unchecked sources in section 3.7 current | Aibyn |
-| R-13 | Scope grows (for example staged release of data, other channels such as WhatsApp) and the core is not finished | Medium | Medium | Decide each request against the in-scope list in the proposal; record rejected ideas with a reason; build the core (M8) before extensions | Alisher |
+| R-13 | Scope grows (for example additional release rules beyond FR-ACT-15, or other channels such as WhatsApp) and the core is not finished | Medium | Medium | Decide each request against the in-scope list in the proposal; record rejected ideas with a reason; build the core (M8) before extensions | Alisher |
 | R-14 | Supervisor feedback arrives late and forces changes to requirements or architecture | Medium | Medium | Send proposal and requirements by 22.10 (DIP-24); keep the feedback log with a decision for every comment; keep changes small and traced to requirement IDs | Alisher |
 | R-15 | Personal data or secrets are committed by mistake (interview details, keys, tokens) | Low | High | `.gitignore` and a check before every commit; anonymized notes only; review of every pull request for personal data; remove and rotate anything exposed | Alisher |
 
@@ -141,7 +141,7 @@ Cross-member handoffs (the places where one member waits for the other):
 | From | To | What | Needed by |
 |---|---|---|---|
 | Aibyn | Alisher | Findings table (DIP-6) for the sources of requirements | 22.10 |
-| Alisher | Alisher | Existing systems (DIP-10) and Crypto criteria verification (DIP-11) | 22.10 |
+| Aibyn | Alisher | Existing systems table (DIP-10) for verification of cryptographic criteria (DIP-11) | 22.10 |
 | Alisher | Aibyn | Requirements 6.1–6.4 for the use cases and mockups | 22.10 |
 | Alisher | Aibyn | Technology choices for the notification services that affect NFRs | 22.10 |
 | Aibyn | Alisher | Mockups (DIP-19) and usability tasks for the shared prototype document | 23.10 |

@@ -92,8 +92,8 @@ The test checks whether ordinary people can set up the platform and act in it wi
 | Metric | Target | Source requirement | How it is measured |
 |---|---|---|---|
 | SUS score | At least 70 | NFR-USE-01 | System Usability Scale [16 in section 3], filled in after all tasks |
-| Task success rate | At least 80% of participant-task attempts completed without help | NFR-USE-01 | Observer marks each attempt: success, success with a hint, failure |
-| First capsule with two trusted persons (T2) | At least 80% of participants finish in at most 15 minutes | NFR-USE-01 | Stopwatch from the first tap of S2 to the dashboard in S4-5 |
+| Task success rate | At least 80% of participant-task attempts completed without help | PRP (project evaluation target) | Observer marks each attempt: success, success with a hint, failure |
+| First capsule with two trusted persons (T2) | At least 80% of participants finish in at most 15 minutes | NFR-USE-02 | Stopwatch from the first tap of S2 to the dashboard in S4-5 |
 | Time on task | Targets in the task table | PRP | Stopwatch per task |
 | Taps to accept an invitation | At most 5 | NFR-USE-05 | Observer counts taps on S6-2, S6-3, S6-5, S6-6 |
 | Steps to confirm an event | At most 3, and no confirmation after a single tap | NFR-USE-05, FR-TRU-04 | Observer counts steps and notes any accidental confirmation |

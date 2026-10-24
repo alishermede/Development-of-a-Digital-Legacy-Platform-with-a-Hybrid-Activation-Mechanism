@@ -56,7 +56,7 @@ The diagrams show what each actor can do in the platform. The actors are the sam
 | Trusted person | Telegram bot and Mini App | Confirms the event, keeps and checks a key share |
 | Recipient | Telegram bot and Mini App | Receives and opens capsules after release |
 | Invited person | Telegram bot and Mini App | Generalization of the trusted person and the recipient: both accept or decline an invitation in the same way |
-| System timer | Scheduler (Quartz) | Starts check-ins, escalation, the waiting period and release by time; not a person |
+| System timer | Scheduler (Quartz) | Starts check-ins, escalation and release by time; the waiting period starts on the k-th distinct confirmation |
 
 ### Use cases and requirements
 
@@ -73,14 +73,14 @@ The diagrams show what each actor can do in the platform. The actors are the sam
 | UC-09 Answer check-in ("Are you OK?") | Owner | FR-NOT-02, FR-NOT-03, FR-ACT-03, FR-ACT-16 |
 | UC-10 Cancel activation | Owner | FR-OWN-09, FR-ACT-10 |
 | UC-11 Accept or decline invitation | Invited person | FR-INV-04, FR-INV-05, FR-INV-06, FR-TRU-01, FR-TRU-06, FR-CRY-03a, FR-CRY-11 |
-| UC-12 Check own key | Trusted person | FR-TRU-07, FR-CRY-10 |
+| UC-12 Check own key | Invited person (trusted person or recipient) | FR-TRU-07, FR-CRY-10 |
 | UC-13 Confirm event | Trusted person | FR-TRU-03, FR-TRU-04, FR-ACT-08, FR-CRY-06 |
 | UC-14 Withdraw confirmation | Trusted person | FR-TRU-05, FR-ACT-12 |
 | UC-15 Open released capsule | Recipient | FR-TRU-08, FR-CRY-07, FR-ACT-11 |
 | UC-16 Download file from capsule (extends UC-15) | Recipient | FR-TRU-09 |
 | UC-17 Send check-ins and escalate | System timer | FR-ACT-02, FR-ACT-03, FR-ACT-07, FR-ACT-16, FR-NOT-02, FR-NOT-03, FR-NOT-09 |
 | UC-18 Start activation and notify trusted persons | System timer | FR-ACT-03, FR-ACT-06, FR-NOT-04 |
-| UC-19 Start waiting period (k confirmations) | System timer / Trusted person (via UC-13) | FR-ACT-06, FR-ACT-08, FR-ACT-09 |
+| UC-19 Start waiting period (k confirmations) | Trusted person (via UC-13, on the k-th distinct confirmation) | FR-ACT-06, FR-ACT-08, FR-ACT-09 |
 | UC-20 Release capsules and notify recipients | System timer | FR-ACT-06, FR-ACT-11, FR-ACT-15, FR-NOT-06 |
 | UC-21 Request key checks | System timer | FR-CRY-10, FR-TRU-07, FR-NOT-05 |
 
