@@ -58,7 +58,7 @@ Full responsibility matrix: `docs/10-project-management.md`.
 | UX prototype and API examples | [docs/08-prototype.md](docs/08-prototype.md), [prototype/](prototype/) | Done for pre-defense 1: Figma mockups (8 scenarios), OpenAPI draft |
 | Verification and evaluation plan | [docs/09-verification-plan.md](docs/09-verification-plan.md) | Done for pre-defense 1 |
 | Project management and risks | [docs/10-project-management.md](docs/10-project-management.md) | Done for pre-defense 1 |
-| Supervisor feedback | `docs/11-supervisor-feedback.md` | Pending: drafts to be reviewed by the supervisor |
+| Supervisor feedback | [docs/11-supervisor-feedback.md](docs/11-supervisor-feedback.md) | Done for pre-defense 1: round 1 (24.10.2026) processed; follow-up tasks DIP-26 and DIP-27 are planned for 07.11.2026 |
 | Source code and tests | [src/](src/), [tests/](tests/) | Not started (milestone M8) |
 
 ## Selected technologies (preliminary, justified in [docs/05](docs/05-technology-comparison.md))

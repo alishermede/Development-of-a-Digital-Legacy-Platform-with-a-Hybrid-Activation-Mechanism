@@ -128,8 +128,6 @@
 | FR-NOT-02 | A check-in message shall be an "Are you OK?" question with a single action to answer: a button in Telegram, or a link in SMS that opens a page with an "I'm OK" button (FR-ACT-16). | Must | PRP, INT (F-05) | One tap on the Telegram button, or one tap on the link and one on the page button, is enough to answer; the answer returns the state to ACTIVE (FR-ACT-03). |
 | FR-NOT-03 | A check-in link in SMS shall work as specified in FR-ACT-16 (single-use token of at least 128 bits, "I'm OK" button, only during the check-in stage). A used, expired or foreign link shall show a clear message in the user's language. | Must | LIT | Opening the link alone does not change the state (FR-ACT-16); a used or expired link shows a clear message in Kazakh or Russian. |
 | FR-NOT-04 | When the process moves to AWAITING CONFIRMATION, every trusted person shall be notified in Telegram. If Telegram delivery fails (for example, the bot is blocked), an SMS is sent instead. | Must | PRP | Given two accepted trusted persons, one with successful Telegram delivery and one whose bot is blocked, both are notified within 5 minutes: Telegram for the first and SMS fallback for the second. |
-
-| Process started (AWAITING CONFIRMATION) | Trusted persons | Telegram (SMS if Telegram delivery fails, e.g. the bot is blocked) |
 | FR-NOT-05 | The owner shall be notified on every configured channel when a trusted person confirms, withdraws or declines, and when the key check of a trusted person fails (FR-CRY-10). | Must | PRP | Each of the four events produces a notification in the owner's channels. |
 | FR-NOT-06 | Recipients shall be notified when a capsule becomes available to them: after the waiting period for capsules without a delay, and at the end of the delay for the others (FR-ACT-11, FR-ACT-15). The notification contains only the owner's name and a link to the bot. | Must | PRP | The message contains no capsule content, title or key; a capsule with a delay of 30 days produces its notification 30 days after the waiting period ends. |
 | FR-NOT-07 | Notifications shall never contain capsule content, capsule titles, keys or shares. | Must | PRP, LIT | Review of all templates finds none of these values. |
@@ -137,6 +135,19 @@
 | FR-NOT-09 | The owner shall choose the time of day for check-ins (default 10:00 in the owner's time zone). The repeated and final check-ins (FR-ACT-03) are sent at the same time of day. | Should | ASM | With 18:00 chosen, the scheduled, repeated and final check-ins are sent at 18:00; with no choice, at 10:00; the schedule of FR-ACT-03 (day 0, +2, +1) does not change. |
 | FR-NOT-10 | The owner shall be able to pause check-ins ("vacation mode") for up to 60 days. | Could | INT (F-07) | During the pause no check-in is sent; the process resumes automatically at the end. |
 | FR-NOT-11 | WhatsApp as an additional channel for owner check-ins and notifications. Not planned for this version: WhatsApp has no equivalent of the Mini App with protected key storage, so trusted persons and recipients cannot use it. It stays in the list of future improvements; for notifications it is reconsidered in section 5.7 (DIP-13). | Won't | INT (F-05, F-16) | Not applicable in this version. |
+| FR-NOT-12 | Every notification attempt shall be recorded with the event, receiver, channel, time and result (sent, delivered, failed). A check-in counts as delivered when at least one channel confirms it (a delivery report of the SMS gateway or an acknowledgement of the Telegram API). | Must | ASM | The notification log of a test run shows one record per attempt and channel, with a result; a check-in with one confirmed channel is marked as delivered. |
+| FR-NOT-13 | A check-in that could not be delivered on any channel after the retries of NFR-REL-02 shall not be counted as missed. The system repeats it at the next check-in time, writes the failure to the log, warns the owner on the remaining configured channel (for example, email) and in the cabinet at the next login, and never moves the process to AWAITING CONFIRMATION because of it. | Must | ASM | With the SMS and Telegram test doubles failing for 60 days, the process stays ACTIVE, no trusted person is notified, the failure is logged and the warning is sent by email. |
+
+### 6.7.1 Delivery reliability
+
+A check-in that never reaches the owner looks the same as a check-in the owner ignored. For this reason the reliability of notifications is treated as a requirement of the activation mechanism, not as a technical detail. The rules are:
+
+- Timers survive a server restart and fire within 1 hour of the due time (NFR-REL-01).
+- A failure of one channel does not block the others; every failed delivery is retried at least 3 times (NFR-REL-02).
+- Every attempt is logged, and "delivered" has a defined meaning (FR-NOT-12).
+- A check-in that was not delivered on any channel is **not** counted as missed (FR-NOT-13). This is a deliberate trade-off: a long failure of all channels delays the start of the process instead of starting it by mistake. The same trade-off is recorded for E9 in section 9.4.
+
+The complete specification (matrix of event, primary channel, fallback and behavior when all channels fail; retry intervals; monitoring of the SMS gateway) is the deliverable of task DIP-27. The tests are the metrics M8 and M12 and the scenario E10 in section 9.
 
 Notification catalogue (FR-NOT-01):
 
@@ -144,7 +155,7 @@ Notification catalogue (FR-NOT-01):
 |---|---|---|
 | Invitation | Trusted person, recipient | SMS (+ Telegram from the owner, FR-INV-03) |
 | Scheduled check-in, repeated check-in, final check-in | Owner | SMS, Telegram |
-| Process started (AWAITING CONFIRMATION) | Trusted persons | Telegram (SMS if the bot has not been started) |
+| Process started (AWAITING CONFIRMATION) | Trusted persons | Telegram (SMS if Telegram delivery fails, e.g. the bot is blocked, FR-NOT-04) |
 | Confirmation received, withdrawn, declined; key check failed | Owner | SMS, Telegram, email |
 | Waiting period started and every 24 hours | Owner | SMS, Telegram, email (FR-ACT-09) |
 | Cancellation | Trusted persons | Telegram |
