@@ -5,7 +5,9 @@
 
 Bachelor diploma project, Software Engineering, Astana IT University, 2026–2027.
 
-A web platform where a person decides in advance who receives their important digital data — account credentials, instructions ("where the documents are", "which subscriptions to cancel"), files and photos, personal messages and business access (domain, hosting, business social media) — if something happens to them. Data is encrypted on the owner's device; the server stores only ciphertext and cannot read it. Access is released only by a **hybrid activation mechanism** that combines missed check-ins, confirmation by *k* of *n* trusted persons (Shamir's Secret Sharing; the owner chooses *k*, 2 by default) and a waiting period with the right to cancel. Trusted persons and recipients need no registration: they take part through a Telegram bot and Mini App, and their keys never leave their phones.
+A digital legacy platform that transfers the owner's encrypted data to chosen recipients only after a confirmed event, without trust in the provider and with protection against false activation.
+
+The owner decides in advance who receives their important digital data — account credentials, instructions ("where the documents are", "which subscriptions to cancel"), files and photos, personal messages and business access (domain, hosting, business social media) — if something happens to them. Data is encrypted on the owner's device; the server stores only ciphertext and cannot read it. Access is released only by a **hybrid activation mechanism** that combines missed check-ins, confirmation by *k* of *n* trusted persons (Shamir's Secret Sharing; the owner chooses *k*, 2 by default) and a waiting period with the right to cancel. Trusted persons and recipients need no registration: they take part through a Telegram bot and Mini App, and their keys never leave their phones.
 
 ## Problem statement
 
@@ -76,6 +78,9 @@ Full responsibility matrix: `docs/10-project-management.md`.
 | Infrastructure | Docker, GitHub Actions |
 
 ## Links
+
+- Additional interactive prototype (Figma Make, AI-assisted): [Capsule](https://www.figma.com/make/4u0Ub4pIQ9f5iPrhTgmakU/Capsule?t=KBUNM5ZIrf0FA1Tj-1). This is a UI demonstration; it is not evidence of implemented encryption, legal compliance or reliable delivery.
+- [Kazakhstan legal analysis](docs/12-legal-analysis.md) and [notification reliability specification](docs/13-notification-reliability.md), prepared 24.10.2026.
 
 - **YouTrack project:** <https://diplom-digital-legacy.youtrack.cloud/projects/DIP>
 - **Documentation (Word, formatted version):** https://astanait-my.sharepoint.com/:w:/g/personal/242551_astanait_edu_kz/IQA0Auwqv1QSS4dFHn9q1cK0AbuxJlQ6kyQyDXWBEQA3vsM?e=3PXiQ7
