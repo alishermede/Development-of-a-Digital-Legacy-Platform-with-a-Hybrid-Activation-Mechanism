@@ -60,7 +60,7 @@ Full responsibility matrix: `docs/10-project-management.md`.
 | UX prototype and API examples | [docs/08-prototype.md](docs/08-prototype.md), [prototype/](prototype/) | Done for pre-defense 1: Figma mockups (8 scenarios), OpenAPI draft |
 | Verification and evaluation plan | [docs/09-verification-plan.md](docs/09-verification-plan.md) | Done for pre-defense 1 |
 | Project management and risks | [docs/10-project-management.md](docs/10-project-management.md) | Done for pre-defense 1 |
-| Supervisor feedback | [docs/11-supervisor-feedback.md](docs/11-supervisor-feedback.md) | Round 1 processed; DIP-26 legal analysis and DIP-27 notification specification prepared for review on 24.10.2026 before 18:00 (UTC+5) |
+| Supervisor feedback | [docs/11-supervisor-feedback.md](docs/11-supervisor-feedback.md) | Done for pre-defense 1: round 1 (24.10.2026) processed; legal analysis ([docs/12](docs/12-legal-analysis.md)) and notification specification ([docs/13](docs/13-notification-reliability.md)) prepared; expert interview and live tests pending |
 | Source code and tests | [src/](src/), [tests/](tests/) | Application implementation pending (M8); standalone model and recorded results available |
 
 ## Selected technologies (preliminary, justified in [docs/05](docs/05-technology-comparison.md))
@@ -81,7 +81,6 @@ Full responsibility matrix: `docs/10-project-management.md`.
 
 - Additional interactive prototype (Figma Make, AI-assisted): [Capsule](https://www.figma.com/make/4u0Ub4pIQ9f5iPrhTgmakU/Capsule?t=KBUNM5ZIrf0FA1Tj-1). This is a UI demonstration; it is not evidence of implemented encryption, legal compliance or reliable delivery.
 - [Kazakhstan legal analysis](docs/12-legal-analysis.md) and [notification reliability specification](docs/13-notification-reliability.md), prepared 24.10.2026.
-
 - **YouTrack project:** <https://diplom-digital-legacy.youtrack.cloud/projects/DIP>
 - **Documentation (Word, formatted version):** https://astanait-my.sharepoint.com/:w:/g/personal/242551_astanait_edu_kz/IQA0Auwqv1QSS4dFHn9q1cK0AbuxJlQ6kyQyDXWBEQA3vsM?e=3PXiQ7
 - **Documentation index:** [docs/](docs/)
