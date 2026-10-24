@@ -44,21 +44,22 @@ Full responsibility matrix: `docs/10-project-management.md`.
 
 ## Current status
 
-**Stage: analysis and design (pre-defense 1, 24 October 2026).** No runnable code yet — see the [project management document](docs/10-project-management.md) for milestones.
+**Stage: analysis and design (pre-defense 1, 24 October 2026).** All analysis and design deliverables for pre-defense 1 are in the repository. No runnable code yet: implementation starts with milestone M8 (see the [project management document](docs/10-project-management.md)).
 
 | Deliverable | Location | Status |
 |---|---|---|
-| Project proposal and scope | [docs/01-proposal.md](docs/01-proposal.md) | In progress |
-| Evidence of relevance (interviews) | [docs/02-relevance-evidence/](docs/02-relevance-evidence/) | In progress |
-| Literature review | [docs/03-literature-review.md](docs/03-literature-review.md) | Done |
-| Existing system comparison | [docs/04-existing-systems.md](docs/04-existing-systems.md) | In progress |
-| Technology comparison | [docs/05-technology-comparison.md](docs/05-technology-comparison.md) | In progress |
-| Requirements and acceptance criteria | [docs/06-requirements.md](docs/06-requirements.md) | In progress |
-| Architecture and diagrams | [docs/07-architecture.md](docs/07-architecture.md), [diagrams/](diagrams/) | In progress |
-| UX prototype and API examples | [docs/08-prototype.md](docs/08-prototype.md), [prototype/](prototype/) | In progress |
-| Verification and evaluation plan | [docs/09-verification-plan.md](docs/09-verification-plan.md) | In progress |
-| Project management and risks | [docs/10-project-management.md](docs/10-project-management.md) | In progress |
-| Supervisor feedback | [docs/11-supervisor-feedback.md](docs/11-supervisor-feedback.md) | In progress |
+| Project proposal and scope | [docs/01-proposal.md](docs/01-proposal.md) | Done for pre-defense 1 |
+| Evidence of relevance (interviews) | [docs/02-relevance-evidence/](docs/02-relevance-evidence/) | Done for pre-defense 1: 3 interviews; expert interview planned (M7) |
+| Literature review | [docs/03-literature-review.md](docs/03-literature-review.md) | Done for pre-defense 1 |
+| Existing system comparison | [docs/04-existing-systems.md](docs/04-existing-systems.md) | Done for pre-defense 1 |
+| Technology comparison | [docs/05-technology-comparison.md](docs/05-technology-comparison.md) | Done for pre-defense 1 |
+| Requirements and acceptance criteria | [docs/06-requirements.md](docs/06-requirements.md) | Done for pre-defense 1 |
+| Architecture and diagrams | [docs/07-architecture.md](docs/07-architecture.md), [diagrams/](diagrams/) | Done for pre-defense 1: context, use case, component (draft) and state machine diagrams |
+| UX prototype and API examples | [docs/08-prototype.md](docs/08-prototype.md), [prototype/](prototype/) | Done for pre-defense 1: Figma mockups (8 scenarios), OpenAPI draft |
+| Verification and evaluation plan | [docs/09-verification-plan.md](docs/09-verification-plan.md) | Done for pre-defense 1 |
+| Project management and risks | [docs/10-project-management.md](docs/10-project-management.md) | Done for pre-defense 1 |
+| Supervisor feedback | `docs/11-supervisor-feedback.md` | Pending: drafts to be reviewed by the supervisor |
+| Source code and tests | [src/](src/), [tests/](tests/) | Not started (milestone M8) |
 
 ## Selected technologies (preliminary, justified in [docs/05](docs/05-technology-comparison.md))
 
@@ -84,10 +85,10 @@ Full responsibility matrix: `docs/10-project-management.md`.
 
 ```
 docs/            proposal, evidence, literature review, comparisons, requirements, architecture, plans
-  adr/           architecture decision records
   submissions/   pre-defense submission summaries
+  usability/     usability test materials
 diagrams/
-  src/           editable diagram sources (PlantUML / draw.io)
+  src/           editable diagram sources (PlantUML)
   export/        readable exports (PNG / SVG)
 prototype/
   mockups/       exported mockup screens
