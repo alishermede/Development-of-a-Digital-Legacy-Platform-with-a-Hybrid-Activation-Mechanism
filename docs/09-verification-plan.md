@@ -26,6 +26,7 @@ Cryptographic code uses only established libraries (NFR-SEC-02). Its tests there
 | ID | Metric | Target | How it is measured | Requirements |
 |---|---|---|---|---|
 | M1 | False activation rate: data released while the owner is alive and the trusted persons are honest | 0 in all scenarios of section 9.4 | Protocol simulation; count of scenarios that reach RELEASED although the owner is alive | FR-ACT-07, FR-ACT-08, FR-ACT-10 |
+| M1b | Share of false activations compared with the baseline in a randomized simulation | Proposed system not higher than the baseline in every cell of the table below; 0 with *p* = 0 | Simulation of 1,000 living owners per cell (fixed random seed): absence of 7, 14, 30 or 60 days; each of *n* = 3 trusted persons confirms by mistake with probability *p* = 0, 0.05 or 0.2; *k* = 2; check-in interval 7 days; waiting period 7 days; the owner returns after the absence and cancels if the waiting period is still running. Results are compared with the formula in the note after the table. | FR-ACT-03, 04, 07, 10 |
 | M2 | Access to content with fewer than *k* shares or with a full copy of the server database | 0 successful attempts | Attempts to reconstruct the key from every combination of *k*−1 shares; decryption attempts with the database dump and server logs only | FR-CRY-04, NFR-SEC-01 |
 | M3 | Detection of a substituted public key | 100% of substitutions detected when safety codes are compared | Security test: the server returns an attacker's key; the code shown to the owner differs from the code in the Mini App | FR-CRY-11 |
 | M4 | Key reconstruction from *k* shares | 100% success in 1,000 random runs for every pair (*k*, *n*) with 2 ≤ *k* ≤ *n* ≤ 5 | Unit test with random keys | FR-CRY-04, FR-CRY-07 |
@@ -36,14 +37,21 @@ Cryptographic code uses only established libraries (NFR-SEC-02). Its tests there
 | M9 | Check-in token misuse | 0 accepted answers from a link preview, a used token or an expired token | Security test: GET without the button press, repeated POST, POST after expiry | FR-ACT-16 |
 | M10 | Encryption and splitting of a 10 MB capsule | ≤ 3 s (median of 10 runs) | Benchmark page in Chrome on a mid-range laptop | NFR-PERF-01 |
 | M11 | Argon2id key derivation | ≤ 2 s (median of 10 runs) | Benchmark page in the mobile browser and in the Mini App on a mid-range Android phone and an iPhone | NFR-PERF-02 |
+| M12 | Unsafe progress caused by notification transport failure | 0 outage-caused escalations or releases | E10/E11 and NR-02/03/04/06/07 with controllable clock, transient/permanent provider doubles and restart | FR-NOT-12, FR-NOT-13, FR-NOT-14, NFR-REL-01, NFR-REL-02 |
+
+M1 counts false releases only in the stated living-owner scenarios with honest trustees. E3 has a deceased owner; E5 is an adversarial collusion case whose cancellation outcome assumes reachable owner channels and an owner who actually cancels. No zero-false-release guarantee is made for an unreachable owner and k colluding trustees. The one-hour final reply window is rounded away in day-granularity M1b; exact timer tests must include it.
 
 M1–M3 and M5 carry the main claim of the project; the others check that the mechanism works reliably and fast enough.
+
+**Expected results of M1b.** With a check-in interval of 7 days the process starts after 10 days of silence (FR-ACT-03). The baseline releases the data on day 10, so it falsely releases in every run with an absence of 14, 30 or 60 days and does not release after 7 days. In the proposed system the earliest release is on day 17 (10 days plus the waiting period), so only absences of 30 and 60 days can end in a false release, and only when at least *k* of the trusted persons confirm by mistake. If mistakes are independent, this probability is 3*p*²(1 − *p*) + *p*³: 0 for *p* = 0, 0.725% for *p* = 0.05 and 10.4% for *p* = 0.2. Report the simulated proportions with 95% Wilson intervals; finite-sample deviation is expected and is not by itself proof of an implementation defect. Investigate discrepancies beyond the specified sampling uncertainty. The values of *p* and the absence lengths are the project's own assumptions (ASM): they are used to compare the two designs, not to predict real behavior, and the results are reported as a sensitivity analysis.
+
+**M2 (unauthorized access)** is measured by two tests: (1) for every combination of *k* − 1 shares with 2 ≤ *k* ≤ *n* ≤ 5, the key is not reconstructed and the capsule is not decrypted; (2) a full copy of the server database and logs does not allow decryption of any capsule (scenario E6). **M10 and M11** measure the time targets of NFR-PERF-01 and NFR-PERF-02.
 
 ## 9.3 Baseline solution
 
 The baseline is a **simple dead man's switch**: data is released to the recipients after a fixed time of silence, with no trusted persons and no waiting period. This is how the timer-only services in section 4 (Cipherwill, Just In Case) and the formal dead man's switch in the literature (section 3.2.5) decide that the event happened.
 
-For a fair comparison the baseline is obtained **from the same Activation Engine** with a different configuration: no confirmation step (*k* = 0) and a waiting period of 0 days. Both variants then share the same code for check-ins, escalation, timers and notifications, so the difference in results comes only from the rules of the hybrid activation and not from different implementations. The baseline configuration exists only in the test environment.
+For a fair comparison the baseline is obtained **from the same Activation Engine** with a different configuration: no confirmation step (*k* = 0) and a waiting period of 0 days. Both variants then share the same code for check-ins, escalation, timers and notifications, so the difference in results comes only from the rules of the hybrid activation and not from different implementations. The baseline configuration exists only in the test environment. The cryptographic threshold is never zero: for baseline delivery only, the owner wraps a capsule key directly for each recipient and the server holds that encrypted envelope until the timer gate. E3 must assert that the recipient can decrypt, not merely that a state says RELEASED. These baseline envelopes never enter the proposed trustee protocol. Both variants share the same delivery-fault guard; an extra unsafe timer-only variant may be reported separately, but cannot be presented as an isolated comparison of k-of-n activation.
 
 | Parameter | Baseline | Proposed system |
 |---|---|---|
@@ -53,6 +61,8 @@ For a fair comparison the baseline is obtained **from the same Activation Engine
 | Who can read the data | Recipients only (same encryption) | Recipients only |
 
 ## 9.4 Evaluation scenarios and measurement conditions
+
+M1b is a sensitivity experiment separate from deterministic E1-E11: use a published fixed seed, 1,000 paired synthetic living-owner runs per absence/probability cell, record the absence distribution and trustee-independence assumption as ASM, and report false-release counts/percentages for each variant with uncertainty. The durations 7/14/30/60 days are conditional cells, not a measured population distribution. Initial transport is successful in those cells; outages are isolated in E10/E11.
 
 Each scenario is run in the protocol simulation for both configurations with a check-in interval of 7 days, *k* = 2 of *n* = 3 and a waiting period of 7 days.
 
@@ -67,6 +77,8 @@ Each scenario is run in the protocol simulation for both configurations with a c
 | E7 | Malicious server substitutes a trusted person's public key | Not applicable | Detected by the safety code comparison | M3 |
 | E8 | Server restarts during the escalation and the waiting period | Timers fire once | Timers fire once | M6 |
 | E9 | Someone holding the owner's phone keeps answering "I'm OK" after the owner's death | Release delayed indefinitely | Release delayed as well, but the person cannot read the data | Limitation, recorded in the threat model (NFR-SEC-03) |
+| E10 | Living owner; SMS and Telegram fail for 60 days | Shared delivery guard pauses escalation; no outage-caused release | Same guard; persist delivery fault, email warning only if available | M12, M1 |
+| E11 | All owner channels fail during WAITING PERIOD, including across a restart; then recover | No waiting period; not applicable | Pause release, reject old deadline, deliver fresh notice and restart full waiting period; cancellation still succeeds | M12, M6, FR-NOT-14 |
 
 E9 is a limitation shared by both designs. It is reported openly: the proposed system protects the confidentiality of the data, but anybody who controls the owner's check-in channels can delay the release.
 
@@ -78,10 +90,12 @@ E9 is a limitation shared by both designs. It is reported openly: the proposed s
 | Clock | Injected clock in the protocol simulation; real time in the end-to-end tests |
 | Browsers | Latest stable Chrome and Safari at the time of the measurement; versions are recorded with the results |
 | Devices | One mid-range Android phone and one iPhone for NFR-PERF-02 and the Mini App; models are recorded with the results |
-| Repetitions | Performance: 10 runs, median reported; M4: 1,000 random runs per (*k*, *n*); scenarios E1–E9: each run once per configuration (the simulation is deterministic) |
+| Repetitions | Performance: 10 runs, median reported; M4: 1,000 random runs per (*k*, *n*); scenarios E1–E11: each run once per configuration (the simulation is deterministic); M1b: 1,000 runs per cell with a fixed random seed |
 | Data | Synthetic capsules and test accounts only; no real personal data |
 
-Results are reported per metric as target, result and verdict (met, not met, not measurable), in the same format as the usability report (section 9.5). The comparison with the baseline (E1–E9) is the main evidence for the aim of the project.
+Standalone design-model results are in [verification/pre-defense-model-results.md](verification/pre-defense-model-results.md), generated by `node tests/simulation/pre-defense-model.cjs`. They validate the specified assumptions and guards only; they are not execution of a Spring Boot/Quartz/gateway implementation and do not satisfy M2/M5/M6/M8/M10/M11 by themselves.
+
+Results are reported per metric as target, result and verdict (met, not met, not measurable), in the same format as the usability report (section 9.5). The comparison with the baseline (E1–E11 and M1b) is the main evidence for the aim of the project.
 
 ## 9.5 Usability evaluation
 

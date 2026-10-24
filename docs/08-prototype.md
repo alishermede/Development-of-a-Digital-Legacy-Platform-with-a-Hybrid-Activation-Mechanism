@@ -7,6 +7,8 @@
 
 ## 8.1 Mockup scenarios
 
+Additional interactive prototype: [Capsule — Figma Make](https://www.figma.com/make/4u0Ub4pIQ9f5iPrhTgmakU/Capsule?t=KBUNM5ZIrf0FA1Tj-1), supplied by Aibyn on 24.10.2026. It was created with AI assistance and complements the design frames/PNG exports below. It demonstrates interface intent; it is not evidence of implemented cryptography, real Telegram/SMS delivery or measured security/performance. The public-view access and exact scenario coverage must be checked before the committee demonstration.
+
 Figma prototype: *https://www.figma.com/design/TUcjm1m3MKVUpHNSPEMRR0/Mura?node-id=6-2&t=i2iZQjowyfeHM3Ev-1*
 
 PNG exports: `prototype/mockups/` (file names in the table below).

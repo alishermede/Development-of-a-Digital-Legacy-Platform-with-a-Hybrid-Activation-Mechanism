@@ -42,17 +42,25 @@ None of these solutions combines **activity check-ins, confirmation by several i
 
 ## 1.5 Aim
 
-To develop a platform for transferring digital legacy that releases the owner's encrypted data to chosen recipients only after a hybrid activation — missed check-ins, confirmation by *k* of *n* trusted persons using Shamir's Secret Sharing, and a waiting period with the right to cancel — so that only the intended recipients can ever read the data, and the number of people required to start the release is chosen by the owner.
+To develop a digital legacy platform that transfers the owner's encrypted data to chosen recipients only after a confirmed event, without trust in the provider and with protection against false activation.
+
+How the aim is reached (client-side encryption, hybrid activation with *k*-of-*n* confirmation by Shamir's Secret Sharing, waiting period with cancellation) is described by objectives 3–5, and how it is checked by objective 7.
 
 ## 1.6 Objectives
 
-1. Analyse existing digital legacy solutions and literature on secret sharing, client-side encryption and activation protocols, and identify their limitations.
-2. Collect and confirm requirements through 3–5 interviews with potential users and domain experts.
-3. Design a cryptographic protocol and threat model that define who holds which key or share and when data can be decrypted.
-4. Implement client-side encryption (AES-256-GCM, Argon2id) and *k*-of-*n* key splitting with Shamir's Secret Sharing, including owner access recovery with a recovery key.
-5. Implement the hybrid activation mechanism as a state machine (check-ins → trustee confirmation → waiting period → release or cancellation) with check-ins via SMS and Telegram and notifications via SMS, Telegram and email.
-6. Develop a web application for owners and a Telegram bot with Mini App for trusted persons and recipients (no registration), in Kazakh and Russian.
-7. Evaluate the system against a simple dead man's switch baseline on false activation, resistance to unauthorized access and usability (SUS ≥ 70).
+| # | Objective | Responsible | Reviewer | Measurable result / evidence |
+|---|---|---|---|---|
+| 1 | Analyse digital legacy solutions and literature on secret sharing, encryption and activation. | Aibyn Samat | Alisher Medebaev | Critical comparison, sources and limitations in sections 3-5 (DIP-7/8/9/10; cryptographic verification DIP-11 by Alisher). |
+| 2 | Collect and trace requirements through 3-5 user interviews and expert input where available. | Aibyn Samat | Alisher Medebaev | I-01 to I-03 and findings-to-requirements table; missing expert interview explicitly recorded (DIP-4/5/6). |
+| 3 | Design the cryptographic protocol, key lifecycle and threat model. | Alisher Medebaev | Aibyn Samat | Protocol, trust boundaries and adversarial test cases; owner/recipient key-authentication limits stated (DIP-14/18). |
+| 4 | Implement client-side AES-256-GCM, Argon2id, threshold sharing and owner recovery. | Alisher Medebaev | Aibyn Samat | M2/M4/M5; k-share recovery and rejection with fewer than k shares; implementation evidence remains pending. |
+| 5 | Implement hybrid activation as a state machine with check-ins, k distinct confirmations, cancellable waiting period and per-capsule release. | Alisher Medebaev | Aibyn Samat | E1-E11 and audited valid/invalid transitions; notification policy is a separate objective 9. |
+| 6 | Develop the owner web application and Telegram bot/Mini App with Kazakh and Russian interfaces. | Aibyn Samat | Alisher Medebaev | Scenarios S1-S8; SUS >= 70 and task/time targets in section 9.5; live implementation and evaluation remain pending. |
+| 7 | Evaluate false activation, confidentiality, performance and usability against a timer-only baseline. | Alisher Medebaev (protocol/performance); Aibyn Samat (usability) | Each reviews the other's results | M1: no false releases in specified honest-trustee living-owner cases; M1b: 1,000 synthetic lives per assumption cell with paired baseline/system percentages; M2: every k-1 subset for 2 <= k <= n <= 5 plus stolen DB; M5: zero canary leaks; M10: 10 MB encryption/sharing median <= 3 s; M11: Argon2id median <= 2 s, 10 runs and recorded devices. |
+| 8 | Analyse Kazakhstan personal-data and inheritance-law requirements and decide data placement. | Aibyn Samat | Alisher Medebaev | DIP-26: norm-to-design table, Kazakhstan hosting Must decision, consent/transfer gates and expert-interview limitation in section 12, prepared 24.10.2026. |
+| 9 | Specify and verify notification reliability independently from the activation algorithm. | Aibyn Samat (specification); Alisher Medebaev (M6/M8/M12 integration tests) | Each reviews the other's results | DIP-27: event/channel/fallback matrix, acknowledgement semantics, 3 transient retries, persistent jobs and all-channel failure cases NR-01 to NR-08 in section 13. |
+
+Current deadline for the legal-analysis and reliability **documents**: 24.10.2026, 18:00 Asia/Qyzylorda (UTC+5). Working-system measurements are future implementation evidence and are not represented as completed by this deadline.
 
 ## 1.7 Expected outcomes
 
