@@ -158,4 +158,6 @@ There is one process per owner (FR-ACT-14). Every transition and the timer that 
 
 After RELEASED, each capsule follows its own release delay (FR-ACT-15): **LOCKED → AVAILABLE** when the delay is 0, otherwise **LOCKED → SCHEDULED → AVAILABLE**. A recipient is notified when a capsule becomes AVAILABLE (FR-NOT-06) and sees a SCHEDULED capsule only as unavailable until its date (FR-TRU-08).
 
+Notification transition guards: [section 13](13-notification-reliability.md) applies in addition to the table. A check-in cannot be missed without confirmed transport; total check-in-channel failure holds ACTIVE/CHECK-IN PENDING with a persisted delivery-fault flag. WAITING PERIOD pauses when every permitted owner channel fails; recovery delivers a fresh notice and restarts the full waiting period (FR-NOT-13/14). Existing diagram transitions are conditional on those guards; the delivery fault is metadata, not an extra activation state.
+
 Any transition not listed in the table is rejected. In particular, an SMS check-in link cannot leave WAITING PERIOD (FR-ACT-16), and missed check-ins can never lead to RELEASED without *k* confirmations (FR-ACT-07).

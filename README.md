@@ -5,7 +5,9 @@
 
 Bachelor diploma project, Software Engineering, Astana IT University, 2026–2027.
 
-A web platform where a person decides in advance who receives their important digital data — account credentials, instructions ("where the documents are", "which subscriptions to cancel"), files and photos, personal messages and business access (domain, hosting, business social media) — if something happens to them. Data is encrypted on the owner's device; the server stores only ciphertext and cannot read it. Access is released only by a **hybrid activation mechanism** that combines missed check-ins, confirmation by *k* of *n* trusted persons (Shamir's Secret Sharing; the owner chooses *k*, 2 by default) and a waiting period with the right to cancel. Trusted persons and recipients need no registration: they take part through a Telegram bot and Mini App, and their keys never leave their phones.
+A digital legacy platform that transfers the owner's encrypted data to chosen recipients only after a confirmed event, without trust in the provider and with protection against false activation.
+
+The owner decides in advance who receives their important digital data — account credentials, instructions ("where the documents are", "which subscriptions to cancel"), files and photos, personal messages and business access (domain, hosting, business social media) — if something happens to them. Data is encrypted on the owner's device; the server stores only ciphertext and cannot read it. Access is released only by a **hybrid activation mechanism** that combines missed check-ins, confirmation by *k* of *n* trusted persons (Shamir's Secret Sharing; the owner chooses *k*, 2 by default) and a waiting period with the right to cancel. Trusted persons and recipients need no registration: they take part through a Telegram bot and Mini App, and their keys never leave their phones.
 
 ## Problem statement
 
@@ -44,7 +46,7 @@ Full responsibility matrix: `docs/10-project-management.md`.
 
 ## Current status
 
-**Stage: analysis and design (pre-defense 1, 24 October 2026).** All analysis and design deliverables for pre-defense 1 are in the repository. No runnable code yet: implementation starts with milestone M8 (see the [project management document](docs/10-project-management.md)).
+**Stage: analysis and design (pre-defense 1, 24 October 2026).** All analysis and design deliverables for pre-defense 1 are in the repository. Application implementation starts with milestone M8; a standalone pre-defense model is available in tests/simulation (see the [project management document](docs/10-project-management.md)).
 
 | Deliverable | Location | Status |
 |---|---|---|
@@ -58,8 +60,8 @@ Full responsibility matrix: `docs/10-project-management.md`.
 | UX prototype and API examples | [docs/08-prototype.md](docs/08-prototype.md), [prototype/](prototype/) | Done for pre-defense 1: Figma mockups (8 scenarios), OpenAPI draft |
 | Verification and evaluation plan | [docs/09-verification-plan.md](docs/09-verification-plan.md) | Done for pre-defense 1 |
 | Project management and risks | [docs/10-project-management.md](docs/10-project-management.md) | Done for pre-defense 1 |
-| Supervisor feedback | [docs/11-supervisor-feedback.md](docs/11-supervisor-feedback.md) | Done for pre-defense 1: round 1 (24.10.2026) processed; follow-up tasks DIP-26 and DIP-27 are planned for 07.11.2026 |
-| Source code and tests | [src/](src/), [tests/](tests/) | Not started (milestone M8) |
+| Supervisor feedback | [docs/11-supervisor-feedback.md](docs/11-supervisor-feedback.md) | Round 1 processed; DIP-26 legal analysis and DIP-27 notification specification prepared for review on 24.10.2026 before 18:00 (UTC+5) |
+| Source code and tests | [src/](src/), [tests/](tests/) | Application implementation pending (M8); standalone model and recorded results available |
 
 ## Selected technologies (preliminary, justified in [docs/05](docs/05-technology-comparison.md))
 
@@ -76,6 +78,9 @@ Full responsibility matrix: `docs/10-project-management.md`.
 | Infrastructure | Docker, GitHub Actions |
 
 ## Links
+
+- Additional interactive prototype (Figma Make, AI-assisted): [Capsule](https://www.figma.com/make/4u0Ub4pIQ9f5iPrhTgmakU/Capsule?t=KBUNM5ZIrf0FA1Tj-1). This is a UI demonstration; it is not evidence of implemented encryption, legal compliance or reliable delivery.
+- [Kazakhstan legal analysis](docs/12-legal-analysis.md) and [notification reliability specification](docs/13-notification-reliability.md), prepared 24.10.2026.
 
 - **YouTrack project:** <https://diplom-digital-legacy.youtrack.cloud/projects/DIP>
 - **Documentation (Word, formatted version):** https://astanait-my.sharepoint.com/:w:/g/personal/242551_astanait_edu_kz/IQA0Auwqv1QSS4dFHn9q1cK0AbuxJlQ6kyQyDXWBEQA3vsM?e=3PXiQ7
@@ -103,5 +108,5 @@ config/          configuration examples (no secrets)
 
 ## Setup, execution and testing
 
-Not applicable yet: the project is in the analysis and design stage. Instructions will be added here as soon as runnable code is available.
+Run the standalone model with `node tests/simulation/pre-defense-model.cjs`. See [tests/README.md](tests/README.md) for scope and [recorded model results](docs/verification/pre-defense-model-results.md). Application setup will be added during implementation.
 
