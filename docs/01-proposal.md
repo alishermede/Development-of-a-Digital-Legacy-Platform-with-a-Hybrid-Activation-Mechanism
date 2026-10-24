@@ -42,7 +42,9 @@ None of these solutions combines **activity check-ins, confirmation by several i
 
 ## 1.5 Aim
 
-To develop a platform for transferring digital legacy that releases the owner's encrypted data to chosen recipients only after a hybrid activation — missed check-ins, confirmation by *k* of *n* trusted persons using Shamir's Secret Sharing, and a waiting period with the right to cancel — so that only the intended recipients can ever read the data, and the number of people required to start the release is chosen by the owner.
+To develop a digital legacy platform that transfers the owner's encrypted data to chosen recipients only after a confirmed event, without trust in the provider and with protection against false activation.
+
+How the aim is reached (client-side encryption, hybrid activation with *k*-of-*n* confirmation by Shamir's Secret Sharing, waiting period with cancellation) is described by objectives 3–5, and how it is checked by objective 7.
 
 ## 1.6 Objectives
 
@@ -52,7 +54,8 @@ To develop a platform for transferring digital legacy that releases the owner's 
 4. Implement client-side encryption (AES-256-GCM, Argon2id) and *k*-of-*n* key splitting with Shamir's Secret Sharing, including owner access recovery with a recovery key.
 5. Implement the hybrid activation mechanism as a state machine (check-ins → trustee confirmation → waiting period → release or cancellation) with check-ins via SMS and Telegram and notifications via SMS, Telegram and email.
 6. Develop a web application for owners and a Telegram bot with Mini App for trusted persons and recipients (no registration), in Kazakh and Russian.
-7. Evaluate the system against a simple dead man's switch baseline on false activation, resistance to unauthorized access and usability (SUS ≥ 70).
+7. Evaluate the system against a simple dead man's switch baseline on false activation, resistance to unauthorized access and usability (SUS ≥ 70). The metrics, scenarios and thresholds are defined in `docs/09-verification-plan.md` (M1–M12).
+8. Analyse the requirements of the Law of the Republic of Kazakhstan on personal data and of inheritance law and reflect them in the requirements and in the hosting decision (task DIP-26).
 
 ## 1.7 Expected outcomes
 
