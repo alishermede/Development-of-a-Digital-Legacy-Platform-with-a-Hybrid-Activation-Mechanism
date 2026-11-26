@@ -1,0 +1,9 @@
+{
+  "evidence": "fixture",
+  "observedUntil": "2026-11-26T10:10:00Z",
+  "messages": [
+    {"id":"demo-tg-1","recipientAlias":"P01","channel":"telegram","startedAt":"2026-11-26T10:00:00Z","deadlineAt":"2026-11-26T10:05:00Z","attempts":[{"number":1,"sentAt":"2026-11-26T10:00:00Z","acceptedAt":"2026-11-26T10:00:01Z","costKzt":0}]},
+    {"id":"demo-sms-1","recipientAlias":"P01","channel":"sms","startedAt":"2026-11-26T10:00:00Z","deadlineAt":"2026-11-26T10:05:00Z","attempts":[{"number":1,"sentAt":"2026-11-26T10:00:00Z","acceptedAt":"2026-11-26T10:00:02Z","costKzt":null}]},
+    {"id":"demo-sms-2","recipientAlias":"P02","channel":"sms","startedAt":"2026-11-26T10:00:00Z","deadlineAt":"2026-11-26T10:05:00Z","attempts":[{"number":1,"sentAt":"2026-11-26T10:00:00Z","acceptedAt":"2026-11-26T10:00:02Z","deliveredAt":"2026-11-26T10:06:00Z","costKzt":12}]}
+  ]
+}

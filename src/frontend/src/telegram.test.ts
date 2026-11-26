@@ -1,0 +1,8 @@
+import {it,expect,vi} from 'vitest';import {probe,supported,type TelegramApp,type Store} from './telegram';
+function fake(){let value:string|null=null;const store:Store={setItem:vi.fn((_k,v,cb)=>{value=v;cb(null,true)}),getItem:vi.fn((_k,cb)=>cb(null,value)),removeItem:vi.fn((_k,cb)=>{value=null;cb(null,true)})};const app:TelegramApp={initData:'',platform:'android',ready(){},expand(){},isVersionAtLeast:()=>true,SecureStorage:store};return{app,store}}
+it('requires Android and supported API',()=>{const{app}=fake();expect(supported()).toBe(false);app.platform='web';expect(supported(app)).toBe(false);app.platform='android';app.isVersionAtLeast=()=>false;expect(supported(app)).toBe(false)});
+it('writes reads and removes harmless marker',async()=>{const{app,store}=fake();await probe(app,'nonce');expect(store.removeItem).toHaveBeenCalledWith('mura_probe',expect.any(Function))});
+it('cleans up after read errors',async()=>{const{app,store}=fake();store.getItem=(_k,cb)=>cb('error');await expect(probe(app,'nonce')).rejects.toThrow('Ошибка');expect(store.removeItem).toHaveBeenCalled()});
+it('rejects false write acknowledgement',async()=>{const{app,store}=fake();store.setItem=(_k,_v,cb)=>cb(null,false);await expect(probe(app,'nonce')).rejects.toThrow('Запись')});
+it('reports cleanup failure',async()=>{const{app,store}=fake();store.removeItem=(_k,cb)=>cb('error');await expect(probe(app,'nonce')).rejects.toThrow('Очистка')});
+it('rejects read mismatch',async()=>{const{app,store}=fake();store.getItem=(_k,cb)=>cb(null,'wrong');await expect(probe(app,'nonce')).rejects.toThrow('не совпало')});

@@ -1,0 +1,10 @@
+import React,{useState} from 'react';
+import {createRoot} from 'react-dom/client';
+import {Leaf,ShieldCheck,Smartphone,LockKeyhole} from 'lucide-react';
+import {probe,supported} from './telegram';
+import './styles.css';import './mini.css';
+const app=window.Telegram?.WebApp;app?.ready();app?.expand();
+function Mini(){const[status,setStatus]=useState('Проверка ещё не запускалась.');const[busy,setBusy]=useState(false);
+ async function check(){if(!app||busy)return;setBusy(true);setStatus('Проверяем запись, чтение и удаление…');try{await probe(app,crypto.randomUUID());setStatus('Запись, чтение и удаление прошли. Это проверка API на устройстве, а не аудит защиты ключей.')}catch(e){setStatus(e instanceof Error?e.message:'Проверка не завершена.')}finally{setBusy(false)}}
+ return <main className="mini-shell"><header className="mini-brand"><Leaf/><strong>MURA</strong><span>Для близких</span></header><section className="mini-hero"><span>Telegram Mini App · подготовка</span><h1>Важное остаётся<br/>в надёжных руках.</h1><p>Здесь доверенные лица и получатели будут управлять приглашениями и доступом к цифровому наследию.</p><ShieldCheck size={48} strokeWidth={1.2}/></section><section className="mini-card"><LockKeyhole/><h2>Подключение аккаунта</h2><p>{app?.initData?'Вход из Telegram обнаружен. Серверная проверка аккаунта ещё не подключена.':'Откройте приложение через бота Telegram. В браузере доступен предварительный просмотр.'}</p><p>Приглашения, подтверждения события и получение капсул появятся после подключения сервера.</p></section><section className="mini-card"><Smartphone/><h2>Хранилище на Android</h2><p>{supported(app)?'Можно проверить работу с безвредным тестовым маркером.':'Для проверки нужен Telegram для Android с поддержкой SecureStorage.'}</p><button disabled={!supported(app)||busy} onClick={check}>{busy?'Проверяем…':'Проверить хранилище'}</button><p role="status" aria-live="polite">{status}</p></section><footer>Прототип · реальные данные и ключи не используются<br/><a href="/">Кабинет владельца</a></footer></main>}
+createRoot(document.getElementById('root')!).render(<React.StrictMode><Mini/></React.StrictMode>);
