@@ -34,3 +34,7 @@ The distribution/correlation extension is implemented in `tests/simulation/dip32
 5. Arrange real expert and usability sessions; document observations separately from assumptions.
 
 Code and report descriptions should focus on the work and evidence. Add tool-use disclosures only where the applicable submission requirements explicitly require them; do not make false authorship or evidence statements.
+
+### DIP-27 preparation, 26 November
+
+Measurement protocol and dependency-free offline analyser added (docs/verification/dip27/protocol.md; tests/notifications/). It distinguishes Telegram acceptance from final SMS delivery, keeps failed/late messages in the denominator, computes conditional latency percentiles and marks unknown costs. The fixture is synthetic; live measurements, provider access and backend recovery tests remain NOT RUN.
