@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
-  ArrowLeft,
-  ArrowRight,
   Bell,
   Check,
-  CheckCheck,
   ChevronDown,
   CircleHelp,
   Clock3,
@@ -16,12 +13,10 @@ import {
   Leaf,
   LockKeyhole,
   Menu,
-  MoreHorizontal,
   Plus,
   Search,
   Settings2,
   ShieldCheck,
-  Sparkles,
   Upload,
   Users,
   X,
@@ -47,7 +42,7 @@ const phases = {
 };
 const nav = [
   { id: "overview", label: "Обзор", icon: LayoutDashboard },
-  { id: "capsules", label: "Мои капсулы", icon: FolderLock },
+  { id: "capsules", label: "Капсулы", icon: FolderLock },
   { id: "people", label: "Близкие люди", icon: Users },
   { id: "activity", label: "Активность", icon: Activity },
   { id: "settings", label: "Настройки", icon: Settings2 },
@@ -56,13 +51,13 @@ const people = [
   {
     name: "Алия Самат",
     initials: "АС",
-    role: "Получатель · доверенное лицо",
+    role: "Получатель и доверенное лицо",
     accepted: true,
   },
   {
     name: "Данияр Самат",
     initials: "ДС",
-    role: "Получатель · доверенное лицо",
+    role: "Получатель и доверенное лицо",
     accepted: true,
   },
   {
@@ -130,7 +125,7 @@ function Dialog({
       >
         <div className="dialog-head">
           <div>
-            <span className="eyebrow">MURA / ЛИЧНОЕ ПРОСТРАНСТВО</span>
+
             <h2>{title}</h2>
           </div>
           <button
@@ -186,7 +181,7 @@ function App() {
   }, [notice]);
   const addEvent = (title: string) =>
     setEvents((old) => [
-      { title, date: "Только что · демо", icon: "check" },
+      { title, date: "Только что (демо)", icon: "check" },
       ...old,
     ]);
   const navigate = (id: string) => {
@@ -206,7 +201,7 @@ function App() {
     setChecked(true);
     addEvent("Демонстрационная проверка активности пройдена");
     flash(
-      "Вы отметились. Следующая проверка — через " + policy.interval + " дней.",
+      "Вы отметились. Следующая проверка через " + policy.interval + " дней.",
     );
   };
   return (
@@ -223,16 +218,16 @@ function App() {
           <span className="brand-symbol">
             <Leaf size={27} />
           </span>
-          MURA<span className="brand-dot">®</span>
+          MURA
         </a>
         <div className="workspace">
           <span className="avatar small">АС</span>
           <div>
-            Личное пространство<small>Демо-аккаунт</small>
+            Личный кабинет<small>Демо-аккаунт</small>
           </div>
           <ChevronDown size={15} />
         </div>
-        <div className="nav-caption">ВАШЕ НАСЛЕДИЕ</div>
+
         <nav>
           {nav.map((n) => (
             <button
@@ -250,22 +245,16 @@ function App() {
           ))}
         </nav>
         <div className="sidebar-bottom">
-          <div className="private-note">
-            <ShieldCheck size={21} />
-            <strong>Личное остаётся личным</strong>
-            <p>Вы решаете, кому и когда передать самое важное.</p>
-          </div>
           <button className="help-link" onClick={() => setHelp(true)}>
             <CircleHelp size={18} />
             Как работает MURA
-            <ArrowRight size={16} />
           </button>
           <div className="profile">
             <span className="avatar">АС</span>
             <div>
               Айбын Самат<small>Владелец пространства</small>
             </div>
-            <span className="online-dot" />
+
           </div>
         </div>
       </aside>
@@ -286,8 +275,7 @@ function App() {
           </div>
           <div className="top-actions">
             <span className="demo-pill">
-              <span />
-              Демо-версия
+              Демо
             </span>
             <button
               className="icon-button notification-button"
@@ -295,43 +283,42 @@ function App() {
               onClick={() => setNotifications(true)}
             >
               <Bell size={20} />
-              <i />
+
             </button>
             <span className="avatar small">АС</span>
           </div>
         </header>
         <main>
           <div className="demo-banner">
-            <Sparkles size={15} />
+
             <span>
-              Интерактивный прототип · данные хранятся только до перезагрузки.
-              Сервер и шифрование пока не подключены.
+              Демо без подключения к серверу. Изменения сбрасываются при перезагрузке.
             </span>
           </div>
           <div className="page-heading">
             <div>
-              <div className="eyebrow">ПРОСТРАНСТВО ЗАБОТЫ</div>
+
               <h1>
                 {page === "overview"
-                  ? "Важное — в надёжных руках."
+                  ? "Обзор"
                   : page === "capsules"
-                    ? "Ваши капсулы."
+                    ? "Капсулы"
                     : page === "people"
-                      ? "Люди, которым вы доверяете."
+                      ? "Близкие люди"
                       : page === "activity"
-                        ? "Каждое действие на виду."
-                        : "Всё под вашим контролем."}
+                        ? "История действий"
+                        : "Настройки"}
               </h1>
               <p>
                 {page === "overview"
-                  ? "Сохраните то, что имеет значение. Для тех, кто имеет значение."
+                  ? "Капсулы, получатели и условия передачи"
                   : page === "capsules"
-                    ? "Истории, инструкции и сообщения, которые однажды помогут вашим близким."
+                    ? "Файлы и сообщения, которые вы хотите передать"
                     : page === "people"
-                      ? "Получатели наследия и доверенные лица — разные роли в одном круге заботы."
+                      ? "Выберите, кто получит капсулы и кто сможет подтвердить событие."
                       : page === "activity"
-                        ? "История изменений, проверок и приглашений в вашем пространстве."
-                        : "Настройте ритм проверок и условия передачи цифрового наследия."}
+                        ? "Изменения капсул, ответы на проверки и приглашения"
+                        : "Частота проверок, уведомления и время на отмену"}
               </p>
             </div>
             {(page === "overview" || page === "capsules") && (
@@ -348,55 +335,18 @@ function App() {
             <>
               <section className="hero">
                 <div className="hero-copy">
-                  <div className="hero-label">
-                    <span /> ВЫ НА СВЯЗИ. ВСЁ В ПОРЯДКЕ.
-                  </div>
-                  <h2>
-                    Забота о будущем.
-                    <br />
-                    <em>Спокойствие сегодня.</em>
-                  </h2>
-                  <p>
-                    Ваши капсулы ждут своего времени.
-                    <br />
-                    Пока вы рядом, всё остаётся под вашим контролем.
-                  </p>
-                  <button
-                    className="button light"
-                    onClick={checkin}
-                    disabled={checked}
-                  >
-                    {checked ? <CheckCheck size={18} /> : <Check size={18} />}
+                  <div className="hero-label">Проверка активности</div>
+                  <h2>{checked ? "Ответ записан" : "Вы на связи?"}</h2>
+                  <p>{checked ? "Следующая проверка появится через выбранный интервал." : "Отметьтесь, чтобы подтвердить, что передавать капсулы пока не нужно."}</p>
+                  <span className="hero-footnote">В демо ответ сохраняется до перезагрузки страницы</span>
+                </div>
+                <div className="checkin-action">
+                  <button className="button primary" onClick={checkin} disabled={checked}>
                     {checked ? "Вы отметились" : "Со мной всё хорошо"}
-                    {!checked && <ArrowRight size={17} />}
                   </button>
-                  <span className="hero-footnote">
-                    {checked
-                      ? "Проверка пройдена в этой демо-сессии"
-                      : `Следующая проверка через ${policy.interval} дней · демонстрация`}
-                  </span>
+                  <span>Интервал проверки: {policy.interval} дней</span>
+                  <button className="text-button" onClick={() => navigate("settings")}>Изменить интервал</button>
                 </div>
-                <div className="hero-art" aria-hidden="true">
-                  <div className="orbit orbit-one" />
-                  <div className="orbit orbit-two" />
-                  <div className="orbit orbit-three" />
-                  <div className="capsule-object">
-                    <div className="capsule-top">
-                      <Leaf size={39} strokeWidth={1} />
-                    </div>
-                    <div className="capsule-bottom">
-                      <span>M</span>
-                    </div>
-                  </div>
-                  <div className="art-caption">
-                    <span>СОХРАНИТЬ.</span>
-                    <span>ПОЗАБОТИТЬСЯ.</span>
-                    <span>ПЕРЕДАТЬ.</span>
-                  </div>
-                </div>
-                <span className="hero-number">
-                  01 / ВАША ИСТОРИЯ ПРОДОЛЖАЕТСЯ
-                </span>
               </section>
               <div className="stats">
                 <div>
@@ -406,7 +356,7 @@ function App() {
                   <div>
                     <small>Капсулы</small>
                     <strong>
-                      {String(capsules.length).padStart(2, "0")}
+                      {capsules.length}
                       <span>
                         {capsules.filter((c) => c.phase === "draft").length} в
                         черновиках
@@ -421,7 +371,7 @@ function App() {
                   <div>
                     <small>Доверенные лица</small>
                     <strong>
-                      02<span>из 3 приняли приглашение</span>
+                      2<span>из 3 приняли приглашение</span>
                     </strong>
                   </div>
                 </div>
@@ -433,7 +383,7 @@ function App() {
                     <small>Условия передачи</small>
                     <strong>
                       {policy.threshold} из 3
-                      <span>+ {policy.waiting} дней ожидания</span>
+                      <span>Ожидание: {policy.waiting} дней</span>
                     </strong>
                   </div>
                 </div>
@@ -445,17 +395,17 @@ function App() {
               <div className="section-heading">
                 <div>
                   <h2>
-                    {page === "overview" ? "Ваши капсулы" : "Коллекция капсул"}{" "}
+                    {page === "overview" ? "Ваши капсулы" : "Список капсул"}{" "}
                     <span>{capsules.length}</span>
                   </h2>
-                  <p>Маленькие проявления большой заботы.</p>
+                  <p>Выберите капсулу, чтобы посмотреть содержимое и получателя.</p>
                 </div>
                 {page === "overview" ? (
                   <button
                     className="text-button"
                     onClick={() => navigate("capsules")}
                   >
-                    Все капсулы <ArrowRight size={16} />
+                    Все капсулы
                   </button>
                 ) : (
                   <div className="tools">
@@ -500,7 +450,7 @@ function App() {
                             <FileText size={22} />
                           )}
                         </span>
-                        <MoreHorizontal size={20} />
+
                       </div>
                       <span className={`status ${c.phase}`}>
                         <span />
@@ -515,7 +465,6 @@ function App() {
                           <small>Для получателя</small>
                           <strong>{c.recipient}</strong>
                         </div>
-                        <ArrowRight size={18} />
                       </div>
                     </button>
                   ),
@@ -548,7 +497,7 @@ function App() {
                     className="text-button"
                     onClick={() => navigate("activity")}
                   >
-                    История <ArrowRight size={15} />
+                    История
                   </button>
                 </div>
                 {events.slice(0, 3).map((e, i) => (
@@ -570,24 +519,13 @@ function App() {
                 ))}
               </section>
               <section className="how-panel">
-                <span className="eyebrow">ПРОСТО О ВАЖНОМ</span>
-                <h2>
-                  Передача без
-                  <br />
-                  случайностей.
-                </h2>
-                <p>
-                  Проверка активности, подтверждение близких и время на отмену —
-                  три этапа перед передачей.
-                </p>
-                <button className="text-button" onClick={() => setHelp(true)}>
-                  Как это устроено <ArrowRight size={16} />
-                </button>
-                <ShieldCheck
-                  className="watermark"
-                  size={110}
-                  strokeWidth={0.7}
-                />
+                <h2>Перед передачей</h2>
+                <p>Если вы не отвечаете, система запрашивает подтверждения у доверенных лиц.</p>
+                <dl className="transfer-summary">
+                  <div><dt>Нужно подтверждений</dt><dd>{policy.threshold} из 3</dd></div>
+                  <div><dt>Время на отмену</dt><dd>{policy.waiting} дней</dd></div>
+                </dl>
+                <button className="text-button" onClick={() => setHelp(true)}>Подробнее о передаче</button>
               </section>
             </div>
           )}
@@ -673,10 +611,10 @@ function App() {
           <footer>
             <span>
               <Leaf size={14} />
-              MURA · С заботой о том, что останется.
+              MURA
             </span>
             <button onClick={() => setHelp(true)}>
-              О безопасности <ArrowRight size={13} />
+              О безопасности
             </button>
             <span>© 2026 MURA</span>
           </footer>
@@ -710,7 +648,7 @@ function App() {
           </span>
           <div className="detail-body">
             <p className="muted">
-              {selected.category} · {selected.date}
+              {selected.category}, {selected.date}
             </p>
             <p>{selected.note}</p>
             <div className="detail-row">
@@ -823,13 +761,13 @@ function App() {
         </Dialog>
       )}
       {help && (
-        <Dialog title="Три этапа спокойствия" onClose={() => setHelp(false)}>
+        <Dialog title="Как работает передача" onClose={() => setHelp(false)}>
           <div className="help-steps">
             {[
               [
                 "01",
                 "Вы остаётесь на связи",
-                `MURA регулярно спрашивает, всё ли хорошо. Интервал — ${policy.interval} дней.`,
+                `MURA регулярно спрашивает, всё ли хорошо. Интервал: ${policy.interval} дней.`,
               ],
               [
                 "02",
@@ -865,7 +803,7 @@ function App() {
             </span>
             <div>
               <strong>Следующая проверка через {policy.interval} дней</strong>
-              <small>Пример уведомления · отправка не подключена</small>
+              <small>Пример уведомления. Отправка не подключена</small>
             </div>
           </div>
           <div className="event">
@@ -964,7 +902,7 @@ function PolicyFields({
         <Clock3 size={18} />
         <p>
           При успешной доставке запросы идут в день проверки, через 2 дня и ещё
-          через день. До эскалации — около {value.interval + 3} дней и час на
+          через день. До запроса подтверждений около {value.interval + 3} дней и час на
           последний ответ. Недоставленное уведомление не считается пропуском.
         </p>
       </div>
@@ -990,8 +928,8 @@ function Settings({
         if (!errs.length) onSave(value);
       }}
     >
-      <span className="eyebrow">МЕХАНИЗМ ПЕРЕДАЧИ</span>
-      <h2>Ваш ритм. Ваши условия.</h2>
+
+      <h2>Условия передачи</h2>
       <p className="muted">Изменения действуют только в этой демо-сессии.</p>
       <PolicyFields value={value} onChange={setValue} />
       {errors.length > 0 && (
@@ -1002,7 +940,7 @@ function Settings({
         </div>
       )}
       <button className="button primary" type="submit">
-        Сохранить настройки <Check size={17} />
+        Сохранить настройки
       </button>
     </form>
   );
@@ -1037,7 +975,7 @@ function Wizard({
     if (!es.length) setStep((s) => s + 1);
   };
   return (
-    <Dialog title="Сохранить важное" onClose={onClose} wide>
+    <Dialog title="Новая капсула" onClose={onClose} wide>
       <div className="wizard-progress">
         {["Содержимое", "Получатель", "Условия", "Проверка"].map((s, i) => (
           <div className={i <= step ? "current" : ""} key={s}>
@@ -1093,7 +1031,7 @@ function Wizard({
             <label className="upload">
               <Upload size={22} />
               <strong>Добавить пример файла</strong>
-              <span>До 50 МБ · только имя файла, без загрузки содержимого</span>
+              <span>До 50 МБ. В демо сохраняется только имя файла</span>
               <input
                 type="file"
                 multiple
@@ -1186,7 +1124,7 @@ function Wizard({
             <div className="detail-row">
               <span>Содержимое</span>
               <strong>
-                {category} · {files.length} файлов
+                {category}, файлов: {files.length}
               </strong>
             </div>
             <div className="detail-row">
@@ -1224,14 +1162,12 @@ function Wizard({
             }
           }}
         >
-          <ArrowLeft size={16} />
           {step === 0 ? "Отмена" : "Назад"}
         </button>
         <span>Шаг {step + 1} из 4</span>
         {step < 3 ? (
           <button className="button primary" onClick={next}>
             Продолжить
-            <ArrowRight size={16} />
           </button>
         ) : (
           <button
@@ -1253,7 +1189,7 @@ function Wizard({
             }
           >
             Создать демо-черновик
-            <Check size={16} />
+
           </button>
         )}
       </div>
