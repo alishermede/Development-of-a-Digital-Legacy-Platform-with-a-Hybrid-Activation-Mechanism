@@ -1,5 +1,7 @@
 # DIP-32: Monte Carlo sensitivity experiment, first iteration
 
+The original three-scenario sweep below remains the first-iteration specification. A separate model 0.2.0 extension adds alternate absence distributions, dependent compromise and seed replication: see [replication-method.md](replication-method.md). Exclusions below refer to this original sweep unless explicitly updated there.
+
 Prepared 26 November 2026. Responsible: Aibyn Samat. Proposed reviewer: Alisher Medebaev; review has not yet occurred. First-result checkpoint: **5 December 2026**, confirmed by Aibyn. This does not replace all later task dates in the supplied commission table.
 
 ## Source and scope

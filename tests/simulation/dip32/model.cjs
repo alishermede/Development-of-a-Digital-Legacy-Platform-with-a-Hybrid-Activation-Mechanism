@@ -12,6 +12,8 @@ function validate(c) {
 function validateScenario(s) {
   for (const key of ['mistakeProbability','compromiseProbability','availability']) if (!Number.isFinite(s[key]) || s[key] < 0 || s[key] > 1) throw Error('Invalid probability: '+key);
   if (!Number.isFinite(s.horizon) || s.horizon <= 0) throw Error('Invalid horizon');
+  if (s.correlation !== undefined && (!Number.isFinite(s.correlation) || s.correlation < 0 || s.correlation > 1)) throw Error('Invalid correlation');
+  if (s.absenceDistribution !== undefined && !['lognormal','exponential'].includes(s.absenceDistribution)) throw Error('Unknown absence distribution');
 }
 function sample(random) {
   // Each pair shares one world. The array prefix couples sweeps across n, k and timing.
@@ -22,21 +24,27 @@ function sample(random) {
 }
 function evaluate(c,s,w) {
   validate(c); validateScenario(s);
+  if ((s.correlation??0)>0 && (!Number.isFinite(w.commonSwitch)||!Number.isFinite(w.commonCompromise))) throw Error('Common-mode draws required');
+  if (s.absenceDistribution==='exponential' && !Number.isFinite(w.absenceQuantile)) throw Error('Absence draw required');
+  const absence=s.absenceDistribution==='exponential'?Math.min(180,-Math.log1p(-w.absenceQuantile)*10/Math.log(2)):w.absence;
+  const compromised=t=>(w.commonSwitch < (s.correlation??0)?w.commonCompromise:t.compromise)<s.compromiseProbability;
   const detection = c.interval * w.phase + 3 + GRACE_DAYS;
   const trustees = w.trustees.slice(0,c.n);
-  const coalition = trustees.filter(t=>t.compromise < s.compromiseProbability);
-  const falseVotes = trustees.filter(t=>t.compromise < s.compromiseProbability || (t.available < s.availability && t.mistake < s.mistakeProbability));
-  const falseTimes = falseVotes.map(t=>t.compromise < s.compromiseProbability ? 0 : 2*t.response).sort((a,b)=>a-b);
+  const coalition = trustees.filter(compromised);
+  const falseVotes = trustees.filter(t=>compromised(t) || (t.available < s.availability && t.mistake < s.mistakeProbability));
+  const falseTimes = falseVotes.map(t=>compromised(t) ? 0 : 2*t.response).sort((a,b)=>a-b);
   const falseRelease = falseTimes.length >= c.k ? detection + falseTimes[c.k-1] + c.waiting : Infinity;
   // Living owner always cancels immediately on return; equality means cancellation wins.
-  const alive = { baseline: ticks(detection) < ticks(w.absence), hybrid: ticks(falseRelease) < ticks(w.absence),
-    coalition: coalition.length >= c.k, collusiveRelease: coalition.length >= c.k && ticks(detection+c.waiting) < ticks(w.absence) };
+  const alive = { baseline: ticks(detection) < ticks(absence), hybrid: ticks(falseRelease) < ticks(absence),
+    coalition: coalition.length >= c.k, collusiveRelease: coalition.length >= c.k && ticks(detection+c.waiting) < ticks(absence) };
   // Deceased owner: honest available trustees confirm, compromised trustees withhold.
-  const trueTimes = trustees.filter(t=>t.compromise >= s.compromiseProbability && t.available < s.availability).map(t=>2*t.response).sort((a,b)=>a-b);
+  const trueTimes = trustees.filter(t=>!compromised(t) && t.available < s.availability).map(t=>2*t.response).sort((a,b)=>a-b);
   const trueRelease = trueTimes.length >= c.k ? detection + trueTimes[c.k-1] + c.waiting : Infinity;
   return { alive, deceased:{ baselineMissing: ticks(detection) > ticks(s.horizon), hybridMissing: ticks(trueRelease) > ticks(s.horizon),
     baselineDelay:detection, hybridDelay:trueRelease } };
 }
+function sampleStress(random){return {...sample(random),absenceQuantile:random(),commonSwitch:random(),commonCompromise:random()};}
+function coalitionOracle(n,k,s){return (s.correlation??0)*s.compromiseProbability+(1-(s.correlation??0))*binomialTail(n,k,s.compromiseProbability);}
 function wilson(count,total) {
   if(!total)return null;
   const z=1.95996398454,p=count/total,d=1+z*z/total,centre=(p+z*z/(2*total))/d,half=z*Math.sqrt(p*(1-p)/total+z*z/(4*total*total))/d;
@@ -51,4 +59,4 @@ function nondominated(rows) {
   const value=r=>[r.falseReleaseRate,r.nonReceiptRate,r.deliveryP95Days??Infinity];
   return rows.filter(a=>!rows.some(b=>{if(a===b||a.scenario!==b.scenario)return false;const av=value(a),bv=value(b);return bv.every((x,i)=>x<=av[i])&&bv.some((x,i)=>x<av[i]);}));
 }
-module.exports={GRACE_DAYS,rng,validate,validateScenario,sample,evaluate,wilson,binomialTail,quantile,nondominated};
+module.exports={GRACE_DAYS,rng,validate,validateScenario,sample,sampleStress,evaluate,wilson,binomialTail,coalitionOracle,quantile,nondominated};

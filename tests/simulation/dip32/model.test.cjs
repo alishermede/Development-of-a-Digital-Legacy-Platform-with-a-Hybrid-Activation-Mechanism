@@ -11,3 +11,25 @@ test('seeded samples repeat and paired releases respect temporal gates',()=>{con
 test('rejects invalid security parameters and probabilities',()=>{assert.throws(()=>validate({...c,k:4}));assert.throws(()=>evaluate(c,{...s,availability:2},w))});
 test('Wilson zero observations still has positive upper uncertainty',()=>{const ci=wilson(0,5000);assert.ok(ci.high>0);assert.ok(ci.low>=0)});
 test('Pareto compares three objectives only inside the same scenario',()=>{const a={scenario:'a',falseReleaseRate:0,nonReceiptRate:.5,deliveryP95Days:10},b={...a,nonReceiptRate:.4},d={...a,scenario:'b'};assert.deepEqual(nondominated([a,b,d]),[b,d]);assert.equal(nondominated([{...a,deliveryP95Days:null},b]).length,1)});
+const {sampleStress,coalitionOracle}=require('./model.cjs');
+test('correlated coalition oracle preserves marginal q and known mixture probability',()=>{
+ assert.ok(Math.abs(coalitionOracle(3,2,{compromiseProbability:.1,correlation:0})-.028)<1e-12);
+ assert.ok(Math.abs(coalitionOracle(3,2,{compromiseProbability:.1,correlation:.5})-.064)<1e-12);
+ assert.equal(coalitionOracle(5,5,{compromiseProbability:.1,correlation:1}),.1);
+});
+test('common-mode takeover coordinates all trustees, independent branch keeps individual draws',()=>{
+ const cfg={...c,k:3},sc={...s,compromiseProbability:.1,correlation:.5},world={...w,commonSwitch:.2,commonCompromise:.01};
+ assert.equal(evaluate(cfg,sc,world).alive.coalition,true);
+ assert.equal(evaluate(cfg,sc,{...world,commonCompromise:.8}).alive.coalition,false);
+ assert.equal(evaluate(cfg,sc,{...world,commonSwitch:.8}).alive.coalition,false);
+ assert.throws(()=>evaluate(cfg,sc,w));
+});
+test('alternate absence model changes absence only, not deceased-owner outcome',()=>{
+ const world={...w,absence:0,absenceQuantile:.999};
+ const a=evaluate(c,s,world),b=evaluate(c,{...s,absenceDistribution:'exponential'},world);
+ assert.equal(a.alive.baseline,false);assert.equal(b.alive.baseline,true);assert.deepEqual(a.deceased,b.deceased);
+ assert.throws(()=>evaluate(c,{...s,absenceDistribution:'exponential'},w));
+ assert.throws(()=>evaluate(c,{...s,absenceDistribution:'unknown'},w));
+ assert.throws(()=>evaluate(c,{...s,correlation:-1},w));
+});
+test('stress sampling repeats with fixed seed',()=>{const a=rng(71),b=rng(71);for(let i=0;i<100;i++)assert.deepEqual(sampleStress(a),sampleStress(b));});

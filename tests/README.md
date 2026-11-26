@@ -16,3 +16,5 @@ Run `node tests/simulation/pre-defense-model.cjs` from the repository root. It c
 ## DIP-32 parameter sweep
 
 Run `node --test tests/simulation/dip32/model.test.cjs`, then `node tests/simulation/dip32/run.cjs`. Inputs are in `tests/simulation/dip32/scenarios.json`; outputs and the full method are in `docs/verification/dip32/`. This is a synthetic single-episode sensitivity experiment with a paired timer baseline and a three-objective empirical Pareto frontier. It does not execute the production engine or validate cryptographic reconstruction. The earlier report is preserved.
+
+For the five-seed extension with alternate absence distributions and dependent compromise, run `node tests/simulation/dip32/replicate.cjs`. See `docs/verification/dip32/replication-method.md` and `replication/summary.md`. Seed ranges and frontier frequencies are descriptive, not confidence that a production configuration is optimal.

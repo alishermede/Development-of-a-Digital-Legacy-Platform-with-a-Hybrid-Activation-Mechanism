@@ -23,6 +23,10 @@ This is a first modelling result, not completion of DIP-32/H1 or evidence of sta
 
 ## Next steps
 
+### Continuation on 26 November
+
+The distribution/correlation extension is implemented in `tests/simulation/dip32/replicate.cjs`: two median-matched absence distributions, independent versus common-mode compromise at fixed marginal probability, five seeds and descriptive frontier stability. Method: `docs/verification/dip32/replication-method.md`. Exact H1, external review and real-system evidence remain open. The original checklist below is retained as the broader work sequence, not a claim that every item is still untouched.
+
 1. Review exact H1 and model assumptions with Alisher; do not send messages without the user's authorization.
 2. Add alternative absence and correlated-compromise assumptions and repeat seeded experiments before interpreting policy choices.
 3. Prepare notification measurement harness/protocol while awaiting real bot/SMS access; store secrets outside version control and never put them in reports.
