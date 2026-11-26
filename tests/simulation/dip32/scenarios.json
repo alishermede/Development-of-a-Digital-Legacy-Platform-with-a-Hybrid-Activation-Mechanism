@@ -1,0 +1,11 @@
+{
+  "seed": 20261126,
+  "trials": 5000,
+  "intervals": [3, 7, 14, 30],
+  "waitingPeriods": [1, 7, 14, 30],
+  "scenarios": [
+    {"id":"honest-perfect","mistakeProbability":0,"compromiseProbability":0,"availability":1,"horizon":90},
+    {"id":"independent-errors","mistakeProbability":0.05,"compromiseProbability":0,"availability":0.9,"horizon":90},
+    {"id":"compromised-trustees","mistakeProbability":0.05,"compromiseProbability":0.1,"availability":0.9,"horizon":90}
+  ]
+}
