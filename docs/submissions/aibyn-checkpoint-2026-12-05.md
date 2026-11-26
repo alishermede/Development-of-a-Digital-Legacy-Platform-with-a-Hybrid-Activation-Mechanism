@@ -38,3 +38,7 @@ Code and report descriptions should focus on the work and evidence. Add tool-use
 ### DIP-27 preparation, 26 November
 
 Measurement protocol and dependency-free offline analyser added (docs/verification/dip27/protocol.md; tests/notifications/). It distinguishes Telegram acceptance from final SMS delivery, keeps failed/late messages in the denominator, computes conditional latency percentiles and marks unknown costs. The fixture is synthetic; live measurements, provider access and backend recovery tests remain NOT RUN.
+
+### DIP-33 preparation, 26 November
+
+Separate /mini.html entry point added with Android/API capability gating and harmless write/read/remove diagnostic, error and cleanup handling. No key shares or identity are stored. Server validation, actual Android execution and privileged flows remain pending. Details: docs/verification/dip33/mini-app.md.

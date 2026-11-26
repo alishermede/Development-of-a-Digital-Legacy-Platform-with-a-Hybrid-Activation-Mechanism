@@ -48,3 +48,7 @@ Before using real data:
 Production build and six domain tests pass. Tests cover invalid thresholds, absent channels, boundary settings, cancellation from waiting/paused and rejection when there is no pending release. Browser smoke checks: required title, four-step draft creation, retained note/recipient/conditions, outage view, cancellation confirmation, mobile navigation and invalid threshold rejection. Desktop and 390 px mobile layouts visually inspected; no horizontal document overflow observed at that mobile width.
 
 Requirements informing this iteration: docs/08 S2-S4, FR-OWN, FR-NOT-13/14 and NFR-USE. More scenarios remain to implement; this is not a completion claim for those requirement groups.
+
+## Telegram Mini App foundation (26 November 2026)
+
+Open /mini.html for the separate recipient/trustee entry point. It provides launch detection and an explicit harmless Android SecureStorage diagnostic; server authentication and real flows remain pending. No launch identity is trusted client-side. Both owner and Mini App pages are built. See docs/verification/dip33/mini-app.md for device checks, limitations and API source. The earlier statement that no Mini App entry point exists describes the initial owner-only version.
